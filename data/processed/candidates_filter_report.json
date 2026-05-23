@@ -1,0 +1,73 @@
+{
+  "dataset_name": "lang-uk/recruitment-dataset-candidate-profiles-english",
+  "split": "train",
+  "random_seed": 42,
+  "counts": {
+    "raw_rows": 210250,
+    "after_valid_unique_id": 210250,
+    "after_language_filter": 210250,
+    "after_min_cv_chars": 205914,
+    "after_min_skill_count": 138864,
+    "after_experience_filter": 138864,
+    "after_english_filter": 70876,
+    "after_role_family_filter": 68476,
+    "final_rows": 80
+  },
+  "role_family_counts": {
+    "mobile": 8,
+    "qa_testing": 8,
+    "machine_learning": 8,
+    "product_project": 8,
+    "data_analytics": 8,
+    "frontend": 8,
+    "fullstack": 8,
+    "backend": 8,
+    "devops_cloud": 8,
+    "design_ux": 8
+  },
+  "english_level_counts": {
+    "intermediate": 46,
+    "fluent": 34
+  },
+  "skill_count_summary": {
+    "min": 2,
+    "mean": 4.89,
+    "median": 3.5,
+    "max": 19
+  },
+  "output_columns": [
+    "id",
+    "position",
+    "primary_keyword",
+    "role_family",
+    "experience_years",
+    "experience_bucket",
+    "english_level",
+    "english_score",
+    "skills",
+    "skill_count",
+    "interest_tags",
+    "cv_excerpt"
+  ],
+  "filters": {
+    "require_cv_lang": "en",
+    "min_cv_chars": 180,
+    "min_skill_count": 2,
+    "min_experience": 0.0,
+    "max_experience": null,
+    "min_english_level": "intermediate",
+    "allowed_role_families": [
+      "backend",
+      "data_analytics",
+      "design_ux",
+      "devops_cloud",
+      "frontend",
+      "fullstack",
+      "machine_learning",
+      "mobile",
+      "product_project",
+      "qa_testing"
+    ],
+    "sample_size": 80
+  }
+}
