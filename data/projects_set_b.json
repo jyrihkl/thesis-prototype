@@ -1,0 +1,147 @@
+{
+  "project_set_id": "set_b_data_platform_tools",
+  "description": "Alternative sample project set with more emphasis on data, tooling, cloud, and testing tasks.",
+  "intended_use": "Manual project brief layer for testing whether the allocation logic behaves differently under another project mix.",
+  "defaults": {
+    "target_team_size": 4,
+    "min_english_level": "intermediate",
+    "hard_constraints": [
+      "unique_assignment",
+      "target_team_size"
+    ],
+    "soft_objectives": [
+      "required_skill_coverage",
+      "preferred_skill_coverage",
+      "role_balance",
+      "experience_balance",
+      "interest_alignment",
+      "low_redundancy"
+    ]
+  },
+  "projects": [
+    {
+      "id": "B1",
+      "title": "Volunteer Matching Service",
+      "description": "A web service that matches volunteers with local non-profit tasks based on skills, interests, and availability.",
+      "required_skills": [
+        "python",
+        "django",
+        "postgresql",
+        "react"
+      ],
+      "preferred_skills": [
+        "api",
+        "ui/ux",
+        "figma",
+        "project management"
+      ],
+      "desired_roles": [
+        "backend",
+        "frontend",
+        "design_ux",
+        "product_project"
+      ],
+      "target_team_size": 4,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype."
+      }
+    },
+    {
+      "id": "B2",
+      "title": "CV Skill Extraction Tool",
+      "description": "A prototype that extracts and normalizes technical skills from CV-like text for later recommendation use.",
+      "required_skills": [
+        "python",
+        "nlp",
+        "scikit-learn",
+        "pandas"
+      ],
+      "preferred_skills": [
+        "fastapi",
+        "docker",
+        "postgresql",
+        "qa"
+      ],
+      "desired_roles": [
+        "machine_learning",
+        "backend",
+        "data_analytics",
+        "qa_testing"
+      ],
+      "target_team_size": 4,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype."
+      }
+    },
+    {
+      "id": "B3",
+      "title": "Cloud Cost Monitoring Dashboard",
+      "description": "A dashboard for tracking cloud usage and warning small teams about unusual infrastructure costs.",
+      "required_skills": [
+        "aws",
+        "docker",
+        "python",
+        "sql"
+      ],
+      "preferred_skills": [
+        "kubernetes",
+        "terraform",
+        "ci/cd",
+        "power bi"
+      ],
+      "desired_roles": [
+        "devops_cloud",
+        "backend",
+        "data_analytics",
+        "product_project"
+      ],
+      "target_team_size": 4,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype."
+      }
+    },
+    {
+      "id": "B4",
+      "title": "Accessibility Testing Toolkit",
+      "description": "A browser-oriented toolkit for checking accessibility issues in student web projects and reporting fixes.",
+      "required_skills": [
+        "qa",
+        "selenium",
+        "javascript",
+        "ui/ux"
+      ],
+      "preferred_skills": [
+        "playwright",
+        "cypress",
+        "react",
+        "typescript"
+      ],
+      "desired_roles": [
+        "qa_testing",
+        "frontend",
+        "design_ux",
+        "product_project"
+      ],
+      "target_team_size": 4,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype."
+      }
+    }
+  ]
+}

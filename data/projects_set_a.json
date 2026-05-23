@@ -1,0 +1,147 @@
+{
+  "project_set_id": "set_a_product_prototypes",
+  "description": "Four software-product oriented sample projects for the first team-building prototype run.",
+  "intended_use": "Manual project brief layer for testing candidate-to-project fit, team construction, explanations, and baseline comparisons.",
+  "defaults": {
+    "target_team_size": 4,
+    "min_english_level": "intermediate",
+    "hard_constraints": [
+      "unique_assignment",
+      "target_team_size"
+    ],
+    "soft_objectives": [
+      "required_skill_coverage",
+      "preferred_skill_coverage",
+      "role_balance",
+      "experience_balance",
+      "interest_alignment",
+      "low_redundancy"
+    ]
+  },
+  "projects": [
+    {
+      "id": "A1",
+      "title": "AI Study Assistant",
+      "description": "A small web application that helps students summarize course material, search notes, and generate quiz questions.",
+      "required_skills": [
+        "python",
+        "nlp",
+        "sql",
+        "react"
+      ],
+      "preferred_skills": [
+        "fastapi",
+        "postgresql",
+        "docker",
+        "ui/ux"
+      ],
+      "desired_roles": [
+        "machine_learning",
+        "backend",
+        "frontend",
+        "design_ux"
+      ],
+      "target_team_size": 4,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype."
+      }
+    },
+    {
+      "id": "A2",
+      "title": "Sustainable Campus Mobile App",
+      "description": "A mobile app for students to discover sustainable transport, food, and recycling options around campus.",
+      "required_skills": [
+        "react native",
+        "android",
+        "api",
+        "sql"
+      ],
+      "preferred_skills": [
+        "node.js",
+        "postgresql",
+        "figma",
+        "project management"
+      ],
+      "desired_roles": [
+        "mobile",
+        "backend",
+        "design_ux",
+        "product_project"
+      ],
+      "target_team_size": 4,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype."
+      }
+    },
+    {
+      "id": "A3",
+      "title": "Course Analytics Dashboard",
+      "description": "A dashboard prototype for visualizing course participation, submissions, and basic learning analytics.",
+      "required_skills": [
+        "data analysis",
+        "sql",
+        "python",
+        "tableau"
+      ],
+      "preferred_skills": [
+        "pandas",
+        "power bi",
+        "react",
+        "figma"
+      ],
+      "desired_roles": [
+        "data_analytics",
+        "backend",
+        "frontend",
+        "product_project"
+      ],
+      "target_team_size": 4,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype."
+      }
+    },
+    {
+      "id": "A4",
+      "title": "Hackathon Team Platform",
+      "description": "A lightweight platform for registering hackathon participants, listing challenges, and forming teams.",
+      "required_skills": [
+        "node.js",
+        "react",
+        "postgresql",
+        "docker"
+      ],
+      "preferred_skills": [
+        "typescript",
+        "ci/cd",
+        "aws",
+        "qa"
+      ],
+      "desired_roles": [
+        "fullstack",
+        "devops_cloud",
+        "qa_testing",
+        "product_project"
+      ],
+      "target_team_size": 4,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype."
+      }
+    }
+  ]
+}
