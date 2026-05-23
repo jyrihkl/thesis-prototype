@@ -7,6 +7,7 @@ from pathlib import Path
 
 from team_builder.models import PipelineConfig
 from team_builder.pipeline import run_pipeline
+from team_builder.reporting import print_run_report
 
 
 def parse_args() -> argparse.Namespace:
@@ -54,19 +55,11 @@ def main() -> int:
         project_set=args.project_set,
     )
 
-    result = run_pipeline(config)
+    try:
+        result = run_pipeline(config)
+    except Exception as exc:
+        print(f"\nPipeline failed: {exc}")
+        return 1
 
-    print("\nTeam formation prototype pipeline")
-    print("=" * 40)
-    print(f"Participants file: {result.participants_path}")
-    print(f"Projects file:     {result.projects_path}")
-    print(f"Participants read: {result.participant_count}")
-    print(f"Projects read:     {result.project_count}")
-
-    if result.project_titles:
-        print("\nProjects:")
-        for title in result.project_titles:
-            print(f"  - {title}")
-
-    print("\nStatus: input loading completed successfully.")
+    print_run_report(result)
     return 0
