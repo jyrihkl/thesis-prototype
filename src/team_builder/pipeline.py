@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from team_builder.allocation import construct_round_based_allocation
 from team_builder.io import (
     load_participants,
     load_projects,
@@ -24,13 +25,13 @@ def run_pipeline(config: PipelineConfig) -> PipelineRunResult:
     3. Normalize raw dictionaries into typed Candidate and Project objects.
     4. Validate normalized inputs.
     5. Score candidate-to-project fit.
-    6. Return a compact run summary.
+    6. Construct an initial round-based team allocation.
+    7. Return a compact run summary.
 
     Future stages to be added in later iterations:
-    - construct teams
     - improve allocation
     - evaluate baselines
-    - generate explanations
+    - generate fuller explanations
     """
 
     participants_path = resolve_participant_path(config.participants_path)
@@ -53,6 +54,12 @@ def run_pipeline(config: PipelineConfig) -> PipelineRunResult:
     candidate_project_scores = score_candidate_project_matrix(candidates, projects)
     scoring_report = summarize_scoring(candidate_project_scores, projects)
 
+    allocation_report = construct_round_based_allocation(
+        candidates=candidates,
+        projects=projects,
+        scores=candidate_project_scores,
+    )
+
     return PipelineRunResult(
         participants_path=participants_path,
         projects_path=projects_path,
@@ -64,4 +71,5 @@ def run_pipeline(config: PipelineConfig) -> PipelineRunResult:
         validation_report=validation_report,
         scoring_report=scoring_report,
         candidate_project_scores=candidate_project_scores,
+        allocation_report=allocation_report,
     )

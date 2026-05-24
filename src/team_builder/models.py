@@ -64,6 +64,7 @@ class ValidationReport:
 
         return sum(1 for check in self.checks if check.status == "fail")
 
+
 @dataclass(frozen=True)
 class ScoreWeights:
     """Weights used for candidate-to-project fit scoring."""
@@ -86,6 +87,7 @@ class ScoreWeights:
             "language": self.language,
             "interests": self.interests,
         }
+
 
 @dataclass(frozen=True)
 class CandidateProjectScore:
@@ -128,6 +130,54 @@ class ScoringReport:
 
 
 @dataclass(frozen=True)
+class TeamMemberAssignment:
+    """One selected candidate assignment and its transparent selection basis."""
+
+    candidate_id: str
+    project_id: str
+    round_number: int
+    marginal_score: float
+    individual_fit_score: float
+    marginal_components: dict[str, float | None]
+
+
+@dataclass(frozen=True)
+class ProjectTeamSummary:
+    """Team-level summary after allocation."""
+
+    project_id: str
+    project_title: str
+    member_ids: tuple[str, ...]
+    target_team_size: int
+    team_score: float
+    components: dict[str, float | None]
+    covered_required_skills: tuple[str, ...]
+    missing_required_skills: tuple[str, ...]
+    covered_preferred_skills: tuple[str, ...]
+    role_families: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class AllocationReport:
+    """Summary of a completed allocation attempt."""
+
+    method: str
+    feasible: bool
+    assigned_count: int
+    unassigned_count: int
+    required_slots: int
+    objective_score: float
+    fairness_deviation: float
+    min_team_score: float | None
+    mean_team_score: float | None
+    max_team_score: float | None
+    project_summaries: list[ProjectTeamSummary] = field(default_factory=list)
+    assignments: list[TeamMemberAssignment] = field(default_factory=list)
+    unassigned_candidate_ids: tuple[str, ...] = field(default_factory=tuple)
+    warnings: tuple[str, ...] = field(default_factory=tuple)
+
+
+@dataclass(frozen=True)
 class PipelineRunResult:
     """Summary returned after the current pipeline stage."""
 
@@ -141,3 +191,4 @@ class PipelineRunResult:
     validation_report: ValidationReport
     scoring_report: ScoringReport | None = None
     candidate_project_scores: list[CandidateProjectScore] = field(default_factory=list)
+    allocation_report: AllocationReport | None = None
