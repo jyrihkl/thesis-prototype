@@ -64,6 +64,68 @@ class ValidationReport:
 
         return sum(1 for check in self.checks if check.status == "fail")
 
+@dataclass(frozen=True)
+class ScoreWeights:
+    """Weights used for candidate-to-project fit scoring."""
+
+    required_skills: float = 0.40
+    preferred_skills: float = 0.20
+    role: float = 0.20
+    experience: float = 0.10
+    language: float = 0.05
+    interests: float = 0.05
+
+    def as_dict(self) -> dict[str, float]:
+        """Return weights using component names as keys."""
+
+        return {
+            "required_skills": self.required_skills,
+            "preferred_skills": self.preferred_skills,
+            "role": self.role,
+            "experience": self.experience,
+            "language": self.language,
+            "interests": self.interests,
+        }
+
+@dataclass(frozen=True)
+class CandidateProjectScore:
+    """Transparent fit score for one candidate-project pair."""
+
+    candidate_id: str
+    project_id: str
+    total_score: float
+    feasible: bool
+    infeasibility_reasons: tuple[str, ...]
+    components: dict[str, float | None]
+    matched_required_skills: tuple[str, ...]
+    missing_required_skills: tuple[str, ...]
+    matched_preferred_skills: tuple[str, ...]
+    role_family: str
+
+
+@dataclass(frozen=True)
+class ProjectScoreSummary:
+    """Score distribution summary for one project."""
+
+    project_id: str
+    project_title: str
+    scored_candidates: int
+    feasible_candidates: int
+    min_score: float | None
+    mean_score: float | None
+    max_score: float | None
+    top_candidate_ids: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class ScoringReport:
+    """Summary of the candidate-to-project scoring stage."""
+
+    total_pairs: int
+    feasible_pairs: int
+    weights: dict[str, float]
+    project_summaries: list[ProjectScoreSummary] = field(default_factory=list)
+
 
 @dataclass(frozen=True)
 class PipelineRunResult:
@@ -77,3 +139,5 @@ class PipelineRunResult:
     required_slots: int
     available_candidates: int
     validation_report: ValidationReport
+    scoring_report: ScoringReport | None = None
+    candidate_project_scores: list[CandidateProjectScore] = field(default_factory=list)
