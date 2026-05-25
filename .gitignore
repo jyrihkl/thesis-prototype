@@ -1,3 +1,7 @@
+# Run summaries
+runs/
+# TODO: Add exceptions for specific summaries
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

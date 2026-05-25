@@ -297,6 +297,9 @@ def format_run_report(result: PipelineRunResult) -> str:
         f"Available candidates:  {result.available_candidates}",
     ]
 
+    if result.saved_run_dir is not None:
+        lines.append(f"Saved run directory:   {result.saved_run_dir}")
+
     if result.project_titles:
         lines.extend(["", "Projects:"])
         for title in result.project_titles:

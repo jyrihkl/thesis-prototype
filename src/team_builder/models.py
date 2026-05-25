@@ -22,6 +22,10 @@ class PipelineConfig:
     max_local_improvement_iterations: int = 100
     min_local_improvement_gain: float = 1e-9
 
+    save_run: bool = True
+    output_dir: Path = Path("runs")
+    run_id: str | None = None
+
 
 @dataclass(frozen=True)
 class ValidationCheck:
@@ -253,3 +257,4 @@ class PipelineRunResult:
     candidate_project_scores: list[CandidateProjectScore] = field(default_factory=list)
     allocation_report: AllocationReport | None = None
     baseline_comparison_report: BaselineComparisonReport | None = None
+    saved_run_dir: Path | None = None

@@ -43,6 +43,39 @@ def parse_args() -> argparse.Namespace:
         help="Default project set to use when --projects is omitted.",
     )
 
+    parser.add_argument(
+        "--no-save-run",
+        action="store_true",
+        help="Do not write run outputs to disk.",
+    )
+
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("runs"),
+        help="Directory where timestamped run folders are written.",
+    )
+
+    parser.add_argument(
+        "--run-id",
+        type=str,
+        default=None,
+        help="Optional run folder name. If omitted, a timestamped run ID is generated.",
+    )
+
+    parser.add_argument(
+        "--no-local-improvement",
+        action="store_true",
+        help="Disable the local improvement phase.",
+    )
+
+    parser.add_argument(
+        "--max-local-improvement-iterations",
+        type=int,
+        default=100,
+        help="Maximum number of accepted local-improvement iterations.",
+    )
+
     return parser.parse_args()
 
 
@@ -53,6 +86,11 @@ def main() -> int:
         participants_path=args.participants,
         projects_path=args.projects,
         project_set=args.project_set,
+        enable_local_improvement=not args.no_local_improvement,
+        max_local_improvement_iterations=args.max_local_improvement_iterations,
+        save_run=not args.no_save_run,
+        output_dir=args.output_dir,
+        run_id=args.run_id,
     )
 
     try:
@@ -62,4 +100,8 @@ def main() -> int:
         return 1
 
     print_run_report(result)
+    
+    if result.saved_run_dir is not None:
+        print(f"\nSaved run outputs to: {result.saved_run_dir}")
+    
     return 0

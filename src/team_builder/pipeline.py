@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from team_builder.allocation import construct_round_based_allocation
 from team_builder.baselines import run_baseline_comparisons
+from team_builder.export import export_run_result
 from team_builder.io import (
     load_participants,
     load_projects,
@@ -73,7 +74,7 @@ def run_pipeline(config: PipelineConfig) -> PipelineRunResult:
         scores=candidate_project_scores,
     )
 
-    return PipelineRunResult(
+    result = PipelineRunResult(
         participants_path=participants_path,
         projects_path=projects_path,
         participant_count=len(candidates),
@@ -87,3 +88,27 @@ def run_pipeline(config: PipelineConfig) -> PipelineRunResult:
         allocation_report=allocation_report,
         baseline_comparison_report=baseline_comparison_report,
     )
+
+    if config.save_run:
+        saved_run_dir = export_run_result(
+            result=result,
+            output_dir=config.output_dir,
+            run_id=config.run_id,
+        )
+        result = PipelineRunResult(
+            participants_path=result.participants_path,
+            projects_path=result.projects_path,
+            participant_count=result.participant_count,
+            project_count=result.project_count,
+            project_titles=result.project_titles,
+            required_slots=result.required_slots,
+            available_candidates=result.available_candidates,
+            validation_report=result.validation_report,
+            scoring_report=result.scoring_report,
+            candidate_project_scores=result.candidate_project_scores,
+            allocation_report=result.allocation_report,
+            baseline_comparison_report=result.baseline_comparison_report,
+            saved_run_dir=saved_run_dir,
+        )
+
+    return result
