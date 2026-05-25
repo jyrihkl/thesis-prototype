@@ -158,6 +158,34 @@ class ProjectTeamSummary:
 
 
 @dataclass(frozen=True)
+class LocalImprovementMove:
+    """One accepted local-improvement move."""
+
+    iteration: int
+    move_type: str
+    gain: float
+    affected_projects: tuple[str, ...]
+    description: str
+
+
+@dataclass(frozen=True)
+class LocalImprovementReport:
+    """Summary of the local-improvement phase."""
+
+    enabled: bool
+    initial_objective_score: float
+    final_objective_score: float
+    improvement_gain: float
+    accepted_swaps: int
+    accepted_replacements: int
+    evaluated_swaps: int
+    evaluated_replacements: int
+    iterations: int
+    stop_reason: str
+    accepted_moves: tuple[LocalImprovementMove, ...] = field(default_factory=tuple)
+
+
+@dataclass(frozen=True)
 class AllocationReport:
     """Summary of a completed allocation attempt."""
 
@@ -175,6 +203,7 @@ class AllocationReport:
     assignments: list[TeamMemberAssignment] = field(default_factory=list)
     unassigned_candidate_ids: tuple[str, ...] = field(default_factory=tuple)
     warnings: tuple[str, ...] = field(default_factory=tuple)
+    local_improvement: LocalImprovementReport | None = None
 
 
 @dataclass(frozen=True)

@@ -9,12 +9,12 @@ from pathlib import Path
 
 from team_builder.models import (
     AllocationReport,
+    LocalImprovementReport,
     PipelineRunResult,
     ScoringReport,
     ValidationCheck,
     ValidationReport,
 )
-
 
 _STATUS_LABELS = {
     "pass": "OK",
@@ -48,6 +48,12 @@ def _format_component_dict(components: dict[str, float | None]) -> str:
     ]
     return ", ".join(parts) if parts else "n/a"
 
+def _shorten_id(full_id: str, max_length: int = 8) -> str:
+    """Shorten long IDs for more compact report formatting."""
+
+    if len(full_id) <= max_length:
+        return full_id
+    return full_id[:max_length]
 
 def format_validation_report(report: ValidationReport) -> str:
     """Format validation findings as a multi-line string."""
@@ -96,7 +102,7 @@ def format_scoring_report(report: ScoringReport | None) -> str:
     lines.append("Project score summaries:")
 
     for summary in report.project_summaries:
-        top_candidates = ", ".join(summary.top_candidate_ids) or "n/a"
+        top_candidates = ", ".join(cid for cid in summary.top_candidate_ids) or "n/a"
         lines.extend(
             [
                 f"  - {summary.project_id} | {summary.project_title}",
@@ -111,6 +117,45 @@ def format_scoring_report(report: ScoringReport | None) -> str:
                 f"    top candidates: {top_candidates}",
             ]
         )
+
+    return "\n".join(lines)
+
+
+def format_local_improvement_report(report: LocalImprovementReport | None) -> str:
+    """Format local improvement information."""
+
+    if report is None:
+        return "Local improvement: not run"
+
+    if not report.enabled:
+        return "Local improvement: disabled"
+
+    lines = [
+        "Local improvement",
+        "-" * 40,
+        (
+            "Objective before/after: "
+            f"{_format_float(report.initial_objective_score)} / "
+            f"{_format_float(report.final_objective_score)}"
+        ),
+        f"Improvement gain:       {_format_float(report.improvement_gain)}",
+        f"Accepted swaps:         {report.accepted_swaps}",
+        f"Accepted replacements:  {report.accepted_replacements}",
+        f"Evaluated swaps:        {report.evaluated_swaps}",
+        f"Evaluated replacements: {report.evaluated_replacements}",
+        f"Iterations:             {report.iterations}",
+        f"Stop reason:            {report.stop_reason}",
+    ]
+
+    if report.accepted_moves:
+        lines.extend(["", "Accepted moves:"])
+        for move in report.accepted_moves:
+            lines.append(
+                f"  - iteration {move.iteration}: {move.move_type}, "
+                f"gain={_format_float(move.gain)} | {move.description}"
+            )
+    else:
+        lines.extend(["", "Accepted moves: none"])
 
     return "\n".join(lines)
 
@@ -143,11 +188,13 @@ def format_allocation_report(report: AllocationReport | None) -> str:
             f"{_format_float(report.max_team_score)}"
         ),
         "",
+        format_local_improvement_report(report.local_improvement),
+        "",
         "Teams:",
     ]
 
     for summary in report.project_summaries:
-        members = ", ".join(summary.member_ids) or "none"
+        members = ", ".join(cid for cid in summary.member_ids) or "none"
         missing = ", ".join(summary.missing_required_skills) or "none"
         covered_required = ", ".join(summary.covered_required_skills) or "none"
         covered_preferred = ", ".join(summary.covered_preferred_skills) or "none"
@@ -218,7 +265,7 @@ def format_run_report(result: PipelineRunResult) -> str:
         lines.extend(
             [
                 "",
-                "Status: input loading, validation, scoring, and allocation completed successfully.",
+                "Status: input loading, validation, scoring, allocation, and local improvement completed successfully.",
             ]
         )
 
