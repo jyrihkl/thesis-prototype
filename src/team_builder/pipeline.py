@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 from team_builder.allocation import construct_round_based_allocation
+from team_builder.baselines import run_baseline_comparisons
 from team_builder.io import (
     load_participants,
     load_projects,
     resolve_participant_path,
     resolve_project_path,
 )
-from team_builder.local_improvement import improve_allocation
 from team_builder.models import PipelineConfig, PipelineRunResult
 from team_builder.normalize import normalize_candidates, normalize_projects
 from team_builder.reporting import format_validation_report
@@ -28,11 +28,13 @@ def run_pipeline(config: PipelineConfig) -> PipelineRunResult:
     5. Score candidate-to-project fit.
     6. Construct an initial round-based team allocation.
     7. Improve the allocation through feasible swaps and replacements.
-    8. Return a compact run summary.
+    8. Compare the main method against transparent baselines.
+    9. Return a compact run summary.
 
     Future stages to be added in later iterations:
-    - evaluate baselines
-    - generate fuller explanations
+    - export structured result files
+    - generate fuller human-facing explanations
+    - add repeated evaluation instances
     """
 
     participants_path = resolve_participant_path(config.participants_path)
@@ -55,17 +57,20 @@ def run_pipeline(config: PipelineConfig) -> PipelineRunResult:
     candidate_project_scores = score_candidate_project_matrix(candidates, projects)
     scoring_report = summarize_scoring(candidate_project_scores, projects)
 
-    initial_allocation = construct_round_based_allocation(
+    allocation_report = construct_round_based_allocation(
         candidates=candidates,
         projects=projects,
         scores=candidate_project_scores,
+        enable_local_improvement=config.enable_local_improvement,
+        max_local_improvement_iterations=config.max_local_improvement_iterations,
+        min_local_improvement_gain=config.min_local_improvement_gain,
     )
 
-    allocation_report = improve_allocation(
+    baseline_comparison_report = run_baseline_comparisons(
+        main_allocation=allocation_report,
         candidates=candidates,
         projects=projects,
         scores=candidate_project_scores,
-        allocation=initial_allocation,
     )
 
     return PipelineRunResult(
@@ -80,4 +85,5 @@ def run_pipeline(config: PipelineConfig) -> PipelineRunResult:
         scoring_report=scoring_report,
         candidate_project_scores=candidate_project_scores,
         allocation_report=allocation_report,
+        baseline_comparison_report=baseline_comparison_report,
     )

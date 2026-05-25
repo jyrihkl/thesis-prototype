@@ -9,6 +9,7 @@ from pathlib import Path
 
 from team_builder.models import (
     AllocationReport,
+    BaselineComparisonReport,
     LocalImprovementReport,
     PipelineRunResult,
     ScoringReport,
@@ -102,7 +103,7 @@ def format_scoring_report(report: ScoringReport | None) -> str:
     lines.append("Project score summaries:")
 
     for summary in report.project_summaries:
-        top_candidates = ", ".join(cid for cid in summary.top_candidate_ids) or "n/a"
+        top_candidates = ", ".join(summary.top_candidate_ids) or "n/a"
         lines.extend(
             [
                 f"  - {summary.project_id} | {summary.project_title}",
@@ -125,7 +126,7 @@ def format_local_improvement_report(report: LocalImprovementReport | None) -> st
     """Format local improvement information."""
 
     if report is None:
-        return "Local improvement: not run"
+        return "Local improvement: n/a"
 
     if not report.enabled:
         return "Local improvement: disabled"
@@ -158,6 +159,7 @@ def format_local_improvement_report(report: LocalImprovementReport | None) -> st
         lines.extend(["", "Accepted moves: none"])
 
     return "\n".join(lines)
+
 
 
 def format_allocation_report(report: AllocationReport | None) -> str:
@@ -194,7 +196,7 @@ def format_allocation_report(report: AllocationReport | None) -> str:
     ]
 
     for summary in report.project_summaries:
-        members = ", ".join(cid for cid in summary.member_ids) or "none"
+        members = ", ".join(summary.member_ids) or "none"
         missing = ", ".join(summary.missing_required_skills) or "none"
         covered_required = ", ".join(summary.covered_required_skills) or "none"
         covered_preferred = ", ".join(summary.covered_preferred_skills) or "none"
@@ -220,6 +222,62 @@ def format_allocation_report(report: AllocationReport | None) -> str:
         lines.extend(["", "Allocation warnings:"])
         for warning in report.warnings:
             lines.append(f"  - {warning}")
+
+    return "\n".join(lines)
+
+
+def format_baseline_comparison_report(report: BaselineComparisonReport | None) -> str:
+    """Format comparative evaluation against baseline methods."""
+
+    if report is None:
+        return "\n".join(
+            [
+                "Baseline comparison",
+                "-" * 40,
+                "Status: baseline comparison has not been run.",
+            ]
+        )
+
+    lines = [
+        "Baseline comparison",
+        "-" * 40,
+        f"Main method:              {report.main_method}",
+        f"Best objective score:     {report.best_by_objective or 'n/a'}",
+        f"Best minimum team score:  {report.best_by_min_team_score or 'n/a'}",
+        f"Best fairness deviation:  {report.best_by_fairness or 'n/a'}",
+        "",
+        "Method summaries:",
+        (
+            "  method | feasible | objective | mean team | min team | "
+            "max team | fairness dev. | assigned"
+        ),
+    ]
+
+    for summary in report.method_summaries:
+        lines.append(
+            "  "
+            f"{summary.method} | "
+            f"{'yes' if summary.feasible else 'no'} | "
+            f"{_format_float(summary.objective_score)} | "
+            f"{_format_float(summary.mean_team_score)} | "
+            f"{_format_float(summary.min_team_score)} | "
+            f"{_format_float(summary.max_team_score)} | "
+            f"{_format_float(summary.fairness_deviation)} | "
+            f"{summary.assigned_count}/{summary.required_slots}"
+        )
+
+    baseline_warnings = [
+        (baseline.method, baseline.warnings)
+        for baseline in report.baseline_reports
+        if baseline.warnings
+    ]
+
+    if baseline_warnings:
+        lines.extend(["", "Baseline warnings:"])
+        for method, warnings in baseline_warnings:
+            lines.append(f"  - {method}:")
+            for warning in warnings:
+                lines.append(f"      - {warning}")
 
     return "\n".join(lines)
 
@@ -252,6 +310,8 @@ def format_run_report(result: PipelineRunResult) -> str:
             format_scoring_report(result.scoring_report),
             "",
             format_allocation_report(result.allocation_report),
+            "",
+            format_baseline_comparison_report(result.baseline_comparison_report),
         ]
     )
 
@@ -260,12 +320,12 @@ def format_run_report(result: PipelineRunResult) -> str:
     elif result.allocation_report is not None and not result.allocation_report.feasible:
         lines.extend(["", "Status: scoring completed, but allocation is incomplete."])
     elif result.validation_report.has_warnings:
-        lines.extend(["", "Status: allocation completed with validation warnings."])
+        lines.extend(["", "Status: comparative evaluation completed with validation warnings."])
     else:
         lines.extend(
             [
                 "",
-                "Status: input loading, validation, scoring, allocation, and local improvement completed successfully.",
+                "Status: input loading, validation, scoring, allocation, local improvement, and baseline comparison completed successfully.",
             ]
         )
 

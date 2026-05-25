@@ -18,6 +18,10 @@ class PipelineConfig:
     projects_path: Path | None = None
     project_set: str = "a"
 
+    enable_local_improvement: bool = True
+    max_local_improvement_iterations: int = 100
+    min_local_improvement_gain: float = 1e-9
+
 
 @dataclass(frozen=True)
 class ValidationCheck:
@@ -159,7 +163,7 @@ class ProjectTeamSummary:
 
 @dataclass(frozen=True)
 class LocalImprovementMove:
-    """One accepted local-improvement move."""
+    """One accepted local improvement move."""
 
     iteration: int
     move_type: str
@@ -170,7 +174,7 @@ class LocalImprovementMove:
 
 @dataclass(frozen=True)
 class LocalImprovementReport:
-    """Summary of the local-improvement phase."""
+    """Summary of the local improvement phase."""
 
     enabled: bool
     initial_objective_score: float
@@ -207,6 +211,33 @@ class AllocationReport:
 
 
 @dataclass(frozen=True)
+class BaselineMethodSummary:
+    """Compact comparison row for one allocation method."""
+
+    method: str
+    feasible: bool
+    objective_score: float
+    mean_team_score: float | None
+    min_team_score: float | None
+    max_team_score: float | None
+    fairness_deviation: float
+    assigned_count: int
+    required_slots: int
+
+
+@dataclass(frozen=True)
+class BaselineComparisonReport:
+    """Comparative evaluation against baseline allocation methods."""
+
+    main_method: str
+    method_summaries: list[BaselineMethodSummary] = field(default_factory=list)
+    baseline_reports: list[AllocationReport] = field(default_factory=list)
+    best_by_objective: str | None = None
+    best_by_min_team_score: str | None = None
+    best_by_fairness: str | None = None
+
+
+@dataclass(frozen=True)
 class PipelineRunResult:
     """Summary returned after the current pipeline stage."""
 
@@ -221,3 +252,4 @@ class PipelineRunResult:
     scoring_report: ScoringReport | None = None
     candidate_project_scores: list[CandidateProjectScore] = field(default_factory=list)
     allocation_report: AllocationReport | None = None
+    baseline_comparison_report: BaselineComparisonReport | None = None
