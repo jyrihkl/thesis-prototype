@@ -1,0 +1,277 @@
+{
+  "project_set_id": "set_e_larger_program_mixed_team_sizes",
+  "description": "A larger sample program with more projects and wider team-size variation for comparing allocation feasibility, fairness, and runtime.",
+  "intended_use": "Manual project brief layer for larger candidate pools and later plotting across participant-set sizes.",
+  "defaults": {
+    "min_english_level": "intermediate",
+    "hard_constraints": [
+      "unique_assignment",
+      "target_team_size"
+    ],
+    "soft_objectives": [
+      "required_skill_coverage",
+      "preferred_skill_coverage",
+      "role_balance",
+      "experience_balance",
+      "interest_alignment",
+      "low_redundancy"
+    ]
+  },
+  "projects": [
+    {
+      "id": "E1",
+      "title": "AI Meeting Notes Assistant",
+      "description": "A tool that summarizes meeting transcripts, extracts decisions, and creates follow-up tasks.",
+      "required_skills": [
+        "python",
+        "nlp",
+        "api",
+        "react"
+      ],
+      "preferred_skills": [
+        "fastapi",
+        "postgresql",
+        "docker",
+        "ui/ux"
+      ],
+      "desired_roles": [
+        "machine_learning",
+        "backend",
+        "frontend",
+        "design_ux"
+      ],
+      "target_team_size": 4,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype."
+      }
+    },
+    {
+      "id": "E2",
+      "title": "Learning Progress Tracker",
+      "description": "A dashboard that helps students and instructors monitor progress across course modules and assignments.",
+      "required_skills": [
+        "react",
+        "sql",
+        "data visualization",
+        "ui/ux"
+      ],
+      "preferred_skills": [
+        "typescript",
+        "postgresql",
+        "project management",
+        "accessibility"
+      ],
+      "desired_roles": [
+        "frontend",
+        "data_analytics",
+        "design_ux",
+        "product_project"
+      ],
+      "target_team_size": 4,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype."
+      }
+    },
+    {
+      "id": "E3",
+      "title": "Smart Scheduling Optimizer",
+      "description": "A prototype that suggests meeting or workshop schedules based on constraints and participant preferences.",
+      "required_skills": [
+        "python",
+        "optimization",
+        "api",
+        "sql"
+      ],
+      "preferred_skills": [
+        "fastapi",
+        "pandas",
+        "react",
+        "docker"
+      ],
+      "desired_roles": [
+        "backend",
+        "data_analytics",
+        "frontend",
+        "product_project"
+      ],
+      "target_team_size": 5,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype.",
+        "prefer_algorithmic_and_ui_mix": true
+      }
+    },
+    {
+      "id": "E4",
+      "title": "Accessibility Remediation Portal",
+      "description": "A portal for reporting, triaging, and fixing accessibility issues in student-facing web services.",
+      "required_skills": [
+        "accessibility",
+        "qa",
+        "react",
+        "ui/ux"
+      ],
+      "preferred_skills": [
+        "typescript",
+        "playwright",
+        "cypress",
+        "project management"
+      ],
+      "desired_roles": [
+        "qa_testing",
+        "frontend",
+        "design_ux",
+        "product_project"
+      ],
+      "target_team_size": 3,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype.",
+        "prefer_accessibility_focus": true
+      }
+    },
+    {
+      "id": "E5",
+      "title": "Campus Energy Usage Visualizer",
+      "description": "A web dashboard for exploring electricity and heating use across buildings and time periods.",
+      "required_skills": [
+        "data visualization",
+        "python",
+        "sql",
+        "react"
+      ],
+      "preferred_skills": [
+        "pandas",
+        "postgresql",
+        "d3.js",
+        "ui/ux"
+      ],
+      "desired_roles": [
+        "data_analytics",
+        "frontend",
+        "backend",
+        "design_ux"
+      ],
+      "target_team_size": 5,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype.",
+        "prefer_data_frontend_mix": true
+      }
+    },
+    {
+      "id": "E6",
+      "title": "Prototype Deployment Hub",
+      "description": "A small internal platform for deploying, documenting, and monitoring student software prototypes.",
+      "required_skills": [
+        "docker",
+        "ci/cd",
+        "linux",
+        "api"
+      ],
+      "preferred_skills": [
+        "aws",
+        "kubernetes",
+        "python",
+        "monitoring"
+      ],
+      "desired_roles": [
+        "devops_cloud",
+        "backend",
+        "qa_testing",
+        "product_project"
+      ],
+      "target_team_size": 4,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype.",
+        "prefer_operations_and_quality_mix": true
+      }
+    },
+    {
+      "id": "E7",
+      "title": "Peer Review Workflow Tool",
+      "description": "A web application for assigning peer reviews, collecting feedback, and summarizing review quality.",
+      "required_skills": [
+        "react",
+        "node.js",
+        "postgresql",
+        "project management"
+      ],
+      "preferred_skills": [
+        "typescript",
+        "ui/ux",
+        "qa",
+        "data visualization"
+      ],
+      "desired_roles": [
+        "frontend",
+        "backend",
+        "design_ux",
+        "product_project",
+        "qa_testing"
+      ],
+      "target_team_size": 6,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype.",
+        "prefer_larger_cross_functional_team": true
+      }
+    },
+    {
+      "id": "E8",
+      "title": "Lightweight Chatbot FAQ",
+      "description": "A chatbot-style FAQ prototype for answering common questions about a course, event, or internal process.",
+      "required_skills": [
+        "python",
+        "nlp",
+        "api",
+        "ui/ux"
+      ],
+      "preferred_skills": [
+        "fastapi",
+        "react",
+        "docker",
+        "testing"
+      ],
+      "desired_roles": [
+        "machine_learning",
+        "backend",
+        "frontend",
+        "design_ux"
+      ],
+      "target_team_size": 3,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype.",
+        "prefer_compact_ml_prototype_team": true
+      }
+    }
+  ]
+}

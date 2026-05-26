@@ -48,7 +48,7 @@ def parse_args() -> argparse.Namespace:
 
     parser.add_argument(
         "--project-set",
-        choices=["a", "b"],
+        choices=["a", "b", "c", "d", "e"],
         default="a",
         help="Default project set to use when --projects is omitted.",
     )

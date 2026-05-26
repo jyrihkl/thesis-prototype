@@ -61,7 +61,20 @@ DEFAULT_PROJECT_PATHS = {
         Path("data/projects_set_b.json"),
         Path("data/processed/projects_set_b.json"),
     ),
+    "c": (
+        Path("data/projects_set_c.json"),
+        Path("data/processed/projects_set_c.json"),
+    ),
+    "d": (
+        Path("data/projects_set_d.json"),
+        Path("data/processed/projects_set_d.json"),
+    ),
+    "e": (
+        Path("data/projects_set_e.json"),
+        Path("data/processed/projects_set_e.json"),
+    ),
 }
+
 
 
 def normalize_participant_set_name(value: str) -> str:

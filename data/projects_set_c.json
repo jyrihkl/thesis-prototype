@@ -1,0 +1,178 @@
+{
+  "project_set_id": "set_c_mixed_small_variable_teams",
+  "description": "A mixed set of small temporary projects with variable team sizes for testing allocation behavior beyond uniform four-person teams.",
+  "intended_use": "Manual project brief layer for comparing recommendation quality when projects have different staffing needs.",
+  "defaults": {
+    "min_english_level": "intermediate",
+    "hard_constraints": [
+      "unique_assignment",
+      "target_team_size"
+    ],
+    "soft_objectives": [
+      "required_skill_coverage",
+      "preferred_skill_coverage",
+      "role_balance",
+      "experience_balance",
+      "interest_alignment",
+      "low_redundancy"
+    ]
+  },
+  "projects": [
+    {
+      "id": "C1",
+      "title": "Course Feedback Analytics Dashboard",
+      "description": "A dashboard for analysing open-ended and numeric course feedback across multiple course instances.",
+      "required_skills": [
+        "python",
+        "pandas",
+        "nlp",
+        "dashboard"
+      ],
+      "preferred_skills": [
+        "plotly",
+        "sql",
+        "streamlit",
+        "data visualization"
+      ],
+      "desired_roles": [
+        "data_analytics",
+        "machine_learning",
+        "frontend"
+      ],
+      "target_team_size": 3,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype.",
+        "prefer_small_experienced_core": true
+      }
+    },
+    {
+      "id": "C2",
+      "title": "Event Check-In Mobile Prototype",
+      "description": "A mobile-first prototype for checking participants into university events using QR codes and lightweight admin tools.",
+      "required_skills": [
+        "react native",
+        "api",
+        "javascript",
+        "ui/ux"
+      ],
+      "preferred_skills": [
+        "node.js",
+        "firebase",
+        "figma",
+        "qa"
+      ],
+      "desired_roles": [
+        "mobile",
+        "backend",
+        "design_ux",
+        "qa_testing"
+      ],
+      "target_team_size": 4,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype."
+      }
+    },
+    {
+      "id": "C3",
+      "title": "Open Data Storytelling Site",
+      "description": "A public-facing web page that turns municipal open data into interactive stories and visual explanations.",
+      "required_skills": [
+        "javascript",
+        "react",
+        "data visualization",
+        "ui/ux"
+      ],
+      "preferred_skills": [
+        "typescript",
+        "d3.js",
+        "accessibility",
+        "project management"
+      ],
+      "desired_roles": [
+        "frontend",
+        "design_ux",
+        "data_analytics",
+        "product_project"
+      ],
+      "target_team_size": 5,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype.",
+        "prefer_design_and_data_mix": true
+      }
+    },
+    {
+      "id": "C4",
+      "title": "Lightweight API Monitoring Tool",
+      "description": "A tool that monitors API availability, records response times, and sends basic alerts when services fail.",
+      "required_skills": [
+        "python",
+        "api",
+        "docker",
+        "sql"
+      ],
+      "preferred_skills": [
+        "fastapi",
+        "postgresql",
+        "ci/cd",
+        "aws"
+      ],
+      "desired_roles": [
+        "backend",
+        "devops_cloud",
+        "qa_testing"
+      ],
+      "target_team_size": 3,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype.",
+        "prefer_backend_devops_mix": true
+      }
+    },
+    {
+      "id": "C5",
+      "title": "Student Portfolio Builder",
+      "description": "A web application where students can create lightweight public portfolios from project descriptions and skills.",
+      "required_skills": [
+        "react",
+        "node.js",
+        "postgresql",
+        "ui/ux"
+      ],
+      "preferred_skills": [
+        "typescript",
+        "docker",
+        "project management",
+        "qa"
+      ],
+      "desired_roles": [
+        "frontend",
+        "backend",
+        "design_ux",
+        "product_project"
+      ],
+      "target_team_size": 4,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype."
+      }
+    }
+  ]
+}

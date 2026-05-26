@@ -1,0 +1,213 @@
+{
+  "project_set_id": "set_d_data_security_operations",
+  "description": "A project set with stronger emphasis on data engineering, security, QA, and operations, including larger and smaller teams.",
+  "intended_use": "Manual project brief layer for stress-testing role balance and skill coverage when project types are more technically varied.",
+  "defaults": {
+    "min_english_level": "intermediate",
+    "hard_constraints": [
+      "unique_assignment",
+      "target_team_size"
+    ],
+    "soft_objectives": [
+      "required_skill_coverage",
+      "preferred_skill_coverage",
+      "role_balance",
+      "experience_balance",
+      "interest_alignment",
+      "low_redundancy"
+    ]
+  },
+  "projects": [
+    {
+      "id": "D1",
+      "title": "Research Data Cleaning Pipeline",
+      "description": "A reproducible pipeline for cleaning CSV and JSON research datasets and producing quality reports.",
+      "required_skills": [
+        "python",
+        "pandas",
+        "sql",
+        "data engineering"
+      ],
+      "preferred_skills": [
+        "pytest",
+        "docker",
+        "postgresql",
+        "documentation"
+      ],
+      "desired_roles": [
+        "data_analytics",
+        "backend",
+        "qa_testing"
+      ],
+      "target_team_size": 3,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype.",
+        "prefer_quality_focus": true
+      }
+    },
+    {
+      "id": "D2",
+      "title": "Cloud Deployment Template",
+      "description": "A reusable deployment template for small web prototypes using containers, CI/CD, and cloud infrastructure.",
+      "required_skills": [
+        "docker",
+        "ci/cd",
+        "aws",
+        "linux"
+      ],
+      "preferred_skills": [
+        "kubernetes",
+        "terraform",
+        "python",
+        "monitoring"
+      ],
+      "desired_roles": [
+        "devops_cloud",
+        "backend",
+        "qa_testing"
+      ],
+      "target_team_size": 4,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype.",
+        "prefer_devops_depth": true
+      }
+    },
+    {
+      "id": "D3",
+      "title": "Phishing Awareness Training App",
+      "description": "A training app that teaches users to identify suspicious emails and tracks completion through an admin panel.",
+      "required_skills": [
+        "react",
+        "node.js",
+        "security",
+        "postgresql"
+      ],
+      "preferred_skills": [
+        "typescript",
+        "ui/ux",
+        "qa",
+        "project management"
+      ],
+      "desired_roles": [
+        "frontend",
+        "backend",
+        "design_ux",
+        "product_project",
+        "qa_testing"
+      ],
+      "target_team_size": 5,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype.",
+        "prefer_security_and_usability_mix": true
+      }
+    },
+    {
+      "id": "D4",
+      "title": "Automated Regression Test Suite",
+      "description": "A test automation suite for validating a web application across common user flows and browsers.",
+      "required_skills": [
+        "qa",
+        "selenium",
+        "javascript",
+        "api"
+      ],
+      "preferred_skills": [
+        "playwright",
+        "cypress",
+        "typescript",
+        "ci/cd"
+      ],
+      "desired_roles": [
+        "qa_testing",
+        "frontend",
+        "backend",
+        "devops_cloud"
+      ],
+      "target_team_size": 4,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype.",
+        "prefer_testing_depth": true
+      }
+    },
+    {
+      "id": "D5",
+      "title": "Internal Knowledge Search Prototype",
+      "description": "A search prototype for finding project documentation, meeting notes, and reusable technical decisions.",
+      "required_skills": [
+        "python",
+        "nlp",
+        "api",
+        "react"
+      ],
+      "preferred_skills": [
+        "fastapi",
+        "elasticsearch",
+        "docker",
+        "ui/ux"
+      ],
+      "desired_roles": [
+        "machine_learning",
+        "backend",
+        "frontend",
+        "design_ux"
+      ],
+      "target_team_size": 5,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype.",
+        "prefer_ml_backend_frontend_mix": true
+      }
+    },
+    {
+      "id": "D6",
+      "title": "Incident Review Visualization",
+      "description": "A small tool for visualizing incident timelines, root causes, and follow-up actions.",
+      "required_skills": [
+        "data visualization",
+        "javascript",
+        "sql",
+        "ui/ux"
+      ],
+      "preferred_skills": [
+        "react",
+        "d3.js",
+        "postgresql",
+        "project management"
+      ],
+      "desired_roles": [
+        "frontend",
+        "data_analytics",
+        "design_ux",
+        "product_project"
+      ],
+      "target_team_size": 3,
+      "min_english_level": "intermediate",
+      "balancing_constraints": {
+        "prefer_experience_mix": true,
+        "avoid_single_role_dominance": true,
+        "limit_skill_redundancy": true,
+        "notes": "Treat these as soft balancing objectives unless explicitly converted into hard constraints by the prototype.",
+        "prefer_compact_cross_functional_team": true
+      }
+    }
+  ]
+}
