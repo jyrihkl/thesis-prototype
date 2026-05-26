@@ -1,0 +1,76 @@
+{
+  "dataset_name": "lang-uk/recruitment-dataset-candidate-profiles-english",
+  "split": "train",
+  "seed": 42,
+  "source_loaded_once": true,
+  "sample_strategy": "nested_stable_balanced_prefixes",
+  "counts": {
+    "raw_rows": 210250,
+    "after_valid_unique_id": 210250,
+    "after_language_filter": 210250,
+    "after_min_cv_chars": 205914,
+    "after_min_skill_count": 138864,
+    "after_experience_filter": 138864,
+    "after_english_filter": 70876,
+    "after_role_family_filter": 68476
+  },
+  "sample_sizes_requested": [
+    80,
+    120,
+    240,
+    480,
+    1200,
+    2400
+  ],
+  "generated_sets": [
+    {
+      "name": "candidates_080",
+      "requested_size": 80,
+      "actual_size": 80,
+      "csv": "data/processed/participants/candidates_080.csv",
+      "jsonl": "data/processed/participants/candidates_080.jsonl",
+      "report": "data/processed/participants/candidates_080_report.json"
+    },
+    {
+      "name": "candidates_120",
+      "requested_size": 120,
+      "actual_size": 120,
+      "csv": "data/processed/participants/candidates_120.csv",
+      "jsonl": "data/processed/participants/candidates_120.jsonl",
+      "report": "data/processed/participants/candidates_120_report.json"
+    },
+    {
+      "name": "candidates_240",
+      "requested_size": 240,
+      "actual_size": 240,
+      "csv": "data/processed/participants/candidates_240.csv",
+      "jsonl": "data/processed/participants/candidates_240.jsonl",
+      "report": "data/processed/participants/candidates_240_report.json"
+    },
+    {
+      "name": "candidates_480",
+      "requested_size": 480,
+      "actual_size": 480,
+      "csv": "data/processed/participants/candidates_480.csv",
+      "jsonl": "data/processed/participants/candidates_480.jsonl",
+      "report": "data/processed/participants/candidates_480_report.json"
+    },
+    {
+      "name": "candidates_1200",
+      "requested_size": 1200,
+      "actual_size": 1200,
+      "csv": "data/processed/participants/candidates_1200.csv",
+      "jsonl": "data/processed/participants/candidates_1200.jsonl",
+      "report": "data/processed/participants/candidates_1200_report.json"
+    },
+    {
+      "name": "candidates_2400",
+      "requested_size": 2400,
+      "actual_size": 2400,
+      "csv": "data/processed/participants/candidates_2400.csv",
+      "jsonl": "data/processed/participants/candidates_2400.jsonl",
+      "report": "data/processed/participants/candidates_2400_report.json"
+    }
+  ],
+  "legacy_default_written": true
+}

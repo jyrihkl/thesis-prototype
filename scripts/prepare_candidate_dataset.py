@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
 """
-Prepare a filtered candidate-profile dataset for the team-building prototype.
+Prepare filtered candidate-profile datasets.
 
 This script is intentionally separate from the main prototype pipeline. It is
-meant to be run once to create a stable, reproducible participant pool from the
+meant to be run once to create stable, reproducible participant pools from the
 Hugging Face Djinni candidate-profile dataset, or from an already-downloaded
 CSV/JSONL file with the same fields.
 
+The source dataset is loaded only once. After filtering and normalization, the
+script creates several nested participant sets from the same filtered pool. This
+makes later comparisons across participant-pool sizes easier to interpret.
+
 Example:
     python scripts/prepare_candidate_dataset.py \
-        --sample-size 80 \
-        --output data/processed/candidates_filtered.csv \
-        --jsonl-output data/processed/candidates_filtered.jsonl \
-        --report-output data/processed/candidates_filter_report.json
+        --sample-sizes 80 120 240 480 1200 2400 \
+        --output-dir data/processed/participants \
+        --write-legacy-default
 
 Dependencies:
     pip install pandas datasets
@@ -25,9 +28,10 @@ import json
 import math
 import random
 import re
+import shutil
 import sys
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Iterable
 
@@ -36,6 +40,8 @@ import pandas as pd
 
 DEFAULT_DATASET_NAME = "lang-uk/recruitment-dataset-candidate-profiles-english"
 DEFAULT_SPLIT = "train"
+DEFAULT_SAMPLE_SIZES = [80, 120, 240, 480, 1200, 2400]
+DEFAULT_LEGACY_SAMPLE_SIZE = 80
 
 RAW_COLUMNS = [
     "id",
@@ -50,9 +56,6 @@ RAW_COLUMNS = [
     "Highlights",
 ]
 
-# Broad but still IT/product-oriented. This keeps the prototype close to the
-# dataset's recruitment-domain source while excluding profiles that are less
-# useful for software/project-team examples.
 DEFAULT_ALLOWED_ROLE_FAMILIES = {
     "backend",
     "frontend",
@@ -82,8 +85,6 @@ ENGLISH_LEVELS = {
     "native": 5,
 }
 
-# Canonical skill -> regex aliases. This is deliberately transparent and
-# editable. Avoid inferring sensitive or personality-like attributes here.
 SKILL_PATTERNS: dict[str, list[str]] = {
     "python": [r"\bpython\b"],
     "java": [r"\bjava\b(?!script)"],
@@ -170,12 +171,40 @@ ROLE_PATTERNS: list[tuple[str, list[str]]] = [
     ("product_project", [r"product manager", r"product owner", r"project manager", r"scrum master", r"delivery manager"]),
 ]
 
+OUTPUT_COLUMNS = [
+    "id",
+    "position",
+    "primary_keyword",
+    "role_family",
+    "experience_years",
+    "experience_bucket",
+    "english_level",
+    "english_score",
+    "skills",
+    "skill_count",
+    "interest_tags",
+    "cv_excerpt",
+]
+
+
+@dataclass
+class CandidateSetInfo:
+    name: str
+    requested_size: int
+    actual_size: int
+    csv: str
+    jsonl: str | None
+    report: str
+
 
 @dataclass
 class FilterReport:
     dataset_name: str
     split: str
     random_seed: int
+    set_name: str
+    requested_sample_size: int
+    actual_sample_size: int
     counts: dict[str, int]
     role_family_counts: dict[str, int]
     english_level_counts: dict[str, int]
@@ -204,7 +233,6 @@ def normalize_english_level(value: object) -> tuple[str, int | None]:
         return "unknown", None
     if raw in ENGLISH_LEVELS:
         return raw.replace(" ", "-"), ENGLISH_LEVELS[raw]
-    # Be permissive if the dataset uses labels such as "upper intermediate".
     for key, score in ENGLISH_LEVELS.items():
         if key in raw:
             return key.replace(" ", "-"), score
@@ -279,6 +307,7 @@ def extract_interest_tags(looking_for: str, highlights: str) -> list[str]:
 
 
 def load_source_dataframe(args: argparse.Namespace) -> pd.DataFrame:
+    """Load source data once, either locally or from Hugging Face."""
     if args.input_csv:
         return pd.read_csv(args.input_csv)
     if args.input_jsonl:
@@ -297,7 +326,6 @@ def load_source_dataframe(args: argparse.Namespace) -> pd.DataFrame:
 
 
 def ensure_columns(df: pd.DataFrame) -> pd.DataFrame:
-    # Keep known columns when present, but do not fail if optional text fields are missing.
     for col in RAW_COLUMNS:
         if col not in df.columns:
             df[col] = ""
@@ -307,7 +335,18 @@ def ensure_columns(df: pd.DataFrame) -> pd.DataFrame:
 def build_processed_dataframe(df: pd.DataFrame) -> pd.DataFrame:
     df = ensure_columns(df)
 
-    for col in ["id", "Position", "Primary Keyword", "English Level", "CV_lang", "CV", "Moreinfo", "Looking For", "Highlights"]:
+    text_cols = [
+        "id",
+        "Position",
+        "Primary Keyword",
+        "English Level",
+        "CV_lang",
+        "CV",
+        "Moreinfo",
+        "Looking For",
+        "Highlights",
+    ]
+    for col in text_cols:
         df[col] = df[col].map(clean_text)
 
     df["experience_years"] = df["Experience Years"].map(normalize_experience)
@@ -346,7 +385,6 @@ def build_processed_dataframe(df: pd.DataFrame) -> pd.DataFrame:
 def apply_filters(df: pd.DataFrame, args: argparse.Namespace) -> tuple[pd.DataFrame, dict[str, int]]:
     counts: dict[str, int] = {"raw_rows": len(df)}
 
-    # Stable IDs are needed by the allocation engine.
     df = df[df["id"].astype(str).str.len() > 0].copy()
     df = df.drop_duplicates(subset=["id"]).copy()
     counts["after_valid_unique_id"] = len(df)
@@ -384,57 +422,50 @@ def apply_filters(df: pd.DataFrame, args: argparse.Namespace) -> tuple[pd.DataFr
     return df, counts
 
 
-def stable_balanced_sample(df: pd.DataFrame, sample_size: int | None, seed: int) -> pd.DataFrame:
-    if sample_size is None or sample_size <= 0 or len(df) <= sample_size:
-        return df.sample(frac=1.0, random_state=seed).reset_index(drop=True)
+def stable_balanced_order(df: pd.DataFrame, seed: int) -> pd.DataFrame:
+    """Return a stable balanced ordering of the full filtered candidate pool.
 
+    Smaller participant sets are later created by taking prefixes of this order,
+    making the sets nested. For example, candidates_120 is a prefix of
+    candidates_240 when both are generated from the same filter settings.
+    """
     rng = random.Random(seed)
-    groups = {family: group.copy() for family, group in df.groupby("role_family")}
-    families = sorted(groups)
-    selected_indices: list[int] = []
+    grouped_indices: dict[str, list[int]] = {}
 
-    # First pass: round-robin by role family to avoid one dominant role family.
-    while len(selected_indices) < sample_size and families:
-        progressed = False
+    for family, group in df.groupby("role_family"):
+        indices = list(group.index)
+        rng.shuffle(indices)
+        grouped_indices[str(family)] = indices
+
+    families = sorted(grouped_indices)
+    ordered_indices: list[int] = []
+
+    while families:
         rng.shuffle(families)
-        for family in list(families):
-            group = groups[family]
-            remaining = group[~group.index.isin(selected_indices)]
-            if remaining.empty:
-                families.remove(family)
+        next_families: list[str] = []
+
+        for family in families:
+            indices = grouped_indices[family]
+            if not indices:
                 continue
-            selected_indices.append(rng.choice(list(remaining.index)))
-            progressed = True
-            if len(selected_indices) >= sample_size:
-                break
-        if not progressed:
-            break
+            ordered_indices.append(indices.pop())
+            if indices:
+                next_families.append(family)
 
-    sampled = df.loc[selected_indices].copy()
-    return sampled.sample(frac=1.0, random_state=seed).reset_index(drop=True)
+        families = next_families
+
+    return df.loc[ordered_indices].reset_index(drop=True)
 
 
-def serialize_list(values: list[str]) -> str:
-    return ";".join(values)
+def make_candidate_set_name(size: int) -> str:
+    if size <= 0:
+        return "all_filtered"
+    width = 4 if size >= 1000 else 3
+    return f"candidates_{size:0{width}d}"
 
 
-def write_outputs(df: pd.DataFrame, args: argparse.Namespace) -> None:
-    # output_columns = [
-    #     "id",
-    #     "position",
-    #     "primary_keyword",
-    #     "role_family",
-    #     "experience_years",
-    #     "experience_bucket",
-    #     "english_level",
-    #     "english_score",
-    #     "skills",
-    #     "skill_count",
-    #     "interest_tags",
-    #     "cv_excerpt",
-    # ]
-
-    export = pd.DataFrame(
+def make_export_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+    return pd.DataFrame(
         {
             "id": df["id"],
             "position": df["Position"],
@@ -451,20 +482,9 @@ def write_outputs(df: pd.DataFrame, args: argparse.Namespace) -> None:
         }
     )
 
-    output_path = Path(args.output)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    csv_export = export.copy()
-    csv_export["skills"] = csv_export["skills"].map(serialize_list)
-    csv_export["interest_tags"] = csv_export["interest_tags"].map(serialize_list)
-    csv_export.to_csv(output_path, index=False)
-
-    if args.jsonl_output:
-        jsonl_path = Path(args.jsonl_output)
-        jsonl_path.parent.mkdir(parents=True, exist_ok=True)
-        export.to_json(jsonl_path, orient="records", lines=True, force_ascii=False)
-
-    return None
+def serialize_list(values: list[str]) -> str:
+    return ";".join(values)
 
 
 def summarize_skill_counts(df: pd.DataFrame) -> dict[str, float]:
@@ -479,29 +499,25 @@ def summarize_skill_counts(df: pd.DataFrame) -> dict[str, float]:
     }
 
 
-def write_report(df: pd.DataFrame, counts: dict[str, int], args: argparse.Namespace) -> None:
-    report = FilterReport(
+def build_filter_report(
+    df: pd.DataFrame,
+    counts: dict[str, int],
+    args: argparse.Namespace,
+    set_name: str,
+    requested_size: int,
+) -> FilterReport:
+    return FilterReport(
         dataset_name=args.dataset_name if not (args.input_csv or args.input_jsonl) else "local_file",
         split=args.split,
         random_seed=args.seed,
+        set_name=set_name,
+        requested_sample_size=requested_size,
+        actual_sample_size=len(df),
         counts={**counts, "final_rows": len(df)},
         role_family_counts=dict(Counter(df["role_family"])),
         english_level_counts=dict(Counter(df["english_level"])),
         skill_count_summary=summarize_skill_counts(df),
-        output_columns=[
-            "id",
-            "position",
-            "primary_keyword",
-            "role_family",
-            "experience_years",
-            "experience_bucket",
-            "english_level",
-            "english_score",
-            "skills",
-            "skill_count",
-            "interest_tags",
-            "cv_excerpt",
-        ],
+        output_columns=OUTPUT_COLUMNS,
         filters={
             "require_cv_lang": args.require_cv_lang,
             "min_cv_chars": args.min_cv_chars,
@@ -510,13 +526,89 @@ def write_report(df: pd.DataFrame, counts: dict[str, int], args: argparse.Namesp
             "max_experience": args.max_experience,
             "min_english_level": args.min_english_level,
             "allowed_role_families": sorted(args.allowed_role_families or DEFAULT_ALLOWED_ROLE_FAMILIES),
-            "sample_size": args.sample_size,
         },
     )
 
-    report_path = Path(args.report_output)
-    report_path.parent.mkdir(parents=True, exist_ok=True)
-    report_path.write_text(json.dumps(report.__dict__, indent=2, ensure_ascii=False), encoding="utf-8")
+
+def write_candidate_set(
+    df: pd.DataFrame,
+    output_dir: Path,
+    set_name: str,
+    requested_size: int,
+    counts: dict[str, int],
+    args: argparse.Namespace,
+) -> CandidateSetInfo:
+    export = make_export_dataframe(df)
+
+    csv_path = output_dir / f"{set_name}.csv"
+    jsonl_path = output_dir / f"{set_name}.jsonl"
+    report_path = output_dir / f"{set_name}_report.json"
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    csv_export = export.copy()
+    csv_export["skills"] = csv_export["skills"].map(serialize_list)
+    csv_export["interest_tags"] = csv_export["interest_tags"].map(serialize_list)
+    csv_export.to_csv(csv_path, index=False)
+
+    if args.write_jsonl:
+        export.to_json(jsonl_path, orient="records", lines=True, force_ascii=False)
+        jsonl_result: str | None = str(jsonl_path)
+    else:
+        jsonl_result = None
+
+    report = build_filter_report(
+        df=df,
+        counts=counts,
+        args=args,
+        set_name=set_name,
+        requested_size=requested_size,
+    )
+    report_path.write_text(json.dumps(asdict(report), indent=2, ensure_ascii=False), encoding="utf-8")
+
+    return CandidateSetInfo(
+        name=set_name,
+        requested_size=requested_size,
+        actual_size=len(df),
+        csv=str(csv_path),
+        jsonl=jsonl_result,
+        report=str(report_path),
+    )
+
+
+def copy_legacy_default(output_dir: Path, default_info: CandidateSetInfo) -> None:
+    """Keep the original default filenames for backwards compatibility."""
+    csv_src = Path(default_info.csv)
+    report_src = Path(default_info.report)
+    csv_dst = output_dir.parent / "candidates_filtered.csv"
+    report_dst = output_dir.parent / "candidates_filter_report.json"
+    shutil.copyfile(csv_src, csv_dst)
+    shutil.copyfile(report_src, report_dst)
+
+    if default_info.jsonl:
+        jsonl_src = Path(default_info.jsonl)
+        jsonl_dst = output_dir.parent / "candidates_filtered.jsonl"
+        shutil.copyfile(jsonl_src, jsonl_dst)
+
+
+def write_manifest(
+    output_dir: Path,
+    args: argparse.Namespace,
+    counts: dict[str, int],
+    generated_sets: list[CandidateSetInfo],
+) -> None:
+    manifest = {
+        "dataset_name": args.dataset_name if not (args.input_csv or args.input_jsonl) else "local_file",
+        "split": args.split,
+        "seed": args.seed,
+        "source_loaded_once": True,
+        "sample_strategy": "nested_stable_balanced_prefixes",
+        "counts": counts,
+        "sample_sizes_requested": args.sample_sizes,
+        "generated_sets": [asdict(item) for item in generated_sets],
+        "legacy_default_written": args.write_legacy_default,
+    }
+    path = output_dir / "candidate_sets_manifest.json"
+    path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
@@ -527,11 +619,15 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--split", default=DEFAULT_SPLIT)
     parser.add_argument("--input-csv", default=None, help="Use a local CSV instead of downloading from Hugging Face.")
     parser.add_argument("--input-jsonl", default=None, help="Use a local JSONL instead of downloading from Hugging Face.")
-    parser.add_argument("--output", default="data/processed/candidates_filtered.csv")
-    parser.add_argument("--jsonl-output", default="data/processed/candidates_filtered.jsonl")
-    parser.add_argument("--report-output", default="data/processed/candidates_filter_report.json")
+    parser.add_argument("--output-dir", default="data/processed/participants")
+    parser.add_argument(
+        "--sample-sizes",
+        type=int,
+        nargs="+",
+        default=DEFAULT_SAMPLE_SIZES,
+        help="Participant set sizes to generate. Use 0 to write all filtered rows.",
+    )
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--sample-size", type=int, default=80, help="Final sample size. Use 0 to keep all filtered rows.")
     parser.add_argument("--require-cv-lang", default="en", help="Required CV_lang value, or 'any'.")
     parser.add_argument("--min-cv-chars", type=int, default=180)
     parser.add_argument("--min-skill-count", type=int, default=2)
@@ -544,6 +640,24 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
         default=sorted(DEFAULT_ALLOWED_ROLE_FAMILIES),
         help="Allowed canonical role families. Use 'any' to disable role filtering.",
     )
+    parser.add_argument(
+        "--write-jsonl",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Write JSONL files in addition to CSV files.",
+    )
+    parser.add_argument(
+        "--write-legacy-default",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="Also write data/processed/candidates_filtered.* for backwards compatibility.",
+    )
+    parser.add_argument(
+        "--legacy-default-size",
+        type=int,
+        default=DEFAULT_LEGACY_SAMPLE_SIZE,
+        help="Which generated size to copy to candidates_filtered.* when legacy output is enabled.",
+    )
     return parser.parse_args(argv)
 
 
@@ -553,27 +667,65 @@ def main(argv: list[str] | None = None) -> int:
     if args.input_csv and args.input_jsonl:
         raise SystemExit("Use only one of --input-csv or --input-jsonl.")
 
+    sample_sizes = sorted(set(args.sample_sizes))
+    if any(size < 0 for size in sample_sizes):
+        raise SystemExit("Sample sizes must be non-negative integers.")
+
+    output_dir = Path(args.output_dir)
+
+    # The source data is loaded once, then all participant sets are generated
+    # from the same processed and filtered pool.
     raw = load_source_dataframe(args)
     processed = build_processed_dataframe(raw)
     filtered, counts = apply_filters(processed, args)
-    sampled = stable_balanced_sample(filtered, args.sample_size, args.seed)
 
-    if sampled.empty:
+    if filtered.empty:
         raise SystemExit(
             "No candidates remained after filtering. Try lowering --min-skill-count, "
             "--min-cv-chars, --min-english-level, or broadening --allowed-role-families."
         )
 
-    write_outputs(sampled, args)
-    write_report(sampled, counts, args)
+    ordered = stable_balanced_order(filtered, args.seed)
 
-    print("Candidate dataset prepared successfully.")
+    generated_sets: list[CandidateSetInfo] = []
+    default_info: CandidateSetInfo | None = None
+
+    for requested_size in sample_sizes:
+        if requested_size == 0 or requested_size >= len(ordered):
+            sampled = ordered.copy().reset_index(drop=True)
+        else:
+            sampled = ordered.head(requested_size).copy().reset_index(drop=True)
+
+        set_name = make_candidate_set_name(requested_size)
+        info = write_candidate_set(
+            df=sampled,
+            output_dir=output_dir,
+            set_name=set_name,
+            requested_size=requested_size,
+            counts=counts,
+            args=args,
+        )
+        generated_sets.append(info)
+
+        if requested_size == args.legacy_default_size:
+            default_info = info
+
+    if args.write_legacy_default:
+        if default_info is None:
+            raise SystemExit(
+                f"--write-legacy-default requires --legacy-default-size {args.legacy_default_size} "
+                "to be included in --sample-sizes."
+            )
+        copy_legacy_default(output_dir, default_info)
+
+    write_manifest(output_dir, args, counts, generated_sets)
+
+    print("Candidate datasets prepared successfully.")
     print(f"Rows after filtering: {len(filtered)}")
-    print(f"Rows written: {len(sampled)}")
-    print(f"CSV: {args.output}")
-    if args.jsonl_output:
-        print(f"JSONL: {args.jsonl_output}")
-    print(f"Report: {args.report_output}")
+    for info in generated_sets:
+        print(f"- {info.name}: requested {info.requested_size}, wrote {info.actual_size}")
+    print(f"Output directory: {output_dir}")
+    print(f"Manifest: {output_dir / 'candidate_sets_manifest.json'}")
     return 0
 
 

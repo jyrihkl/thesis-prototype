@@ -2,9 +2,9 @@
   "dataset_name": "lang-uk/recruitment-dataset-candidate-profiles-english",
   "split": "train",
   "random_seed": 42,
-  "set_name": "candidates_080",
-  "requested_sample_size": 80,
-  "actual_sample_size": 80,
+  "set_name": "candidates_240",
+  "requested_sample_size": 240,
+  "actual_sample_size": 240,
   "counts": {
     "raw_rows": 210250,
     "after_valid_unique_id": 210250,
@@ -14,28 +14,28 @@
     "after_experience_filter": 138864,
     "after_english_filter": 70876,
     "after_role_family_filter": 68476,
-    "final_rows": 80
+    "final_rows": 240
   },
   "role_family_counts": {
-    "design_ux": 8,
-    "frontend": 8,
-    "product_project": 8,
-    "data_analytics": 8,
-    "devops_cloud": 8,
-    "machine_learning": 8,
-    "qa_testing": 8,
-    "fullstack": 8,
-    "mobile": 8,
-    "backend": 8
+    "design_ux": 24,
+    "frontend": 24,
+    "product_project": 24,
+    "data_analytics": 24,
+    "devops_cloud": 24,
+    "machine_learning": 24,
+    "qa_testing": 24,
+    "fullstack": 24,
+    "mobile": 24,
+    "backend": 24
   },
   "english_level_counts": {
-    "intermediate": 48,
-    "fluent": 32
+    "intermediate": 131,
+    "fluent": 109
   },
   "skill_count_summary": {
     "min": 2,
-    "mean": 4.8,
-    "median": 3.0,
+    "mean": 4.97,
+    "median": 4.0,
     "max": 18
   },
   "output_columns": [

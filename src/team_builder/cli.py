@@ -27,6 +27,16 @@ def parse_args() -> argparse.Namespace:
     )
 
     parser.add_argument(
+        "--participant-set",
+        default="080",
+        help=(
+            "Named participant set to use when --participants is omitted. "
+            "Valid values: 080, 120, 240, 480, 1200, 2400. "
+            "Aliases: 80, default, legacy."
+        ),
+    )
+
+    parser.add_argument(
         "--projects",
         type=Path,
         default=None,
@@ -84,6 +94,7 @@ def main() -> int:
 
     config = PipelineConfig(
         participants_path=args.participants,
+        participant_set=args.participant_set,
         projects_path=args.projects,
         project_set=args.project_set,
         enable_local_improvement=not args.no_local_improvement,

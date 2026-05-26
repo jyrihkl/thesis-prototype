@@ -15,6 +15,7 @@ class PipelineConfig:
     """Runtime configuration for the prototype pipeline."""
 
     participants_path: Path | None = None
+    participant_set: str = "080"
     projects_path: Path | None = None
     project_set: str = "a"
 

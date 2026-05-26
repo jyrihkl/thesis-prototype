@@ -25,7 +25,10 @@ def run_pipeline(config: PipelineConfig) -> PipelineRunResult:
     timer = PipelineTimer()
 
     with timer.stage("resolve_input_paths"):
-        participants_path = resolve_participant_path(config.participants_path)
+        participants_path = resolve_participant_path(
+            explicit_path=config.participants_path,
+            participant_set=config.participant_set,
+        )
         projects_path = resolve_project_path(config.projects_path, config.project_set)
 
     with timer.stage("load_inputs"):

@@ -8,12 +8,49 @@ from pathlib import Path
 from typing import Any
 
 
-DEFAULT_PARTICIPANT_PATHS = (
-    Path("data/processed/candidates_filtered.csv"),
-    Path("data/processed/candidates_filtered.jsonl"),
-    Path("data/candidates_filtered.csv"),
-    Path("data/candidates_filtered.jsonl"),
-)
+DEFAULT_PARTICIPANT_SET_PATHS: dict[str, tuple[Path, ...]] = {
+    "080": (
+        Path("data/processed/participants/candidates_080.csv"),
+        Path("data/processed/participants/candidates_080.jsonl"),
+        Path("data/processed/candidates_filtered.csv"),
+        Path("data/processed/candidates_filtered.jsonl"),
+        Path("data/candidates_filtered.csv"),
+        Path("data/candidates_filtered.jsonl"),
+    ),
+    "120": (
+        Path("data/processed/participants/candidates_120.csv"),
+        Path("data/processed/participants/candidates_120.jsonl"),
+        Path("data/candidates_120.csv"),
+        Path("data/candidates_120.jsonl"),
+    ),
+    "240": (
+        Path("data/processed/participants/candidates_240.csv"),
+        Path("data/processed/participants/candidates_240.jsonl"),
+        Path("data/candidates_240.csv"),
+        Path("data/candidates_240.jsonl"),
+    ),
+    "480": (
+        Path("data/processed/participants/candidates_480.csv"),
+        Path("data/processed/participants/candidates_480.jsonl"),
+        Path("data/candidates_480.csv"),
+        Path("data/candidates_480.jsonl"),
+    ),
+    "1200": (
+        Path("data/processed/participants/candidates_1200.csv"),
+        Path("data/processed/participants/candidates_1200.jsonl"),
+        Path("data/candidates_1200.csv"),
+        Path("data/candidates_1200.jsonl"),
+    ),
+    "2400": (
+        Path("data/processed/participants/candidates_2400.csv"),
+        Path("data/processed/participants/candidates_2400.jsonl"),
+        Path("data/candidates_2400.csv"),
+        Path("data/candidates_2400.jsonl"),
+    ),
+}
+
+# Keeping this for compatibility.
+DEFAULT_PARTICIPANT_PATHS = DEFAULT_PARTICIPANT_SET_PATHS["080"]
 
 DEFAULT_PROJECT_PATHS = {
     "a": (
@@ -25,6 +62,27 @@ DEFAULT_PROJECT_PATHS = {
         Path("data/processed/projects_set_b.json"),
     ),
 }
+
+
+def normalize_participant_set_name(value: str) -> str:
+    """Normalize participant set names accepted by the CLI."""
+
+    normalized = value.strip().lower()
+    aliases = {
+        "80": "080",
+        "080": "080",
+        "default": "080",
+        "legacy": "080",
+        "120": "120",
+        "240": "240",
+        "480": "480",
+        "1200": "1200",
+        "2400": "2400",
+    }
+    if normalized not in aliases:
+        valid = ", ".join(sorted(aliases))
+        raise ValueError(f"Unknown participant set '{value}'. Valid values: {valid}")
+    return aliases[normalized]
 
 
 def resolve_existing_path(
@@ -64,13 +122,24 @@ def resolve_project_path(explicit_path: Path | None, project_set: str) -> Path:
     )
 
 
-def resolve_participant_path(explicit_path: Path | None) -> Path:
-    """Resolve the participant file path."""
+def resolve_participant_path(
+    explicit_path: Path | None,
+    participant_set: str = "080",
+) -> Path:
+    """Resolve the participant file path for a named candidate set."""
 
+    if explicit_path is not None:
+        return resolve_existing_path(
+            explicit_path=explicit_path,
+            default_paths=(),
+            label="participant",
+        )
+
+    normalized_set = normalize_participant_set_name(participant_set)
     return resolve_existing_path(
-        explicit_path=explicit_path,
-        default_paths=DEFAULT_PARTICIPANT_PATHS,
-        label="participant",
+        explicit_path=None,
+        default_paths=DEFAULT_PARTICIPANT_SET_PATHS[normalized_set],
+        label=f"participant set {normalized_set}",
     )
 
 
