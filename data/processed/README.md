@@ -1,12 +1,34 @@
 # Processed data
 
-This folder contains the cleaned candidate subset used by the team-formation prototype.
+This folder contains derived participant samples created for prototype evaluation.
 
-## Contents
+Generate or refresh the samples with:
 
-- `candidates_filtered.csv`: tabular candidate pool after filtering, role-family inference, and skill extraction.
-- `candidates_filtered.jsonl`: the same processed candidate pool in JSON Lines format.
-- `candidates_filter_report.json`: summary of filtering settings and retained records.
+```bash
+python scripts/prepare_candidate_dataset.py \
+  --sample-sizes 80 120 240 480 1200 2400 \
+  --output-dir data/processed/participants \
+  --write-legacy-default
+```
+
+The legacy files below are kept for compatibility with earlier prototype runs:
+
+```text
+candidates_filtered.csv
+candidates_filtered.jsonl
+candidates_filter_report.json
+```
+
+Preferred participant files are in:
+
+```text
+participants/candidates_080.csv
+participants/candidates_120.csv
+participants/candidates_240.csv
+participants/candidates_480.csv
+participants/candidates_1200.csv
+participants/candidates_2400.csv
+```
 
 ## Source and attribution
 

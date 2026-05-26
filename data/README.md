@@ -1,12 +1,48 @@
 # Data
 
-This folder contains small project-brief files used by the team formation prototype.
+This folder contains project brief files and processed participant sets used by the prototype.
 
-## Files
+## Project sets
 
-- `projects_set_a.json`: First sample set of manually defined project briefs.
-- `projects_set_b.json`: Second sample set of manually defined project briefs.
+```text
+projects_set_a.json
+projects_set_b.json
+projects_set_c.json
+projects_set_d.json
+projects_set_e.json
+```
 
-Each project brief defines the information needed by the recommendation engine, including the project title, target team size, required skills, preferred skills, desired roles, minimum English level, and balancing constraints.
+Run with:
 
-These files are synthetic examples created for prototype development and evaluation. They are not intended to represent real projects or real participant assignments.
+```bash
+team-builder --project-set a
+team-builder --project-set e
+```
+
+## Participant sets
+
+Generated participant sets are stored in:
+
+```text
+data/processed/participants/
+```
+
+Common files:
+
+```text
+candidates_080.csv
+candidates_120.csv
+candidates_240.csv
+candidates_480.csv
+candidates_1200.csv
+candidates_2400.csv
+candidate_sets_manifest.json
+```
+
+Run with:
+
+```bash
+team-builder --participant-set 240 --project-set c
+```
+
+The participant sets are derived from the `lang-uk/recruitment-dataset-candidate-profiles-english` dataset and are used only as prototype input data.

@@ -15,7 +15,7 @@ from team_builder.weights import WEIGHT_PROFILES
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Run batch evaluations for the team formation prototype."
+        description="Run batch evaluations."
     )
 
     parser.add_argument(
