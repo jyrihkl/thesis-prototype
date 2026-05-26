@@ -11,6 +11,7 @@ dependencies = []
 
 [project.scripts]
 team-builder = "team_builder.cli:main"
+team-builder-batch = "team_builder.batch_cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -19,6 +19,9 @@ class PipelineConfig:
     projects_path: Path | None = None
     project_set: str = "a"
 
+    score_weights: dict[str, float] | None = None
+    fairness_penalty: float = 0.25
+    
     enable_local_improvement: bool = True
     max_local_improvement_iterations: int = 100
     min_local_improvement_gain: float = 1e-9

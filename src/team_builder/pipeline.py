@@ -17,6 +17,7 @@ from team_builder.reporting import format_validation_report
 from team_builder.scoring import score_candidate_project_matrix, summarize_scoring
 from team_builder.timing import PipelineTimer
 from team_builder.validation import validate_pipeline_inputs
+from team_builder.weights import score_weights_from_mapping
 
 
 def run_pipeline(config: PipelineConfig) -> PipelineRunResult:
@@ -48,15 +49,25 @@ def run_pipeline(config: PipelineConfig) -> PipelineRunResult:
             + format_validation_report(validation_report)
         )
 
+    score_weights = score_weights_from_mapping(config.score_weights)
     with timer.stage("score_candidate_project_pairs"):
-        candidate_project_scores = score_candidate_project_matrix(candidates, projects)
-        scoring_report = summarize_scoring(candidate_project_scores, projects)
+        candidate_project_scores = score_candidate_project_matrix(
+            candidates,
+            projects,
+            weights=score_weights,
+        )
+        scoring_report = summarize_scoring(
+            candidate_project_scores,
+            projects,
+            weights=score_weights,
+        )
 
     with timer.stage("allocate_and_improve"):
         allocation_report = construct_round_based_allocation(
             candidates=candidates,
             projects=projects,
             scores=candidate_project_scores,
+            fairness_penalty=config.fairness_penalty,
             enable_local_improvement=config.enable_local_improvement,
             max_local_improvement_iterations=config.max_local_improvement_iterations,
             min_local_improvement_gain=config.min_local_improvement_gain,
@@ -68,6 +79,7 @@ def run_pipeline(config: PipelineConfig) -> PipelineRunResult:
             candidates=candidates,
             projects=projects,
             scores=candidate_project_scores,
+            fairness_penalty=config.fairness_penalty,
         )
 
     timing_report = TimingReport(
