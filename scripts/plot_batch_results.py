@@ -30,12 +30,27 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-METHOD_ORDER = [
-    "round_based_marginal_contribution_with_local_improvement",
-    "baseline_random_constrained",
-    "baseline_greedy_fit",
-    "baseline_balanced_greedy",
+METHOD_DISPLAY_NAMES = {
+    "round_based_marginal_contribution_with_local_improvement": "thesis_algorithm",
+    "baseline_random_constrained": "random",
+    "baseline_greedy_fit": "greedy_fit",
+    "baseline_balanced_greedy": "balanced_greedy",
+}
+
+DISPLAY_METHOD_ORDER = [
+    "thesis_algorithm",
+    "random",
+    "greedy_fit",
+    "balanced_greedy",
 ]
+
+
+def add_method_labels(methods: pd.DataFrame) -> pd.DataFrame:
+    """Add shorter method labels for plotting."""
+
+    df = methods.copy()
+    df["method_label"] = df["method"].map(METHOD_DISPLAY_NAMES).fillna(df["method"])
+    return df
 
 
 def parse_args() -> argparse.Namespace:
@@ -94,10 +109,11 @@ def numeric_column(df: pd.DataFrame, column: str) -> pd.Series:
 
 
 def ordered_methods(df: pd.DataFrame) -> list[str]:
-    """Return known methods first, followed by any additional methods."""
+    """Return known display method labels first, followed by any additional labels."""
 
-    existing = [method for method in METHOD_ORDER if method in set(df["method"])]
-    additional = sorted(set(df["method"]) - set(existing))
+    method_column = "method_label" if "method_label" in df.columns else "method"
+    existing = [method for method in DISPLAY_METHOD_ORDER if method in set(df[method_column])]
+    additional = sorted(set(df[method_column]) - set(existing))
     return existing + additional
 
 
@@ -116,17 +132,17 @@ def plot_objective_by_method(methods: pd.DataFrame, output_dir: Path, dpi: int) 
     df = methods.copy()
     df["objective_score"] = numeric_column(df, "objective_score")
     grouped = (
-        df.groupby("method", as_index=False)["objective_score"]
+        df.groupby("method_label", as_index=False)["objective_score"]
         .mean()
         .dropna()
     )
 
     order = ordered_methods(df)
-    grouped["method"] = pd.Categorical(grouped["method"], categories=order, ordered=True)
-    grouped = grouped.sort_values("method")
+    grouped["method_label"] = pd.Categorical(grouped["method_label"], categories=order, ordered=True)
+    grouped = grouped.sort_values("method_label")
 
     plt.figure(figsize=(10, 5))
-    plt.bar(grouped["method"].astype(str), grouped["objective_score"])
+    plt.bar(grouped["method_label"].astype(str), grouped["objective_score"])
     plt.title("Mean objective score by method")
     plt.xlabel("Method")
     plt.ylabel("Mean objective score")
@@ -140,17 +156,17 @@ def plot_fairness_by_method(methods: pd.DataFrame, output_dir: Path, dpi: int) -
     df = methods.copy()
     df["fairness_deviation"] = numeric_column(df, "fairness_deviation")
     grouped = (
-        df.groupby("method", as_index=False)["fairness_deviation"]
+        df.groupby("method_label", as_index=False)["fairness_deviation"]
         .mean()
         .dropna()
     )
 
     order = ordered_methods(df)
-    grouped["method"] = pd.Categorical(grouped["method"], categories=order, ordered=True)
-    grouped = grouped.sort_values("method")
+    grouped["method_label"] = pd.Categorical(grouped["method_label"], categories=order, ordered=True)
+    grouped = grouped.sort_values("method_label")
 
     plt.figure(figsize=(10, 5))
-    plt.bar(grouped["method"].astype(str), grouped["fairness_deviation"])
+    plt.bar(grouped["method_label"].astype(str), grouped["fairness_deviation"])
     plt.title("Mean fairness deviation by method")
     plt.xlabel("Method")
     plt.ylabel("Mean fairness deviation")
@@ -164,17 +180,17 @@ def plot_min_team_score_by_method(methods: pd.DataFrame, output_dir: Path, dpi: 
     df = methods.copy()
     df["min_team_score"] = numeric_column(df, "min_team_score")
     grouped = (
-        df.groupby("method", as_index=False)["min_team_score"]
+        df.groupby("method_label", as_index=False)["min_team_score"]
         .mean()
         .dropna()
     )
 
     order = ordered_methods(df)
-    grouped["method"] = pd.Categorical(grouped["method"], categories=order, ordered=True)
-    grouped = grouped.sort_values("method")
+    grouped["method_label"] = pd.Categorical(grouped["method_label"], categories=order, ordered=True)
+    grouped = grouped.sort_values("method_label")
 
     plt.figure(figsize=(10, 5))
-    plt.bar(grouped["method"].astype(str), grouped["min_team_score"])
+    plt.bar(grouped["method_label"].astype(str), grouped["min_team_score"])
     plt.title("Mean minimum team score by method")
     plt.xlabel("Method")
     plt.ylabel("Mean minimum team score")
@@ -300,7 +316,7 @@ def plot_method_scores_by_project_set(methods: pd.DataFrame, output_dir: Path, d
     df["objective_score"] = numeric_column(df, "objective_score")
 
     grouped = (
-        df.groupby(["project_set", "method"], as_index=False)["objective_score"]
+        df.groupby(["project_set", "method_label"], as_index=False)["objective_score"]
         .mean()
         .dropna()
     )
@@ -321,7 +337,7 @@ def plot_method_scores_by_project_set(methods: pd.DataFrame, output_dir: Path, d
         for project_set in project_sets:
             match = grouped[
                 (grouped["project_set"] == project_set)
-                & (grouped["method"] == method)
+                & (grouped["method_label"] == method)
             ]
             values.append(float(match["objective_score"].iloc[0]) if not match.empty else 0.0)
 
@@ -361,6 +377,7 @@ def main() -> int:
     output_dir.mkdir(parents=True, exist_ok=True)
 
     runs, methods = read_batch_outputs(batch_dir)
+    methods = add_method_labels(methods)
 
     before = set(output_dir.glob("*.png"))
 
