@@ -13,6 +13,7 @@ from team_builder.models import (
     LocalImprovementReport,
     PipelineRunResult,
     ScoringReport,
+    TimingReport,
     ValidationCheck,
     ValidationReport,
 )
@@ -118,6 +119,29 @@ def format_scoring_report(report: ScoringReport | None) -> str:
                 f"    top candidates: {top_candidates}",
             ]
         )
+
+    return "\n".join(lines)
+
+
+def format_timing_report(report: TimingReport | None) -> str:
+    """Format pipeline runtime information."""
+
+    if report is None:
+        return "\n".join(
+            [
+                "Timing",
+                "-" * 40,
+                "Status: timing information is not available.",
+            ]
+        )
+
+    lines = [
+        "Timing",
+        "-" * 40,
+    ]
+
+    for name, seconds in report.stages.items():
+        lines.append(f"  - {name}: {seconds:.4f}s")
 
     return "\n".join(lines)
 
@@ -315,6 +339,8 @@ def format_run_report(result: PipelineRunResult) -> str:
             format_allocation_report(result.allocation_report),
             "",
             format_baseline_comparison_report(result.baseline_comparison_report),
+            "",
+            format_timing_report(result.timing_report),
         ]
     )
 

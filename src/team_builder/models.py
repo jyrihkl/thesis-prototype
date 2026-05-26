@@ -242,6 +242,13 @@ class BaselineComparisonReport:
 
 
 @dataclass(frozen=True)
+class TimingReport:
+    """Runtime information for one pipeline run."""
+
+    stages: dict[str, float] = field(default_factory=dict)
+    total_runtime_seconds: float = 0.0
+
+@dataclass(frozen=True)
 class PipelineRunResult:
     """Summary returned after the current pipeline stage."""
 
@@ -258,3 +265,4 @@ class PipelineRunResult:
     allocation_report: AllocationReport | None = None
     baseline_comparison_report: BaselineComparisonReport | None = None
     saved_run_dir: Path | None = None
+    timing_report: TimingReport | None = None

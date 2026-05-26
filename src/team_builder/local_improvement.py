@@ -1,8 +1,8 @@
 """Transparent local improvement for team allocations.
 
 The initial allocation is created by the round-based marginal-contribution
-heuristic in allocation.py. This module performs the next thesis-planned step:
-it tries simple local moves and accepts only those that preserve hard feasibility
+heuristic in allocation.py. This module performs the next step:
+it tries simple local moves and accepts only those that preserve feasibility
 and improve the global allocation objective.
 
 Move types:
@@ -44,7 +44,7 @@ def _is_feasible_pair(
     project_id: str,
     scores: dict[tuple[str, str], CandidateProjectScore],
 ) -> bool:
-    """Return whether a candidate-project pair satisfies hard feasibility."""
+    """Return whether a candidate-project pair satisfies feasibility."""
 
     pair_score = scores.get((candidate_id, project_id))
     return bool(pair_score and pair_score.feasible)

@@ -175,6 +175,7 @@ def run_summary_to_export(result: PipelineRunResult, run_id: str) -> dict[str, A
                 baseline_report.method_summaries if baseline_report else []
             ),
         },
+        "timing": result.timing_report,
     }
 
 
