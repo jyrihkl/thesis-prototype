@@ -43,6 +43,12 @@ def parse_args() -> argparse.Namespace:
     )
 
     parser.add_argument(
+        "--all-weight-profiles",
+        action="store_true",
+        help="Run all available score-weight profiles.",
+    )
+    
+    parser.add_argument(
         "--output-dir",
         type=Path,
         default=Path("runs/batches"),
@@ -87,10 +93,16 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
 
+    weight_profiles = (
+        tuple(sorted(WEIGHT_PROFILES))
+        if args.all_weight_profiles
+        else tuple(args.weight_profiles)
+    )
+    
     config = BatchEvaluationConfig(
         participant_set=args.participant_set,
         project_sets=tuple(args.project_sets),
-        weight_profiles=tuple(args.weight_profiles),
+        weight_profiles=weight_profiles,
         output_dir=args.output_dir,
         batch_id=args.batch_id,
         save_individual_runs=not args.no_save_individual_runs,
