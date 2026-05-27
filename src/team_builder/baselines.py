@@ -2,12 +2,13 @@
 
 The thesis evaluation plan requires that the proposed recommendation logic is
 compared against simpler alternatives under the same participant pool, project
-briefs, and hard feasibility conditions. This module implements three transparent
+briefs, and hard feasibility conditions. This module implements transparent
 baselines:
 
 1. random_constrained
 2. greedy_fit
-3. balanced_greedy
+3. machado_k_rounds
+4. balanced_greedy
 
 All baselines are evaluated with the same team-quality and allocation-level
 fairness objective used by the main allocation method.
@@ -121,6 +122,32 @@ def _candidate_feasible_for_project(
     return bool(pair_score and pair_score.feasible)
 
 
+def _best_direct_fit_candidate_id(
+    *,
+    project: Project,
+    unassigned_ids: set[str],
+    score_lookup: dict[tuple[str, str], CandidateProjectScore],
+) -> str | None:
+    """Return the unassigned feasible candidate with the highest direct fit."""
+
+    feasible_scores = [
+        score_lookup[(candidate_id, project.id)]
+        for candidate_id in unassigned_ids
+        if (candidate_id, project.id) in score_lookup
+        and score_lookup[(candidate_id, project.id)].feasible
+    ]
+
+    if not feasible_scores:
+        return None
+
+    selected_score = sorted(
+        feasible_scores,
+        key=lambda score: (-score.total_score, score.candidate_id),
+    )[0]
+
+    return selected_score.candidate_id
+
+
 def random_constrained_assignment(
     *,
     candidates: list[Candidate],
@@ -130,7 +157,7 @@ def random_constrained_assignment(
     random_seed: int = 42,
     max_attempts: int = 200,
 ) -> AllocationReport:
-    """Assign candidates randomly while respecting feasibility.
+    """Assign candidates randomly while respecting hard feasibility.
 
     The method retries with different random orders because random assignment can
     paint itself into a corner even when a feasible allocation exists.
@@ -221,9 +248,7 @@ def greedy_fit_assignment(
 ) -> AllocationReport:
     """Assign candidates greedily by direct candidate-to-project fit.
 
-    This baseline intentionally ignores marginal contribution and fairness during
-    construction. It tests whether the proposed method improves on simple local
-    project-fit maximization.
+    This baseline fills one project before moving to the next.
     """
 
     candidates_by_id = {candidate.id: candidate for candidate in candidates}
@@ -235,30 +260,84 @@ def greedy_fit_assignment(
 
     for project in projects:
         while len(teams[project.id]) < project.target_team_size:
-            feasible_scores = [
-                score_lookup[(candidate_id, project.id)]
-                for candidate_id in unassigned_ids
-                if (candidate_id, project.id) in score_lookup
-                and score_lookup[(candidate_id, project.id)].feasible
-            ]
+            selected_id = _best_direct_fit_candidate_id(
+                project=project,
+                unassigned_ids=unassigned_ids,
+                score_lookup=score_lookup,
+            )
 
-            if not feasible_scores:
+            if selected_id is None:
                 warnings.append(
                     f"No feasible greedy candidate found for project {project.id}."
                 )
                 break
 
-            selected_score = sorted(
-                feasible_scores,
-                key=lambda score: (-score.total_score, score.candidate_id),
-            )[0]
-
-            selected_candidate = candidates_by_id[selected_score.candidate_id]
-            teams[project.id].append(selected_candidate)
-            unassigned_ids.remove(selected_candidate.id)
+            teams[project.id].append(candidates_by_id[selected_id])
+            unassigned_ids.remove(selected_id)
 
     return _evaluate_teams(
         method="baseline_greedy_fit",
+        projects=projects,
+        teams=teams,
+        unassigned_ids=unassigned_ids,
+        score_lookup=score_lookup,
+        fairness_penalty=fairness_penalty,
+        warnings=warnings,
+    )
+
+
+def machado_k_rounds_assignment(
+    *,
+    candidates: list[Candidate],
+    projects: list[Project],
+    scores: list[CandidateProjectScore],
+    fairness_penalty: float = 0.25,
+) -> AllocationReport:
+    """Assign candidates using a Machado-inspired K-rounds baseline."""
+
+    candidates_by_id = {candidate.id: candidate for candidate in candidates}
+    score_lookup = _score_lookup(scores)
+
+    teams: dict[str, list[Candidate]] = {project.id: [] for project in projects}
+    unassigned_ids = set(candidates_by_id)
+    warnings: list[str] = []
+
+    if not projects:
+        return _evaluate_teams(
+            method="baseline_machado_k_rounds",
+            projects=projects,
+            teams=teams,
+            unassigned_ids=unassigned_ids,
+            score_lookup=score_lookup,
+            fairness_penalty=fairness_penalty,
+            warnings=["No projects available for Machado K-rounds assignment."],
+        )
+
+    max_rounds = max(project.target_team_size for project in projects)
+
+    for round_index in range(max_rounds):
+        for project in projects:
+            if len(teams[project.id]) >= project.target_team_size:
+                continue
+
+            selected_id = _best_direct_fit_candidate_id(
+                project=project,
+                unassigned_ids=unassigned_ids,
+                score_lookup=score_lookup,
+            )
+
+            if selected_id is None:
+                warnings.append(
+                    f"No feasible Machado K-rounds candidate found for project "
+                    f"{project.id} in round {round_index + 1}."
+                )
+                continue
+
+            teams[project.id].append(candidates_by_id[selected_id])
+            unassigned_ids.remove(selected_id)
+
+    return _evaluate_teams(
+        method="baseline_machado_k_rounds",
         projects=projects,
         teams=teams,
         unassigned_ids=unassigned_ids,
@@ -275,11 +354,11 @@ def balanced_greedy_assignment(
     scores: list[CandidateProjectScore],
     fairness_penalty: float = 0.25,
 ) -> AllocationReport:
-    """Assign candidates greedily in rounds across projects.
+    """Assign candidates greedily in rotated rounds across projects.
 
     This baseline is stronger than pure greedy fit because it distributes picks
-    across projects. It still does not use marginal contribution to the current
-    team. Tests whether marginal contribution adds value beyond round-based balancing.
+    across projects and rotates project order each round. Tests whether
+    marginal contribution adds value beyond simple round-based balancing.
     """
 
     candidates_by_id = {candidate.id: candidate for candidate in candidates}
@@ -310,28 +389,21 @@ def balanced_greedy_assignment(
             if len(teams[project.id]) >= project.target_team_size:
                 continue
 
-            feasible_scores = [
-                score_lookup[(candidate_id, project.id)]
-                for candidate_id in unassigned_ids
-                if (candidate_id, project.id) in score_lookup
-                and score_lookup[(candidate_id, project.id)].feasible
-            ]
+            selected_id = _best_direct_fit_candidate_id(
+                project=project,
+                unassigned_ids=unassigned_ids,
+                score_lookup=score_lookup,
+            )
 
-            if not feasible_scores:
+            if selected_id is None:
                 warnings.append(
                     f"No feasible balanced-greedy candidate found for project "
                     f"{project.id} in round {round_index + 1}."
                 )
                 continue
 
-            selected_score = sorted(
-                feasible_scores,
-                key=lambda score: (-score.total_score, score.candidate_id),
-            )[0]
-
-            selected_candidate = candidates_by_id[selected_score.candidate_id]
-            teams[project.id].append(selected_candidate)
-            unassigned_ids.remove(selected_candidate.id)
+            teams[project.id].append(candidates_by_id[selected_id])
+            unassigned_ids.remove(selected_id)
 
     return _evaluate_teams(
         method="baseline_balanced_greedy",
@@ -380,6 +452,12 @@ def run_baseline_comparisons(
             random_seed=random_seed,
         ),
         greedy_fit_assignment(
+            candidates=candidates,
+            projects=projects,
+            scores=scores,
+            fairness_penalty=fairness_penalty,
+        ),
+        machado_k_rounds_assignment(
             candidates=candidates,
             projects=projects,
             scores=scores,

@@ -32,6 +32,7 @@ import pandas as pd
 
 METHOD_DISPLAY_NAMES = {
     "round_based_marginal_contribution_with_local_improvement": "thesis_algorithm",
+    "baseline_machado_k_rounds": "machado_k_rounds",
     "baseline_random_constrained": "random",
     "baseline_greedy_fit": "greedy_fit",
     "baseline_balanced_greedy": "balanced_greedy",
@@ -39,6 +40,7 @@ METHOD_DISPLAY_NAMES = {
 
 DISPLAY_METHOD_ORDER = [
     "thesis_algorithm",
+    "machado_k_rounds",
     "random",
     "greedy_fit",
     "balanced_greedy",
