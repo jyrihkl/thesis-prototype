@@ -1,0 +1,219 @@
+{
+  "run_id": "participants_120-projects_a-weights_default",
+  "participants_path": "data/processed/participants/candidates_120.csv",
+  "projects_path": "data/projects_set_a.json",
+  "participant_count": 120,
+  "project_count": 4,
+  "project_titles": [
+    "AI Study Assistant",
+    "Sustainable Campus Mobile App",
+    "Course Analytics Dashboard",
+    "Hackathon Team Platform"
+  ],
+  "required_slots": 16,
+  "available_candidates": 120,
+  "validation": {
+    "passed": 8,
+    "warnings": 0,
+    "failures": 0,
+    "checks": [
+      {
+        "name": "candidate_count",
+        "status": "pass",
+        "message": "120 candidate(s) available."
+      },
+      {
+        "name": "project_count",
+        "status": "pass",
+        "message": "4 project brief(s) available."
+      },
+      {
+        "name": "candidate_ids_unique",
+        "status": "pass",
+        "message": "Candidate IDs are unique."
+      },
+      {
+        "name": "project_ids_unique",
+        "status": "pass",
+        "message": "Project IDs are unique."
+      },
+      {
+        "name": "project_team_sizes_positive",
+        "status": "pass",
+        "message": "All project team sizes are positive."
+      },
+      {
+        "name": "candidate_capacity",
+        "status": "pass",
+        "message": "16 project slot(s) required and 120 candidate(s) available."
+      },
+      {
+        "name": "project_required_skills_present",
+        "status": "pass",
+        "message": "All projects define at least one required skill."
+      },
+      {
+        "name": "candidate_skills_present",
+        "status": "pass",
+        "message": "All candidates have at least one extracted skill."
+      }
+    ]
+  },
+  "scoring": {
+    "total_pairs": 480,
+    "feasible_pairs": 480,
+    "weights": {
+      "required_skills": 0.4,
+      "preferred_skills": 0.2,
+      "role": 0.2,
+      "experience": 0.1,
+      "language": 0.05,
+      "interests": 0.05
+    },
+    "project_summaries": [
+      {
+        "project_id": "A1",
+        "project_title": "AI Study Assistant",
+        "scored_candidates": 120,
+        "feasible_candidates": 120,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.28210526315789475,
+        "max_score": 0.6789473684210526,
+        "top_candidate_ids": [
+          "5ad8402b-5445-56c3-ac3f-4e1aee3ce489",
+          "a97ac400-2055-5d89-a8aa-8684f345eb9b",
+          "f1f7e887-caa3-52a0-9e3b-49c690ea00a9"
+        ]
+      },
+      {
+        "project_id": "A2",
+        "project_title": "Sustainable Campus Mobile App",
+        "scored_candidates": 120,
+        "feasible_candidates": 120,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.2825438596491228,
+        "max_score": 0.6578947368421053,
+        "top_candidate_ids": [
+          "f1f7e887-caa3-52a0-9e3b-49c690ea00a9",
+          "47412c50-3715-5c57-b348-3b04013a86af",
+          "576771cd-94f6-5a12-81b8-798165216c0f"
+        ]
+      },
+      {
+        "project_id": "A3",
+        "project_title": "Course Analytics Dashboard",
+        "scored_candidates": 120,
+        "feasible_candidates": 120,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.2693859649122807,
+        "max_score": 0.6736842105263158,
+        "top_candidate_ids": [
+          "5bf53026-b5dc-5e6e-a2b7-90377fff9ecb",
+          "06f30731-246e-5bd3-bb83-d0dfa1cb4f2b",
+          "f1f7e887-caa3-52a0-9e3b-49c690ea00a9"
+        ]
+      },
+      {
+        "project_id": "A4",
+        "project_title": "Hackathon Team Platform",
+        "scored_candidates": 120,
+        "feasible_candidates": 120,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.27596491228070175,
+        "max_score": 0.7842105263157896,
+        "top_candidate_ids": [
+          "576771cd-94f6-5a12-81b8-798165216c0f",
+          "1226f57a-c089-5670-836c-668938704c00",
+          "42e8e874-e7d8-50d9-a5e0-3b6095e1f507"
+        ]
+      }
+    ]
+  },
+  "main_allocation": {
+    "method": "round_based_marginal_contribution_with_local_improvement",
+    "feasible": true,
+    "objective_score": 3.406864128451368,
+    "fairness_deviation": 0.1240883231749671,
+    "min_team_score": 0.8002673924695294,
+    "mean_team_score": 0.8594715523112774,
+    "max_team_score": 0.9243557156444965,
+    "local_improvement_gain": 0.14904883619440357,
+    "accepted_swaps": 2,
+    "accepted_replacements": 8
+  },
+  "baseline_comparison": {
+    "best_by_objective": "round_based_marginal_contribution_with_local_improvement",
+    "best_by_min_team_score": "round_based_marginal_contribution_with_local_improvement",
+    "best_by_fairness": "baseline_machado_k_rounds",
+    "method_summaries": [
+      {
+        "method": "round_based_marginal_contribution_with_local_improvement",
+        "feasible": true,
+        "objective_score": 3.406864128451368,
+        "mean_team_score": 0.8594715523112774,
+        "min_team_score": 0.8002673924695294,
+        "max_team_score": 0.9243557156444965,
+        "fairness_deviation": 0.1240883231749671,
+        "assigned_count": 16,
+        "required_slots": 16
+      },
+      {
+        "method": "baseline_random_constrained",
+        "feasible": true,
+        "objective_score": 1.4055748374354091,
+        "mean_team_score": 0.36844115662988247,
+        "min_team_score": 0.24809599223123627,
+        "max_team_score": 0.5208551485677195,
+        "fairness_deviation": 0.2727591563364833,
+        "assigned_count": 16,
+        "required_slots": 16
+      },
+      {
+        "method": "baseline_greedy_fit",
+        "feasible": true,
+        "objective_score": 2.7588436585543734,
+        "mean_team_score": 0.6970738076854102,
+        "min_team_score": 0.6292631248606767,
+        "max_team_score": 0.7470694136097454,
+        "fairness_deviation": 0.11780628874906873,
+        "assigned_count": 16,
+        "required_slots": 16
+      },
+      {
+        "method": "baseline_machado_k_rounds",
+        "feasible": true,
+        "objective_score": 2.4213690113868434,
+        "mean_team_score": 0.6102561489352534,
+        "min_team_score": 0.5736227547718582,
+        "max_team_score": 0.6522450921885391,
+        "fairness_deviation": 0.0786223374166809,
+        "assigned_count": 16,
+        "required_slots": 16
+      },
+      {
+        "method": "baseline_balanced_greedy",
+        "feasible": true,
+        "objective_score": 2.4213690113868434,
+        "mean_team_score": 0.6102561489352534,
+        "min_team_score": 0.5736227547718582,
+        "max_team_score": 0.6522450921885391,
+        "fairness_deviation": 0.0786223374166809,
+        "assigned_count": 16,
+        "required_slots": 16
+      }
+    ]
+  },
+  "timing": {
+    "stages": {
+      "resolve_input_paths": 1.5318999885494122e-05,
+      "load_inputs": 0.0024627090001558827,
+      "normalize_inputs": 0.008627360999980738,
+      "validate_inputs": 3.305000018372084e-05,
+      "score_candidate_project_pairs": 0.0022762909998164105,
+      "allocate_and_improve": 4.480165415000101,
+      "compare_baselines": 0.003830031999768835,
+      "total_runtime_seconds": 4.497410176999892
+    },
+    "total_runtime_seconds": 4.497410176999892
+  }
+}

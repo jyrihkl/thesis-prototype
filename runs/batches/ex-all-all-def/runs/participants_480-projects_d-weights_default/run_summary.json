@@ -1,0 +1,249 @@
+{
+  "run_id": "participants_480-projects_d-weights_default",
+  "participants_path": "data/processed/participants/candidates_480.csv",
+  "projects_path": "data/projects_set_d.json",
+  "participant_count": 480,
+  "project_count": 6,
+  "project_titles": [
+    "Research Data Cleaning Pipeline",
+    "Cloud Deployment Template",
+    "Phishing Awareness Training App",
+    "Automated Regression Test Suite",
+    "Internal Knowledge Search Prototype",
+    "Incident Review Visualization"
+  ],
+  "required_slots": 24,
+  "available_candidates": 480,
+  "validation": {
+    "passed": 8,
+    "warnings": 0,
+    "failures": 0,
+    "checks": [
+      {
+        "name": "candidate_count",
+        "status": "pass",
+        "message": "480 candidate(s) available."
+      },
+      {
+        "name": "project_count",
+        "status": "pass",
+        "message": "6 project brief(s) available."
+      },
+      {
+        "name": "candidate_ids_unique",
+        "status": "pass",
+        "message": "Candidate IDs are unique."
+      },
+      {
+        "name": "project_ids_unique",
+        "status": "pass",
+        "message": "Project IDs are unique."
+      },
+      {
+        "name": "project_team_sizes_positive",
+        "status": "pass",
+        "message": "All project team sizes are positive."
+      },
+      {
+        "name": "candidate_capacity",
+        "status": "pass",
+        "message": "24 project slot(s) required and 480 candidate(s) available."
+      },
+      {
+        "name": "project_required_skills_present",
+        "status": "pass",
+        "message": "All projects define at least one required skill."
+      },
+      {
+        "name": "candidate_skills_present",
+        "status": "pass",
+        "message": "All candidates have at least one extracted skill."
+      }
+    ]
+  },
+  "scoring": {
+    "total_pairs": 2880,
+    "feasible_pairs": 2880,
+    "weights": {
+      "required_skills": 0.4,
+      "preferred_skills": 0.2,
+      "role": 0.2,
+      "experience": 0.1,
+      "language": 0.05,
+      "interests": 0.05
+    },
+    "project_summaries": [
+      {
+        "project_id": "D1",
+        "project_title": "Research Data Cleaning Pipeline",
+        "scored_candidates": 480,
+        "feasible_candidates": 480,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.2400548245614035,
+        "max_score": 0.7157894736842106,
+        "top_candidate_ids": [
+          "6c0ecb0c-80da-54e3-b2c2-2775265ac279",
+          "52d18036-335f-5466-b194-854f14bd9856",
+          "394ab308-64a6-513b-8dc4-6cf6c8cb9182"
+        ]
+      },
+      {
+        "project_id": "D2",
+        "project_title": "Cloud Deployment Template",
+        "scored_candidates": 480,
+        "feasible_candidates": 480,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.24619517543859648,
+        "max_score": 0.9421052631578947,
+        "top_candidate_ids": [
+          "9fe0583d-defd-5205-9110-86bfa49e0a49",
+          "6eb79ea1-6404-541a-8cb3-b6720500ef45",
+          "85a5822c-5986-5be1-8ba7-a0f6476e7155"
+        ]
+      },
+      {
+        "project_id": "D3",
+        "project_title": "Phishing Awareness Training App",
+        "scored_candidates": 480,
+        "feasible_candidates": 480,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.2947697368421052,
+        "max_score": 0.6210526315789474,
+        "top_candidate_ids": [
+          "426de18f-7023-5219-b771-892748811b4d",
+          "ca611b6d-940b-58a1-8486-d4bae307ab60",
+          "169ccb87-826f-5c69-a872-02bcbddd3814"
+        ]
+      },
+      {
+        "project_id": "D4",
+        "project_title": "Automated Regression Test Suite",
+        "scored_candidates": 480,
+        "feasible_candidates": 480,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.29356359649122804,
+        "max_score": 0.8736842105263158,
+        "top_candidate_ids": [
+          "4b72daa2-6c6c-5e1b-a3e7-ee5a5d9c0b5a",
+          "3c5ff46a-2c49-58e6-96ba-2b49852eb3e9",
+          "f8044c41-f550-5676-b16b-6af3eb31b6cb"
+        ]
+      },
+      {
+        "project_id": "D5",
+        "project_title": "Internal Knowledge Search Prototype",
+        "scored_candidates": 480,
+        "feasible_candidates": 480,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.27908991228070174,
+        "max_score": 0.7315789473684211,
+        "top_candidate_ids": [
+          "a466a0a7-73fb-5d90-8c42-bf0897693f59",
+          "bb563ae5-8c21-5caa-ae2a-782d896811b3",
+          "bdbcfdcd-2b33-57cd-9340-13ec56b90073"
+        ]
+      },
+      {
+        "project_id": "D6",
+        "project_title": "Incident Review Visualization",
+        "scored_candidates": 480,
+        "feasible_candidates": 480,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.29345394736842106,
+        "max_score": 0.6631578947368422,
+        "top_candidate_ids": [
+          "c2a5de6d-cd73-5774-af97-b9c1b4e4b345",
+          "c23f0dd4-fe9e-5fd6-b556-a2f051dab6db",
+          "169ccb87-826f-5c69-a872-02bcbddd3814"
+        ]
+      }
+    ]
+  },
+  "main_allocation": {
+    "method": "round_based_marginal_contribution_with_local_improvement",
+    "feasible": true,
+    "objective_score": 5.124439657072862,
+    "fairness_deviation": 0.1764031785799467,
+    "min_team_score": 0.7682587466293469,
+    "mean_team_score": 0.8614234086196414,
+    "max_team_score": 0.9446619252092936,
+    "local_improvement_gain": 0.042331758038932854,
+    "accepted_swaps": 0,
+    "accepted_replacements": 13
+  },
+  "baseline_comparison": {
+    "best_by_objective": "round_based_marginal_contribution_with_local_improvement",
+    "best_by_min_team_score": "round_based_marginal_contribution_with_local_improvement",
+    "best_by_fairness": "baseline_machado_k_rounds",
+    "method_summaries": [
+      {
+        "method": "round_based_marginal_contribution_with_local_improvement",
+        "feasible": true,
+        "objective_score": 5.124439657072862,
+        "mean_team_score": 0.8614234086196414,
+        "min_team_score": 0.7682587466293469,
+        "max_team_score": 0.9446619252092936,
+        "fairness_deviation": 0.1764031785799467,
+        "assigned_count": 24,
+        "required_slots": 24
+      },
+      {
+        "method": "baseline_random_constrained",
+        "feasible": true,
+        "objective_score": 1.9373269434291291,
+        "mean_team_score": 0.34223843544290405,
+        "min_team_score": 0.15905544068851582,
+        "max_team_score": 0.6234701176016966,
+        "fairness_deviation": 0.4644146769131807,
+        "assigned_count": 24,
+        "required_slots": 24
+      },
+      {
+        "method": "baseline_greedy_fit",
+        "feasible": true,
+        "objective_score": 4.209412466955872,
+        "mean_team_score": 0.7091955763951078,
+        "min_team_score": 0.646967132161211,
+        "max_team_score": 0.8300110978203082,
+        "fairness_deviation": 0.1830439656590972,
+        "assigned_count": 24,
+        "required_slots": 24
+      },
+      {
+        "method": "baseline_machado_k_rounds",
+        "feasible": true,
+        "objective_score": 4.117457880507679,
+        "mean_team_score": 0.6917770390073004,
+        "min_team_score": 0.6448409028436289,
+        "max_team_score": 0.7776583169881226,
+        "fairness_deviation": 0.13281741414449366,
+        "assigned_count": 24,
+        "required_slots": 24
+      },
+      {
+        "method": "baseline_balanced_greedy",
+        "feasible": true,
+        "objective_score": 4.117457880507679,
+        "mean_team_score": 0.6917770390073004,
+        "min_team_score": 0.6448409028436289,
+        "max_team_score": 0.7776583169881226,
+        "fairness_deviation": 0.13281741414449366,
+        "assigned_count": 24,
+        "required_slots": 24
+      }
+    ]
+  },
+  "timing": {
+    "stages": {
+      "resolve_input_paths": 1.7110000044340268e-05,
+      "load_inputs": 0.0030579209997085854,
+      "normalize_inputs": 0.034710162000010314,
+      "validate_inputs": 0.000280787000519922,
+      "score_candidate_project_pairs": 0.013006936000238056,
+      "allocate_and_improve": 55.19903940599943,
+      "compare_baselines": 0.020142356000178552,
+      "total_runtime_seconds": 55.27025467800013
+    },
+    "total_runtime_seconds": 55.27025467800013
+  }
+}

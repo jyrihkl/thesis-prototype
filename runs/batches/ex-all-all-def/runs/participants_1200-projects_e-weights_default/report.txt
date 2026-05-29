@@ -1,0 +1,212 @@
+
+Team formation prototype pipeline
+========================================
+Participants file:     data/processed/participants/candidates_1200.csv
+Projects file:         data/projects_set_e.json
+Participants read:     1200
+Projects read:         8
+Required team slots:   34
+Available candidates:  1200
+
+Projects:
+  - AI Meeting Notes Assistant
+  - Learning Progress Tracker
+  - Smart Scheduling Optimizer
+  - Accessibility Remediation Portal
+  - Campus Energy Usage Visualizer
+  - Prototype Deployment Hub
+  - Peer Review Workflow Tool
+  - Lightweight Chatbot FAQ
+
+Validation
+----------------------------------------
+Summary: 8 passed, 0 warning(s), 0 failure(s)
+  [OK] candidate_count: 1200 candidate(s) available.
+  [OK] project_count: 8 project brief(s) available.
+  [OK] candidate_ids_unique: Candidate IDs are unique.
+  [OK] project_ids_unique: Project IDs are unique.
+  [OK] project_team_sizes_positive: All project team sizes are positive.
+  [OK] candidate_capacity: 34 project slot(s) required and 1200 candidate(s) available.
+  [OK] project_required_skills_present: All projects define at least one required skill.
+  [OK] candidate_skills_present: All candidates have at least one extracted skill.
+
+Candidate-to-project scoring
+----------------------------------------
+Total pairs scored:   9600
+Feasible pairs:       9600
+Weights:
+  - required_skills: 0.40
+  - preferred_skills: 0.20
+  - role: 0.20
+  - experience: 0.10
+  - language: 0.05
+  - interests: 0.05
+
+Project score summaries:
+  - E1 | AI Meeting Notes Assistant
+    candidates: 1200, feasible: 1200, min/mean/max: 0.079 / 0.281 / 0.784
+    top candidates: a466a0a7-73fb-5d90-8c42-bf0897693f59, 75c05e76-3309-5915-9420-ea57efb75990, ee3c569f-6bd2-5db2-af0f-7704f3c24aa9
+  - E2 | Learning Progress Tracker
+    candidates: 1200, feasible: 1200, min/mean/max: 0.079 / 0.273 / 0.674
+    top candidates: 75c05e76-3309-5915-9420-ea57efb75990, dc651e2d-e722-5ff6-9110-cf96d0c9a049, c2a5de6d-cd73-5774-af97-b9c1b4e4b345
+  - E3 | Smart Scheduling Optimizer
+    candidates: 1200, feasible: 1200, min/mean/max: 0.079 / 0.283 / 0.779
+    top candidates: 75c05e76-3309-5915-9420-ea57efb75990, 169ccb87-826f-5c69-a872-02bcbddd3814, 52d18036-335f-5466-b194-854f14bd9856
+  - E4 | Accessibility Remediation Portal
+    candidates: 1200, feasible: 1200, min/mean/max: 0.079 / 0.277 / 0.663
+    top candidates: dc651e2d-e722-5ff6-9110-cf96d0c9a049, a94201bf-10f4-51ad-92b7-0b5749bc791a, 89349e8b-40ad-5a15-ad06-f7c55ca7297a
+  - E5 | Campus Energy Usage Visualizer
+    candidates: 1200, feasible: 1200, min/mean/max: 0.079 / 0.274 / 0.726
+    top candidates: 75c05e76-3309-5915-9420-ea57efb75990, 169ccb87-826f-5c69-a872-02bcbddd3814, 6c0ecb0c-80da-54e3-b2c2-2775265ac279
+  - E6 | Prototype Deployment Hub
+    candidates: 1200, feasible: 1200, min/mean/max: 0.079 / 0.279 / 0.837
+    top candidates: 9fe0583d-defd-5205-9110-86bfa49e0a49, 6eb79ea1-6404-541a-8cb3-b6720500ef45, 84548677-9910-5604-9523-56f8ce3b0b49
+  - E7 | Peer Review Workflow Tool
+    candidates: 1200, feasible: 1200, min/mean/max: 0.079 / 0.302 / 0.732
+    top candidates: def3f497-b328-58ff-980e-a7cabd8bbe40, e09a359e-90ab-5d27-a0ab-2c93de39d91c, 19ab63e1-3c00-5d4f-a85c-77900ecb267d
+  - E8 | Lightweight Chatbot FAQ
+    candidates: 1200, feasible: 1200, min/mean/max: 0.079 / 0.279 / 0.779
+    top candidates: 75c05e76-3309-5915-9420-ea57efb75990, 8694113e-7847-55b3-b87a-cfb9d3d70fab, a466a0a7-73fb-5d90-8c42-bf0897693f59
+
+Round-based allocation
+----------------------------------------
+Method:              round_based_marginal_contribution_with_local_improvement
+Feasible allocation: yes
+Assigned candidates: 34 / 34
+Unassigned pool:     1166
+Objective score:     6.786
+Fairness deviation:  0.142
+Team score min/mean/max: 0.779 / 0.853 / 0.920
+
+Local improvement
+----------------------------------------
+Objective before/after: 6.609 / 6.786
+Improvement gain:       0.177
+Accepted swaps:         0
+Accepted replacements:  26
+Evaluated swaps:        13554
+Evaluated replacements: 1070388
+Iterations:             27
+Stop reason:            no_improving_move_found
+
+Accepted moves:
+  - iteration 1: replacement, gain=0.037 | Replaced candidate 74e4cdfd-bdd2-5433-84d0-a060014e4389 with unassigned candidate bb563ae5-8c21-5caa-ae2a-782d896811b3 in project E3.
+  - iteration 2: replacement, gain=0.032 | Replaced candidate c4a2e646-0319-56eb-98c4-67395baf2e19 with unassigned candidate 83e966ee-c07f-5e2f-9543-3a2f13c41ae6 in project E4.
+  - iteration 3: replacement, gain=0.009 | Replaced candidate 138b87b4-ca0a-5f4c-8d5b-3f8e7ad401bd with unassigned candidate 2b752130-5291-5bc0-a2e1-c1507b5befe8 in project E1.
+  - iteration 4: replacement, gain=0.007 | Replaced candidate ca611b6d-940b-58a1-8486-d4bae307ab60 with unassigned candidate 59f0f7e9-58e7-5898-b097-447a8a5eb307 in project E6.
+  - iteration 5: replacement, gain=0.010 | Replaced candidate 4fe6e7c3-aa20-5c55-b71d-43cdd80fb2f8 with unassigned candidate 20d61061-e0d1-515c-b5d6-8e6b81d4d998 in project E6.
+  - iteration 6: replacement, gain=0.007 | Replaced candidate 7872a4f4-e9c9-5884-9c4d-07f27becb320 with unassigned candidate a1cb033a-7f47-56e1-8763-1f061da70345 in project E7.
+  - iteration 7: replacement, gain=0.006 | Replaced candidate df7ff1ef-0970-55a9-bcac-d3fdf2cb02ea with unassigned candidate 37f52e4c-8aff-56d7-9987-548a2c30c768 in project E5.
+  - iteration 8: replacement, gain=0.005 | Replaced candidate 5e471ca1-5850-5772-885a-fbad4fad87d9 with unassigned candidate 96862c7e-cc9d-58b1-9172-ac7189deac18 in project E7.
+  - iteration 9: replacement, gain=0.005 | Replaced candidate def3f497-b328-58ff-980e-a7cabd8bbe40 with unassigned candidate c211fa74-a83f-55ec-bc9e-f0124fa7a553 in project E7.
+  - iteration 10: replacement, gain=0.005 | Replaced candidate 59f0f7e9-58e7-5898-b097-447a8a5eb307 with unassigned candidate 11baaf98-0672-57f6-9ac9-7c1e71b8c129 in project E6.
+  - iteration 11: replacement, gain=0.005 | Replaced candidate 20d61061-e0d1-515c-b5d6-8e6b81d4d998 with unassigned candidate 1528a929-e37e-50ec-9e2e-478d82ae8e94 in project E6.
+  - iteration 12: replacement, gain=0.004 | Replaced candidate f1f7e887-caa3-52a0-9e3b-49c690ea00a9 with unassigned candidate a7a531bf-255f-5c1b-adaa-fa479f105822 in project E5.
+  - iteration 13: replacement, gain=0.003 | Replaced candidate dc651e2d-e722-5ff6-9110-cf96d0c9a049 with unassigned candidate a94201bf-10f4-51ad-92b7-0b5749bc791a in project E4.
+  - iteration 14: replacement, gain=0.027 | Replaced candidate 19ab63e1-3c00-5d4f-a85c-77900ecb267d with unassigned candidate c3ddcbed-0734-53c2-b599-1716e983a2ab in project E4.
+  - iteration 15: replacement, gain=0.003 | Replaced candidate a64be470-f0c7-5bcb-b7e9-f9ae70cf8e9a with unassigned candidate 3e3ab7d3-e498-57e2-be7a-36174199e687 in project E3.
+  - iteration 16: replacement, gain=0.002 | Replaced candidate 255f133b-e06b-53ed-9eff-5b837024ce95 with unassigned candidate 1ead2dba-8c5a-508d-93c3-04d72377b12c in project E2.
+  - iteration 17: replacement, gain=0.001 | Replaced candidate 9e72aae6-b328-5dc4-98fd-208cb5a911d3 with unassigned candidate 29b1fe3f-8c1f-54dd-a7ce-05a3f0d5ba39 in project E7.
+  - iteration 18: replacement, gain=0.001 | Replaced candidate 33cf61e4-5efe-5f65-92d7-7f06eb639433 with unassigned candidate bdbcfdcd-2b33-57cd-9340-13ec56b90073 in project E8.
+  - iteration 19: replacement, gain=0.004 | Replaced candidate 8694113e-7847-55b3-b87a-cfb9d3d70fab with unassigned candidate 6aec3f66-a547-5ad8-80e1-85bc95e0e085 in project E8.
+  - iteration 20: replacement, gain=0.001 | Replaced candidate c5d6c872-9ea6-5f18-98f6-cf9c51d81479 with unassigned candidate b4d56fb2-9b81-505d-a9e8-cdd30da4ea9f in project E5.
+  - iteration 21: replacement, gain=0.002 | Replaced candidate 85ca7da3-778c-563f-8fdc-2c519bcdc85d with unassigned candidate cb5b0f45-6110-5508-a26e-7b06f3a40723 in project E5.
+  - iteration 22: replacement, gain=0.001 | Replaced candidate 12440e6d-435d-5fb9-9776-b11a170aacf5 with unassigned candidate c4a2e646-0319-56eb-98c4-67395baf2e19 in project E3.
+  - iteration 23: replacement, gain=0.001 | Replaced candidate b4d56fb2-9b81-505d-a9e8-cdd30da4ea9f with unassigned candidate 8298c250-906b-5b8c-bbbd-5dcd76aa2244 in project E5.
+  - iteration 24: replacement, gain=0.000 | Replaced candidate 5bc771e4-bc78-5a86-ba0c-ccfb48bf2a88 with unassigned candidate ecc2457b-1a0a-577b-b1ba-f399518dd201 in project E2.
+  - iteration 25: replacement, gain=0.000 | Replaced candidate efd993cd-3f3c-5ef4-ad2a-6e2037c79209 with unassigned candidate 3a3986d2-c16f-5ab1-8c71-00e2d2720e80 in project E7.
+  - iteration 26: replacement, gain=0.000 | Replaced candidate 29b1fe3f-8c1f-54dd-a7ce-05a3f0d5ba39 with unassigned candidate 4516ba4e-b2e1-58f0-88d4-0829638d07ae in project E7.
+
+Teams:
+  - E1 | AI Meeting Notes Assistant
+    members: 4 / 4 | score: 0.920
+    member IDs: a466a0a7-73fb-5d90-8c42-bf0897693f59, 02d84394-5cd3-5cf8-81de-f7ba9cedd59a, 10549ee7-f9ee-5a14-822b-3b6f0cf2a37e, 2b752130-5291-5bc0-a2e1-c1507b5befe8
+    components: required_skill_coverage=1.000, preferred_skill_coverage=0.750, role_balance=1.000, experience_balance=1.000, average_individual_fit=0.613, redundancy_score=0.932
+    covered required skills: api, nlp, python, react
+    missing required skills: none
+    covered preferred skills: docker, postgresql, ui/ux
+    role families: backend, design ux, frontend, machine learning
+  - E2 | Learning Progress Tracker
+    members: 4 / 4 | score: 0.788
+    member IDs: 75c05e76-3309-5915-9420-ea57efb75990, 1ead2dba-8c5a-508d-93c3-04d72377b12c, ecc2457b-1a0a-577b-b1ba-f399518dd201, 65d5a2c3-d91e-57cd-869c-2bf997e8673d
+    components: required_skill_coverage=0.750, preferred_skill_coverage=0.500, role_balance=1.000, experience_balance=1.000, average_individual_fit=0.542, redundancy_score=0.920
+    covered required skills: react, sql, ui/ux
+    missing required skills: data visualization
+    covered preferred skills: postgresql, project management
+    role families: data analytics, design ux, frontend, product project
+  - E3 | Smart Scheduling Optimizer
+    members: 5 / 5 | score: 0.856
+    member IDs: 169ccb87-826f-5c69-a872-02bcbddd3814, 30357ca7-4390-58cc-937e-e5b3c651d9ed, 3e3ab7d3-e498-57e2-be7a-36174199e687, c4a2e646-0319-56eb-98c4-67395baf2e19, bb563ae5-8c21-5caa-ae2a-782d896811b3
+    components: required_skill_coverage=0.750, preferred_skill_coverage=1.000, role_balance=1.000, experience_balance=0.933, average_individual_fit=0.589, redundancy_score=0.894
+    covered required skills: api, python, sql
+    missing required skills: optimization
+    covered preferred skills: docker, fastapi, pandas, react
+    role families: backend, data analytics, frontend, machine learning, product project
+  - E4 | Accessibility Remediation Portal
+    members: 3 / 3 | score: 0.779
+    member IDs: a94201bf-10f4-51ad-92b7-0b5749bc791a, 83e966ee-c07f-5e2f-9543-3a2f13c41ae6, c3ddcbed-0734-53c2-b599-1716e983a2ab
+    components: required_skill_coverage=0.750, preferred_skill_coverage=0.750, role_balance=0.750, experience_balance=1.000, average_individual_fit=0.556, redundancy_score=0.961
+    covered required skills: qa, react, ui/ux
+    missing required skills: accessibility
+    covered preferred skills: playwright, project management, typescript
+    role families: frontend, product project, qa testing
+  - E5 | Campus Energy Usage Visualizer
+    members: 5 / 5 | score: 0.818
+    member IDs: a7a531bf-255f-5c1b-adaa-fa479f105822, 8298c250-906b-5b8c-bbbd-5dcd76aa2244, 04cc3150-4317-5e7f-a34c-7430c1da99d5, cb5b0f45-6110-5508-a26e-7b06f3a40723, 37f52e4c-8aff-56d7-9987-548a2c30c768
+    components: required_skill_coverage=0.750, preferred_skill_coverage=0.750, role_balance=1.000, experience_balance=1.000, average_individual_fit=0.458, redundancy_score=0.939
+    covered required skills: python, react, sql
+    missing required skills: data visualization
+    covered preferred skills: pandas, postgresql, ui/ux
+    role families: backend, data analytics, design ux, frontend, machine learning
+  - E6 | Prototype Deployment Hub
+    members: 4 / 4 | score: 0.918
+    member IDs: 394ab308-64a6-513b-8dc4-6cf6c8cb9182, 2c54efa4-df1b-5f97-970a-04540398de67, 11baaf98-0672-57f6-9ac9-7c1e71b8c129, 1528a929-e37e-50ec-9e2e-478d82ae8e94
+    components: required_skill_coverage=1.000, preferred_skill_coverage=0.750, role_balance=1.000, experience_balance=1.000, average_individual_fit=0.584, redundancy_score=0.934
+    covered required skills: api, ci/cd, docker, linux
+    missing required skills: none
+    covered preferred skills: aws, kubernetes, python
+    role families: backend, devops cloud, product project, qa testing
+  - E7 | Peer Review Workflow Tool
+    members: 6 / 6 | score: 0.912
+    member IDs: c211fa74-a83f-55ec-bc9e-f0124fa7a553, 9f0ece44-b3cc-5caa-b9be-3c22562471e3, a1cb033a-7f47-56e1-8763-1f061da70345, 4516ba4e-b2e1-58f0-88d4-0829638d07ae, 3a3986d2-c16f-5ab1-8c71-00e2d2720e80, 96862c7e-cc9d-58b1-9172-ac7189deac18
+    components: required_skill_coverage=1.000, preferred_skill_coverage=0.750, role_balance=1.000, experience_balance=1.000, average_individual_fit=0.530, redundancy_score=0.923
+    covered required skills: node.js, postgresql, project management, react
+    missing required skills: none
+    covered preferred skills: qa, typescript, ui/ux
+    role families: backend, design ux, frontend, product project, qa testing
+  - E8 | Lightweight Chatbot FAQ
+    members: 3 / 3 | score: 0.832
+    member IDs: 6aec3f66-a547-5ad8-80e1-85bc95e0e085, bdbcfdcd-2b33-57cd-9340-13ec56b90073, d19e3b33-ea7b-5ca0-bfb9-c8063805607e
+    components: required_skill_coverage=1.000, preferred_skill_coverage=0.500, role_balance=0.750, experience_balance=1.000, average_individual_fit=0.628, redundancy_score=0.877
+    covered required skills: api, nlp, python, ui/ux
+    missing required skills: none
+    covered preferred skills: docker, react
+    role families: backend, frontend, machine learning
+
+Baseline comparison
+----------------------------------------
+Main method:              round_based_marginal_contribution_with_local_improvement
+Best objective score:     round_based_marginal_contribution_with_local_improvement
+Best minimum team score:  round_based_marginal_contribution_with_local_improvement
+Best fairness deviation:  round_based_marginal_contribution_with_local_improvement
+
+Method summaries:
+  method | feasible | objective | mean team | min team | max team | fairness dev. | assigned
+  round_based_marginal_contribution_with_local_improvement | yes | 6.786 | 0.853 | 0.779 | 0.920 | 0.142 | 34/34
+  baseline_random_constrained | yes | 2.407 | 0.312 | 0.148 | 0.514 | 0.366 | 34/34
+  baseline_greedy_fit | yes | 5.089 | 0.644 | 0.510 | 0.751 | 0.241 | 34/34
+  baseline_machado_k_rounds | yes | 5.202 | 0.655 | 0.568 | 0.728 | 0.159 | 34/34
+  baseline_balanced_greedy | yes | 5.202 | 0.655 | 0.568 | 0.728 | 0.159 | 34/34
+
+Timing
+----------------------------------------
+  - resolve_input_paths: 0.0000s
+  - load_inputs: 0.0077s
+  - normalize_inputs: 0.0875s
+  - validate_inputs: 0.0003s
+  - score_candidate_project_pairs: 0.0457s
+  - allocate_and_improve: 525.9753s
+  - compare_baselines: 0.0795s
+  - total_runtime_seconds: 526.1959s
+
+Status: input loading, validation, scoring, allocation, local improvement, and baseline comparison completed successfully.

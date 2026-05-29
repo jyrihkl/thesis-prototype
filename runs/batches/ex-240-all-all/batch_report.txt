@@ -1,0 +1,17 @@
+Team formation batch evaluation
+========================================
+Batch ID:           ex-240-all-all
+Batch directory:    runs/batches/ex-240-all-all
+Participant sets:   240
+Project sets:       a, b, c, d, e
+Weight profiles:    balance_heavy, default, role_heavy, skill_heavy
+Runs:               20
+Feasible main runs: 20 / 20
+
+Outputs:
+  - batch_runs.csv
+  - batch_methods.csv
+  - batch_summary.json
+
+Best-by-objective counts:
+  - round_based_marginal_contribution_with_local_improvement: 20

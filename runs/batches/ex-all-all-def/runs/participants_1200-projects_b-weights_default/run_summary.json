@@ -1,0 +1,219 @@
+{
+  "run_id": "participants_1200-projects_b-weights_default",
+  "participants_path": "data/processed/participants/candidates_1200.csv",
+  "projects_path": "data/projects_set_b.json",
+  "participant_count": 1200,
+  "project_count": 4,
+  "project_titles": [
+    "Volunteer Matching Service",
+    "CV Skill Extraction Tool",
+    "Cloud Cost Monitoring Dashboard",
+    "Accessibility Testing Toolkit"
+  ],
+  "required_slots": 16,
+  "available_candidates": 1200,
+  "validation": {
+    "passed": 8,
+    "warnings": 0,
+    "failures": 0,
+    "checks": [
+      {
+        "name": "candidate_count",
+        "status": "pass",
+        "message": "1200 candidate(s) available."
+      },
+      {
+        "name": "project_count",
+        "status": "pass",
+        "message": "4 project brief(s) available."
+      },
+      {
+        "name": "candidate_ids_unique",
+        "status": "pass",
+        "message": "Candidate IDs are unique."
+      },
+      {
+        "name": "project_ids_unique",
+        "status": "pass",
+        "message": "Project IDs are unique."
+      },
+      {
+        "name": "project_team_sizes_positive",
+        "status": "pass",
+        "message": "All project team sizes are positive."
+      },
+      {
+        "name": "candidate_capacity",
+        "status": "pass",
+        "message": "16 project slot(s) required and 1200 candidate(s) available."
+      },
+      {
+        "name": "project_required_skills_present",
+        "status": "pass",
+        "message": "All projects define at least one required skill."
+      },
+      {
+        "name": "candidate_skills_present",
+        "status": "pass",
+        "message": "All candidates have at least one extracted skill."
+      }
+    ]
+  },
+  "scoring": {
+    "total_pairs": 4800,
+    "feasible_pairs": 4800,
+    "weights": {
+      "required_skills": 0.4,
+      "preferred_skills": 0.2,
+      "role": 0.2,
+      "experience": 0.1,
+      "language": 0.05,
+      "interests": 0.05
+    },
+    "project_summaries": [
+      {
+        "project_id": "B1",
+        "project_title": "Volunteer Matching Service",
+        "scored_candidates": 1200,
+        "feasible_candidates": 1200,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.28324122807017543,
+        "max_score": 0.7315789473684211,
+        "top_candidate_ids": [
+          "a466a0a7-73fb-5d90-8c42-bf0897693f59",
+          "9f0ece44-b3cc-5caa-b9be-3c22562471e3",
+          "fb1e7ad9-bdcf-5aa6-a60a-ea92bd1ce4e4"
+        ]
+      },
+      {
+        "project_id": "B2",
+        "project_title": "CV Skill Extraction Tool",
+        "scored_candidates": 1200,
+        "feasible_candidates": 1200,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.2555657894736842,
+        "max_score": 0.8210526315789476,
+        "top_candidate_ids": [
+          "bb563ae5-8c21-5caa-ae2a-782d896811b3",
+          "96db37b9-43ac-577f-9974-61aa7a759b5e",
+          "8694113e-7847-55b3-b87a-cfb9d3d70fab"
+        ]
+      },
+      {
+        "project_id": "B3",
+        "project_title": "Cloud Cost Monitoring Dashboard",
+        "scored_candidates": 1200,
+        "feasible_candidates": 1200,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.2792938596491228,
+        "max_score": 0.8368421052631579,
+        "top_candidate_ids": [
+          "4e298ad7-ee55-5c61-a60a-96ac938b97ba",
+          "9fe0583d-defd-5205-9110-86bfa49e0a49",
+          "85a5822c-5986-5be1-8ba7-a0f6476e7155"
+        ]
+      },
+      {
+        "project_id": "B4",
+        "project_title": "Accessibility Testing Toolkit",
+        "scored_candidates": 1200,
+        "feasible_candidates": 1200,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.29341666666666666,
+        "max_score": 0.7842105263157896,
+        "top_candidate_ids": [
+          "83e966ee-c07f-5e2f-9543-3a2f13c41ae6",
+          "dc651e2d-e722-5ff6-9110-cf96d0c9a049",
+          "b9c22114-3405-5a5f-b414-3a7077c7fd6f"
+        ]
+      }
+    ]
+  },
+  "main_allocation": {
+    "method": "round_based_marginal_contribution_with_local_improvement",
+    "feasible": true,
+    "objective_score": 3.7202661763333262,
+    "fairness_deviation": 0.042941096872266216,
+    "min_team_score": 0.9114051855003319,
+    "mean_team_score": 0.9327503626378482,
+    "max_team_score": 0.9543462823725981,
+    "local_improvement_gain": 0.04402327501185299,
+    "accepted_swaps": 0,
+    "accepted_replacements": 9
+  },
+  "baseline_comparison": {
+    "best_by_objective": "round_based_marginal_contribution_with_local_improvement",
+    "best_by_min_team_score": "round_based_marginal_contribution_with_local_improvement",
+    "best_by_fairness": "round_based_marginal_contribution_with_local_improvement",
+    "method_summaries": [
+      {
+        "method": "round_based_marginal_contribution_with_local_improvement",
+        "feasible": true,
+        "objective_score": 3.7202661763333262,
+        "mean_team_score": 0.9327503626378482,
+        "min_team_score": 0.9114051855003319,
+        "max_team_score": 0.9543462823725981,
+        "fairness_deviation": 0.042941096872266216,
+        "assigned_count": 16,
+        "required_slots": 16
+      },
+      {
+        "method": "baseline_random_constrained",
+        "feasible": true,
+        "objective_score": 1.4262398088596318,
+        "mean_team_score": 0.3767384169377393,
+        "min_team_score": 0.23111895748803885,
+        "max_team_score": 0.5539743930533403,
+        "fairness_deviation": 0.32285543556530144,
+        "assigned_count": 16,
+        "required_slots": 16
+      },
+      {
+        "method": "baseline_greedy_fit",
+        "feasible": true,
+        "objective_score": 2.972531630127011,
+        "mean_team_score": 0.7510363095807087,
+        "min_team_score": 0.6719551867269675,
+        "max_team_score": 0.798409619510262,
+        "fairness_deviation": 0.1264544327832945,
+        "assigned_count": 16,
+        "required_slots": 16
+      },
+      {
+        "method": "baseline_machado_k_rounds",
+        "feasible": true,
+        "objective_score": 2.972531630127011,
+        "mean_team_score": 0.7510363095807087,
+        "min_team_score": 0.6719551867269675,
+        "max_team_score": 0.798409619510262,
+        "fairness_deviation": 0.1264544327832945,
+        "assigned_count": 16,
+        "required_slots": 16
+      },
+      {
+        "method": "baseline_balanced_greedy",
+        "feasible": true,
+        "objective_score": 2.972531630127011,
+        "mean_team_score": 0.7510363095807087,
+        "min_team_score": 0.6719551867269675,
+        "max_team_score": 0.798409619510262,
+        "fairness_deviation": 0.1264544327832945,
+        "assigned_count": 16,
+        "required_slots": 16
+      }
+    ]
+  },
+  "timing": {
+    "stages": {
+      "resolve_input_paths": 2.0939999558322597e-05,
+      "load_inputs": 0.007509074999688892,
+      "normalize_inputs": 0.086181853999733,
+      "validate_inputs": 0.00014650799948867643,
+      "score_candidate_project_pairs": 0.02134816200032219,
+      "allocate_and_improve": 45.00585554499958,
+      "compare_baselines": 0.03650607100007619,
+      "total_runtime_seconds": 45.157568154998444
+    },
+    "total_runtime_seconds": 45.157568154998444
+  }
+}

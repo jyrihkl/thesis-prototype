@@ -1,0 +1,148 @@
+
+Team formation prototype pipeline
+========================================
+Participants file:     data/processed/participants/candidates_120.csv
+Projects file:         data/projects_set_a.json
+Participants read:     120
+Projects read:         4
+Required team slots:   16
+Available candidates:  120
+
+Projects:
+  - AI Study Assistant
+  - Sustainable Campus Mobile App
+  - Course Analytics Dashboard
+  - Hackathon Team Platform
+
+Validation
+----------------------------------------
+Summary: 8 passed, 0 warning(s), 0 failure(s)
+  [OK] candidate_count: 120 candidate(s) available.
+  [OK] project_count: 4 project brief(s) available.
+  [OK] candidate_ids_unique: Candidate IDs are unique.
+  [OK] project_ids_unique: Project IDs are unique.
+  [OK] project_team_sizes_positive: All project team sizes are positive.
+  [OK] candidate_capacity: 16 project slot(s) required and 120 candidate(s) available.
+  [OK] project_required_skills_present: All projects define at least one required skill.
+  [OK] candidate_skills_present: All candidates have at least one extracted skill.
+
+Candidate-to-project scoring
+----------------------------------------
+Total pairs scored:   480
+Feasible pairs:       480
+Weights:
+  - required_skills: 0.40
+  - preferred_skills: 0.20
+  - role: 0.20
+  - experience: 0.10
+  - language: 0.05
+  - interests: 0.05
+
+Project score summaries:
+  - A1 | AI Study Assistant
+    candidates: 120, feasible: 120, min/mean/max: 0.079 / 0.282 / 0.679
+    top candidates: 5ad8402b-5445-56c3-ac3f-4e1aee3ce489, a97ac400-2055-5d89-a8aa-8684f345eb9b, f1f7e887-caa3-52a0-9e3b-49c690ea00a9
+  - A2 | Sustainable Campus Mobile App
+    candidates: 120, feasible: 120, min/mean/max: 0.079 / 0.283 / 0.658
+    top candidates: f1f7e887-caa3-52a0-9e3b-49c690ea00a9, 47412c50-3715-5c57-b348-3b04013a86af, 576771cd-94f6-5a12-81b8-798165216c0f
+  - A3 | Course Analytics Dashboard
+    candidates: 120, feasible: 120, min/mean/max: 0.079 / 0.269 / 0.674
+    top candidates: 5bf53026-b5dc-5e6e-a2b7-90377fff9ecb, 06f30731-246e-5bd3-bb83-d0dfa1cb4f2b, f1f7e887-caa3-52a0-9e3b-49c690ea00a9
+  - A4 | Hackathon Team Platform
+    candidates: 120, feasible: 120, min/mean/max: 0.079 / 0.276 / 0.784
+    top candidates: 576771cd-94f6-5a12-81b8-798165216c0f, 1226f57a-c089-5670-836c-668938704c00, 42e8e874-e7d8-50d9-a5e0-3b6095e1f507
+
+Round-based allocation
+----------------------------------------
+Method:              round_based_marginal_contribution_with_local_improvement
+Feasible allocation: yes
+Assigned candidates: 16 / 16
+Unassigned pool:     104
+Objective score:     3.407
+Fairness deviation:  0.124
+Team score min/mean/max: 0.800 / 0.859 / 0.924
+
+Local improvement
+----------------------------------------
+Objective before/after: 3.258 / 3.407
+Improvement gain:       0.149
+Accepted swaps:         2
+Accepted replacements:  8
+Evaluated swaps:        1056
+Evaluated replacements: 18304
+Iterations:             11
+Stop reason:            no_improving_move_found
+
+Accepted moves:
+  - iteration 1: replacement, gain=0.093 | Replaced candidate 78942893-349a-5b1b-b3ae-b4c497386775 with unassigned candidate a595291c-37a8-5c67-af74-048dc3194153 in project A2.
+  - iteration 2: swap, gain=0.038 | Swapped candidate f1f7e887-caa3-52a0-9e3b-49c690ea00a9 from A1 with candidate 1cc35c03-0c1d-50a6-80d3-6346fabb7677 from A2.
+  - iteration 3: replacement, gain=0.007 | Replaced candidate 47412c50-3715-5c57-b348-3b04013a86af with unassigned candidate e5693019-3fc6-5cb3-9f13-7c16e68da19c in project A2.
+  - iteration 4: swap, gain=0.003 | Swapped candidate c19b3751-cf65-5bd5-baa8-fc88137acecf from A1 with candidate 470d74e5-9aa4-5f24-bb4a-c5f8d0bb0504 from A2.
+  - iteration 5: replacement, gain=0.002 | Replaced candidate a595291c-37a8-5c67-af74-048dc3194153 with unassigned candidate 7061c1d5-0673-53e1-a32f-9acb5e23b41a in project A2.
+  - iteration 6: replacement, gain=0.002 | Replaced candidate fb1e7ad9-bdcf-5aa6-a60a-ea92bd1ce4e4 with unassigned candidate 6ed94aaf-d0f4-5c50-bf62-af3006ae903a in project A1.
+  - iteration 7: replacement, gain=0.002 | Replaced candidate 3add7b7e-304c-5d82-9b17-a7715813d363 with unassigned candidate 88895504-27c7-5af4-beb4-82e8c05d7fed in project A3.
+  - iteration 8: replacement, gain=0.001 | Replaced candidate 0b7a4676-7dbc-583c-bb97-6ce044d83934 with unassigned candidate ef30012f-d22a-51e5-a24d-bb208f28c178 in project A4.
+  - iteration 9: replacement, gain=0.000 | Replaced candidate c19b3751-cf65-5bd5-baa8-fc88137acecf with unassigned candidate 5345277a-3402-5fa3-8e76-08fb08f3cb68 in project A2.
+  - iteration 10: replacement, gain=0.000 | Replaced candidate f2025a33-0c16-5f88-8acd-7c0b03645879 with unassigned candidate 0127f285-94c0-5efb-b4df-95de456a5a2f in project A3.
+
+Teams:
+  - A1 | AI Study Assistant
+    members: 4 / 4 | score: 0.833
+    member IDs: 1cc35c03-0c1d-50a6-80d3-6346fabb7677, 470d74e5-9aa4-5f24-bb4a-c5f8d0bb0504, 10319d23-5e5a-571e-84e1-158457d2f20e, 6ed94aaf-d0f4-5c50-bf62-af3006ae903a
+    components: required_skill_coverage=1.000, preferred_skill_coverage=0.500, role_balance=1.000, experience_balance=0.754, average_individual_fit=0.451, redundancy_score=0.989
+    covered required skills: nlp, python, react, sql
+    missing required skills: none
+    covered preferred skills: postgresql, ui/ux
+    role families: backend, design ux, frontend, machine learning
+  - A2 | Sustainable Campus Mobile App
+    members: 4 / 4 | score: 0.881
+    member IDs: e5693019-3fc6-5cb3-9f13-7c16e68da19c, f1f7e887-caa3-52a0-9e3b-49c690ea00a9, 5345277a-3402-5fa3-8e76-08fb08f3cb68, 7061c1d5-0673-53e1-a32f-9acb5e23b41a
+    components: required_skill_coverage=1.000, preferred_skill_coverage=1.000, role_balance=0.750, experience_balance=0.931, average_individual_fit=0.429, redundancy_score=0.960
+    covered required skills: android, api, react native, sql
+    missing required skills: none
+    covered preferred skills: figma, node.js, postgresql, project management
+    role families: backend, design ux, fullstack, product project
+  - A3 | Course Analytics Dashboard
+    members: 4 / 4 | score: 0.800
+    member IDs: 5bf53026-b5dc-5e6e-a2b7-90377fff9ecb, 0127f285-94c0-5efb-b4df-95de456a5a2f, 88895504-27c7-5af4-beb4-82e8c05d7fed, c49e88a9-37dc-517d-9741-68877ba2be53
+    components: required_skill_coverage=1.000, preferred_skill_coverage=0.750, role_balance=0.750, experience_balance=0.620, average_individual_fit=0.453, redundancy_score=0.989
+    covered required skills: data analysis, python, sql, tableau
+    missing required skills: none
+    covered preferred skills: figma, pandas, react
+    role families: data analytics, frontend, machine learning, product project
+  - A4 | Hackathon Team Platform
+    members: 4 / 4 | score: 0.924
+    member IDs: 576771cd-94f6-5a12-81b8-798165216c0f, 582a8783-6b63-53cf-95f6-171c771535aa, ef30012f-d22a-51e5-a24d-bb208f28c178, a94201bf-10f4-51ad-92b7-0b5749bc791a
+    components: required_skill_coverage=1.000, preferred_skill_coverage=1.000, role_balance=1.000, experience_balance=0.818, average_individual_fit=0.543, redundancy_score=0.945
+    covered required skills: docker, node.js, postgresql, react
+    missing required skills: none
+    covered preferred skills: aws, ci/cd, qa, typescript
+    role families: devops cloud, fullstack, product project, qa testing
+
+Baseline comparison
+----------------------------------------
+Main method:              round_based_marginal_contribution_with_local_improvement
+Best objective score:     round_based_marginal_contribution_with_local_improvement
+Best minimum team score:  round_based_marginal_contribution_with_local_improvement
+Best fairness deviation:  baseline_machado_k_rounds
+
+Method summaries:
+  method | feasible | objective | mean team | min team | max team | fairness dev. | assigned
+  round_based_marginal_contribution_with_local_improvement | yes | 3.407 | 0.859 | 0.800 | 0.924 | 0.124 | 16/16
+  baseline_random_constrained | yes | 1.406 | 0.368 | 0.248 | 0.521 | 0.273 | 16/16
+  baseline_greedy_fit | yes | 2.759 | 0.697 | 0.629 | 0.747 | 0.118 | 16/16
+  baseline_machado_k_rounds | yes | 2.421 | 0.610 | 0.574 | 0.652 | 0.079 | 16/16
+  baseline_balanced_greedy | yes | 2.421 | 0.610 | 0.574 | 0.652 | 0.079 | 16/16
+
+Timing
+----------------------------------------
+  - resolve_input_paths: 0.0000s
+  - load_inputs: 0.0025s
+  - normalize_inputs: 0.0086s
+  - validate_inputs: 0.0000s
+  - score_candidate_project_pairs: 0.0023s
+  - allocate_and_improve: 4.4802s
+  - compare_baselines: 0.0038s
+  - total_runtime_seconds: 4.4974s
+
+Status: input loading, validation, scoring, allocation, local improvement, and baseline comparison completed successfully.

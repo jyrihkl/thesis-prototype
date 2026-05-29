@@ -1,0 +1,178 @@
+
+Team formation prototype pipeline
+========================================
+Participants file:     data/processed/participants/candidates_240.csv
+Projects file:         data/projects_set_d.json
+Participants read:     240
+Projects read:         6
+Required team slots:   24
+Available candidates:  240
+
+Projects:
+  - Research Data Cleaning Pipeline
+  - Cloud Deployment Template
+  - Phishing Awareness Training App
+  - Automated Regression Test Suite
+  - Internal Knowledge Search Prototype
+  - Incident Review Visualization
+
+Validation
+----------------------------------------
+Summary: 8 passed, 0 warning(s), 0 failure(s)
+  [OK] candidate_count: 240 candidate(s) available.
+  [OK] project_count: 6 project brief(s) available.
+  [OK] candidate_ids_unique: Candidate IDs are unique.
+  [OK] project_ids_unique: Project IDs are unique.
+  [OK] project_team_sizes_positive: All project team sizes are positive.
+  [OK] candidate_capacity: 24 project slot(s) required and 240 candidate(s) available.
+  [OK] project_required_skills_present: All projects define at least one required skill.
+  [OK] candidate_skills_present: All candidates have at least one extracted skill.
+
+Candidate-to-project scoring
+----------------------------------------
+Total pairs scored:   1440
+Feasible pairs:       1440
+Weights:
+  - required_skills: 0.30
+  - preferred_skills: 0.15
+  - role: 0.20
+  - experience: 0.25
+  - language: 0.05
+  - interests: 0.05
+
+Project score summaries:
+  - D1 | Research Data Cleaning Pipeline
+    candidates: 240, feasible: 240, min/mean/max: 0.118 / 0.335 / 0.671
+    top candidates: 52d18036-335f-5466-b194-854f14bd9856, f2a0a030-138a-5b8e-a37d-2f4258b87c31, 394ab308-64a6-513b-8dc4-6cf6c8cb9182
+  - D2 | Cloud Deployment Template
+    candidates: 240, feasible: 240, min/mean/max: 0.118 / 0.340 / 0.895
+    top candidates: 85a5822c-5986-5be1-8ba7-a0f6476e7155, 09128e7c-f5c4-58e6-8275-e3b36d8b4bb4, 4e298ad7-ee55-5c61-a60a-96ac938b97ba
+  - D3 | Phishing Awareness Training App
+    candidates: 240, feasible: 240, min/mean/max: 0.118 / 0.384 / 0.671
+    top candidates: ca611b6d-940b-58a1-8486-d4bae307ab60, 169ccb87-826f-5c69-a872-02bcbddd3814, ea895472-8d61-5f12-b452-a6c6cf249d8a
+  - D4 | Automated Regression Test Suite
+    candidates: 240, feasible: 240, min/mean/max: 0.118 / 0.378 / 0.829
+    top candidates: 3c5ff46a-2c49-58e6-96ba-2b49852eb3e9, 0839d242-0749-53ae-8e5c-21a5c651e22f, b228b9a1-6fd8-5e62-b273-ed7b9bcf9c5b
+  - D5 | Internal Knowledge Search Prototype
+    candidates: 240, feasible: 240, min/mean/max: 0.118 / 0.371 / 0.750
+    top candidates: bb563ae5-8c21-5caa-ae2a-782d896811b3, c23f0dd4-fe9e-5fd6-b556-a2f051dab6db, 169ccb87-826f-5c69-a872-02bcbddd3814
+  - D6 | Incident Review Visualization
+    candidates: 240, feasible: 240, min/mean/max: 0.118 / 0.378 / 0.711
+    top candidates: c2a5de6d-cd73-5774-af97-b9c1b4e4b345, c23f0dd4-fe9e-5fd6-b556-a2f051dab6db, 169ccb87-826f-5c69-a872-02bcbddd3814
+
+Round-based allocation
+----------------------------------------
+Method:              round_based_marginal_contribution_with_local_improvement
+Feasible allocation: yes
+Assigned candidates: 24 / 24
+Unassigned pool:     216
+Objective score:     5.037
+Fairness deviation:  0.229
+Team score min/mean/max: 0.722 / 0.849 / 0.950
+
+Local improvement
+----------------------------------------
+Objective before/after: 4.849 / 5.037
+Improvement gain:       0.189
+Accepted swaps:         2
+Accepted replacements:  14
+Evaluated swaps:        4046
+Evaluated replacements: 88128
+Iterations:             17
+Stop reason:            no_improving_move_found
+
+Accepted moves:
+  - iteration 1: swap, gain=0.024 | Swapped candidate 0383da23-a018-548d-91c1-ce542b45c0c7 from D1 with candidate ca611b6d-940b-58a1-8486-d4bae307ab60 from D4.
+  - iteration 2: replacement, gain=0.033 | Replaced candidate 0b7a4676-7dbc-583c-bb97-6ce044d83934 with unassigned candidate 9a739623-c293-5917-9f8c-e1b3f15e9027 in project D1.
+  - iteration 3: replacement, gain=0.018 | Replaced candidate 52d18036-335f-5466-b194-854f14bd9856 with unassigned candidate 876d1514-cf6e-5f87-991d-a9fddf33832f in project D1.
+  - iteration 4: replacement, gain=0.017 | Replaced candidate af24c099-9cb1-5230-9ba2-32218d0acb02 with unassigned candidate 4b65017c-65d2-5afb-a709-95a3c95242d1 in project D3.
+  - iteration 5: replacement, gain=0.013 | Replaced candidate 0127f285-94c0-5efb-b4df-95de456a5a2f with unassigned candidate ed474391-09ee-576d-ba22-1268be6c6dba in project D5.
+  - iteration 6: replacement, gain=0.027 | Replaced candidate c23f0dd4-fe9e-5fd6-b556-a2f051dab6db with unassigned candidate 10319d23-5e5a-571e-84e1-158457d2f20e in project D5.
+  - iteration 7: replacement, gain=0.016 | Replaced candidate 96862c7e-cc9d-58b1-9172-ac7189deac18 with unassigned candidate ea895472-8d61-5f12-b452-a6c6cf249d8a in project D5.
+  - iteration 8: replacement, gain=0.012 | Replaced candidate 78942893-349a-5b1b-b3ae-b4c497386775 with unassigned candidate a2a2002e-72c1-5ce3-8faf-b625b8f9bf18 in project D3.
+  - iteration 9: replacement, gain=0.010 | Replaced candidate ed474391-09ee-576d-ba22-1268be6c6dba with unassigned candidate 7c19012f-0002-50ca-96b8-fe93692ada3b in project D5.
+  - iteration 10: replacement, gain=0.006 | Replaced candidate 0383da23-a018-548d-91c1-ce542b45c0c7 with unassigned candidate 895e6b0f-cfba-5a25-be98-6364f2ac6fce in project D4.
+  - iteration 11: replacement, gain=0.006 | Replaced candidate 85a5822c-5986-5be1-8ba7-a0f6476e7155 with unassigned candidate d0aa17ee-fc8e-5afa-85d8-b0324f3dc081 in project D2.
+  - iteration 12: replacement, gain=0.003 | Replaced candidate 37363150-7e13-52bd-bb99-93e920bb2e15 with unassigned candidate 52d18036-335f-5466-b194-854f14bd9856 in project D6.
+  - iteration 13: swap, gain=0.001 | Swapped candidate 169ccb87-826f-5c69-a872-02bcbddd3814 from D4 with candidate ea895472-8d61-5f12-b452-a6c6cf249d8a from D5.
+  - iteration 14: replacement, gain=0.001 | Replaced candidate d19e3b33-ea7b-5ca0-bfb9-c8063805607e with unassigned candidate 0f547cc0-7fcf-5044-97c2-0e904605120f in project D5.
+  - iteration 15: replacement, gain=0.001 | Replaced candidate 5342417e-c6e3-54d6-9129-16e6638210c7 with unassigned candidate bb9161d3-5b5b-501b-8072-f1655c792570 in project D2.
+  - iteration 16: replacement, gain=0.000 | Replaced candidate 893d98ee-07ec-526b-8042-05183137e813 with unassigned candidate 470d74e5-9aa4-5f24-bb4a-c5f8d0bb0504 in project D3.
+
+Teams:
+  - D1 | Research Data Cleaning Pipeline
+    members: 3 / 3 | score: 0.722
+    member IDs: 876d1514-cf6e-5f87-991d-a9fddf33832f, ca611b6d-940b-58a1-8486-d4bae307ab60, 9a739623-c293-5917-9f8c-e1b3f15e9027
+    components: required_skill_coverage=0.750, preferred_skill_coverage=0.500, role_balance=0.667, experience_balance=1.000, average_individual_fit=0.522, redundancy_score=0.973
+    covered required skills: pandas, python, sql
+    missing required skills: data engineering
+    covered preferred skills: docker, postgresql
+    role families: backend, data analytics, machine learning
+  - D2 | Cloud Deployment Template
+    members: 4 / 4 | score: 0.920
+    member IDs: d0aa17ee-fc8e-5afa-85d8-b0324f3dc081, cd1715bb-1f95-5cf9-867b-c6535cddb64c, b228b9a1-6fd8-5e62-b273-ed7b9bcf9c5b, bb9161d3-5b5b-501b-8072-f1655c792570
+    components: required_skill_coverage=1.000, preferred_skill_coverage=0.750, role_balance=1.000, experience_balance=1.000, average_individual_fit=0.605, redundancy_score=0.947
+    covered required skills: aws, ci/cd, docker, linux
+    missing required skills: none
+    covered preferred skills: kubernetes, python, terraform
+    role families: backend, devops cloud, machine learning, qa testing
+  - D3 | Phishing Awareness Training App
+    members: 5 / 5 | score: 0.851
+    member IDs: fb1e7ad9-bdcf-5aa6-a60a-ea92bd1ce4e4, 470d74e5-9aa4-5f24-bb4a-c5f8d0bb0504, b9c22114-3405-5a5f-b414-3a7077c7fd6f, a2a2002e-72c1-5ce3-8faf-b625b8f9bf18, 4b65017c-65d2-5afb-a709-95a3c95242d1
+    components: required_skill_coverage=0.750, preferred_skill_coverage=1.000, role_balance=1.000, experience_balance=0.947, average_individual_fit=0.471, redundancy_score=0.977
+    covered required skills: node.js, postgresql, react
+    missing required skills: security
+    covered preferred skills: project management, qa, typescript, ui/ux
+    role families: backend, design ux, frontend, product project, qa testing
+  - D4 | Automated Regression Test Suite
+    members: 4 / 4 | score: 0.876
+    member IDs: 3c5ff46a-2c49-58e6-96ba-2b49852eb3e9, 895e6b0f-cfba-5a25-be98-6364f2ac6fce, ea895472-8d61-5f12-b452-a6c6cf249d8a, 0839d242-0749-53ae-8e5c-21a5c651e22f
+    components: required_skill_coverage=1.000, preferred_skill_coverage=0.500, role_balance=1.000, experience_balance=0.928, average_individual_fit=0.681, redundancy_score=0.882
+    covered required skills: api, javascript, qa, selenium
+    missing required skills: none
+    covered preferred skills: ci/cd, typescript
+    role families: backend, devops cloud, frontend, qa testing
+  - D5 | Internal Knowledge Search Prototype
+    members: 5 / 5 | score: 0.950
+    member IDs: 10319d23-5e5a-571e-84e1-158457d2f20e, 169ccb87-826f-5c69-a872-02bcbddd3814, 7c19012f-0002-50ca-96b8-fe93692ada3b, 0f547cc0-7fcf-5044-97c2-0e904605120f, bb563ae5-8c21-5caa-ae2a-782d896811b3
+    components: required_skill_coverage=1.000, preferred_skill_coverage=1.000, role_balance=1.000, experience_balance=0.933, average_individual_fit=0.632, redundancy_score=0.940
+    covered required skills: api, nlp, python, react
+    missing required skills: none
+    covered preferred skills: docker, elasticsearch, fastapi, ui/ux
+    role families: backend, design ux, frontend, machine learning
+  - D6 | Incident Review Visualization
+    members: 3 / 3 | score: 0.775
+    member IDs: c2a5de6d-cd73-5774-af97-b9c1b4e4b345, 4328edd1-feb5-57e4-9093-daf75f94de74, 52d18036-335f-5466-b194-854f14bd9856
+    components: required_skill_coverage=0.750, preferred_skill_coverage=0.750, role_balance=0.750, experience_balance=0.921, average_individual_fit=0.645, redundancy_score=0.950
+    covered required skills: javascript, sql, ui/ux
+    missing required skills: data visualization
+    covered preferred skills: postgresql, project management, react
+    role families: data analytics, design ux, frontend
+
+Baseline comparison
+----------------------------------------
+Main method:              round_based_marginal_contribution_with_local_improvement
+Best objective score:     round_based_marginal_contribution_with_local_improvement
+Best minimum team score:  round_based_marginal_contribution_with_local_improvement
+Best fairness deviation:  baseline_greedy_fit
+
+Method summaries:
+  method | feasible | objective | mean team | min team | max team | fairness dev. | assigned
+  round_based_marginal_contribution_with_local_improvement | yes | 5.037 | 0.849 | 0.722 | 0.950 | 0.229 | 24/24
+  baseline_random_constrained | yes | 2.934 | 0.509 | 0.235 | 0.722 | 0.486 | 24/24
+  baseline_greedy_fit | yes | 4.164 | 0.703 | 0.525 | 0.747 | 0.223 | 24/24
+  baseline_machado_k_rounds | yes | 4.164 | 0.703 | 0.525 | 0.747 | 0.223 | 24/24
+  baseline_balanced_greedy | yes | 4.164 | 0.703 | 0.525 | 0.747 | 0.223 | 24/24
+
+Timing
+----------------------------------------
+  - resolve_input_paths: 0.0000s
+  - load_inputs: 0.0016s
+  - normalize_inputs: 0.0177s
+  - validate_inputs: 0.0000s
+  - score_candidate_project_pairs: 0.0072s
+  - allocate_and_improve: 31.6591s
+  - compare_baselines: 0.0105s
+  - total_runtime_seconds: 31.6962s
+
+Status: input loading, validation, scoring, allocation, local improvement, and baseline comparison completed successfully.

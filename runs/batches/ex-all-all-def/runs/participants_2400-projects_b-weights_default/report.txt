@@ -1,0 +1,145 @@
+
+Team formation prototype pipeline
+========================================
+Participants file:     data/processed/participants/candidates_2400.csv
+Projects file:         data/projects_set_b.json
+Participants read:     2400
+Projects read:         4
+Required team slots:   16
+Available candidates:  2400
+
+Projects:
+  - Volunteer Matching Service
+  - CV Skill Extraction Tool
+  - Cloud Cost Monitoring Dashboard
+  - Accessibility Testing Toolkit
+
+Validation
+----------------------------------------
+Summary: 8 passed, 0 warning(s), 0 failure(s)
+  [OK] candidate_count: 2400 candidate(s) available.
+  [OK] project_count: 4 project brief(s) available.
+  [OK] candidate_ids_unique: Candidate IDs are unique.
+  [OK] project_ids_unique: Project IDs are unique.
+  [OK] project_team_sizes_positive: All project team sizes are positive.
+  [OK] candidate_capacity: 16 project slot(s) required and 2400 candidate(s) available.
+  [OK] project_required_skills_present: All projects define at least one required skill.
+  [OK] candidate_skills_present: All candidates have at least one extracted skill.
+
+Candidate-to-project scoring
+----------------------------------------
+Total pairs scored:   9600
+Feasible pairs:       9600
+Weights:
+  - required_skills: 0.40
+  - preferred_skills: 0.20
+  - role: 0.20
+  - experience: 0.10
+  - language: 0.05
+  - interests: 0.05
+
+Project score summaries:
+  - B1 | Volunteer Matching Service
+    candidates: 2400, feasible: 2400, min/mean/max: 0.079 / 0.286 / 0.832
+    top candidates: befa5d8e-f53d-58db-b058-ec1b44be8514, 89ab7c25-fb35-5903-8a49-08c506305919, 89c3a655-8504-5faf-aae5-683e2c7dd73e
+  - B2 | CV Skill Extraction Tool
+    candidates: 2400, feasible: 2400, min/mean/max: 0.079 / 0.258 / 0.821
+    top candidates: bb563ae5-8c21-5caa-ae2a-782d896811b3, 96db37b9-43ac-577f-9974-61aa7a759b5e, 8694113e-7847-55b3-b87a-cfb9d3d70fab
+  - B3 | Cloud Cost Monitoring Dashboard
+    candidates: 2400, feasible: 2400, min/mean/max: 0.079 / 0.279 / 0.937
+    top candidates: 52c497d2-c1e5-5abd-bc51-c6493b01ef6f, 5c357efd-bdba-50ff-a5df-0f27cbbadad3, 4e298ad7-ee55-5c61-a60a-96ac938b97ba
+  - B4 | Accessibility Testing Toolkit
+    candidates: 2400, feasible: 2400, min/mean/max: 0.079 / 0.292 / 0.821
+    top candidates: e05bb7a1-88b4-59a8-8398-15b1f03d1e65, 83e966ee-c07f-5e2f-9543-3a2f13c41ae6, b8283936-c3de-5dc1-847a-d77a28ae2b33
+
+Round-based allocation
+----------------------------------------
+Method:              round_based_marginal_contribution_with_local_improvement
+Feasible allocation: yes
+Assigned candidates: 16 / 16
+Unassigned pool:     2384
+Objective score:     3.831
+Fairness deviation:  0.009
+Team score min/mean/max: 0.953 / 0.958 / 0.963
+
+Local improvement
+----------------------------------------
+Objective before/after: 3.800 / 3.831
+Improvement gain:       0.030
+Accepted swaps:         0
+Accepted replacements:  7
+Evaluated swaps:        768
+Evaluated replacements: 305152
+Iterations:             8
+Stop reason:            no_improving_move_found
+
+Accepted moves:
+  - iteration 1: replacement, gain=0.016 | Replaced candidate 906c02f0-e964-5e50-a0e8-6a6ce780e53c with unassigned candidate 9abf9290-c0df-5f89-bb3d-2c6b8576ec48 in project B1.
+  - iteration 2: replacement, gain=0.002 | Replaced candidate 32920e06-2667-5327-83f0-c3170f790455 with unassigned candidate 3fb39171-5868-5729-8b5a-b86099482240 in project B2.
+  - iteration 3: replacement, gain=0.005 | Replaced candidate 27f97859-331e-5fa1-a833-a8b71ce00f9f with unassigned candidate d1ba67de-2ad1-5a9f-be6b-b294b595205f in project B2.
+  - iteration 4: replacement, gain=0.005 | Replaced candidate 8694113e-7847-55b3-b87a-cfb9d3d70fab with unassigned candidate 96db37b9-43ac-577f-9974-61aa7a759b5e in project B2.
+  - iteration 5: replacement, gain=0.002 | Replaced candidate 13aae4de-d92a-5c1e-972f-d3fb5d54439b with unassigned candidate 78338c77-187f-5dcb-a3cd-e4dfa49040e1 in project B1.
+  - iteration 6: replacement, gain=0.000 | Replaced candidate e8d564aa-1783-58de-9ac1-d2c0291fb8f3 with unassigned candidate ce1d58f8-68a0-5a1f-9eb5-d250a1967f73 in project B4.
+  - iteration 7: replacement, gain=0.000 | Replaced candidate d1ba67de-2ad1-5a9f-be6b-b294b595205f with unassigned candidate 9b57c844-f820-5172-a39d-7871f344ee5c in project B2.
+
+Teams:
+  - B1 | Volunteer Matching Service
+    members: 4 / 4 | score: 0.958
+    member IDs: befa5d8e-f53d-58db-b058-ec1b44be8514, 031a1839-ccfa-559a-972b-496c08599a8b, 78338c77-187f-5dcb-a3cd-e4dfa49040e1, 9abf9290-c0df-5f89-bb3d-2c6b8576ec48
+    components: required_skill_coverage=1.000, preferred_skill_coverage=1.000, role_balance=1.000, experience_balance=1.000, average_individual_fit=0.621, redundancy_score=0.910
+    covered required skills: django, postgresql, python, react
+    missing required skills: none
+    covered preferred skills: api, figma, project management, ui/ux
+    role families: backend, design ux, frontend, product project
+  - B2 | CV Skill Extraction Tool
+    members: 4 / 4 | score: 0.953
+    member IDs: 96db37b9-43ac-577f-9974-61aa7a759b5e, e5fa129a-f259-5d5b-a3aa-315aa66bce69, 9b57c844-f820-5172-a39d-7871f344ee5c, 3fb39171-5868-5729-8b5a-b86099482240
+    components: required_skill_coverage=1.000, preferred_skill_coverage=1.000, role_balance=1.000, experience_balance=1.000, average_individual_fit=0.584, redundancy_score=0.900
+    covered required skills: nlp, pandas, python, scikit-learn
+    missing required skills: none
+    covered preferred skills: docker, fastapi, postgresql, qa
+    role families: backend, data analytics, machine learning, qa testing
+  - B3 | Cloud Cost Monitoring Dashboard
+    members: 4 / 4 | score: 0.963
+    member IDs: 52c497d2-c1e5-5abd-bc51-c6493b01ef6f, f4cb2d07-8e96-5d20-8e3e-da3169fcd116, 8fa6f38c-b436-59f0-a508-62eb94f9dcad, 1f176a53-dd42-5f88-a7f3-1a01c708c3a3
+    components: required_skill_coverage=1.000, preferred_skill_coverage=1.000, role_balance=1.000, experience_balance=1.000, average_individual_fit=0.687, redundancy_score=0.877
+    covered required skills: aws, docker, python, sql
+    missing required skills: none
+    covered preferred skills: ci/cd, kubernetes, power bi, terraform
+    role families: backend, data analytics, devops cloud, product project
+  - B4 | Accessibility Testing Toolkit
+    members: 4 / 4 | score: 0.959
+    member IDs: e05bb7a1-88b4-59a8-8398-15b1f03d1e65, dc651e2d-e722-5ff6-9110-cf96d0c9a049, 19ab63e1-3c00-5d4f-a85c-77900ecb267d, ce1d58f8-68a0-5a1f-9eb5-d250a1967f73
+    components: required_skill_coverage=1.000, preferred_skill_coverage=1.000, role_balance=1.000, experience_balance=1.000, average_individual_fit=0.650, redundancy_score=0.885
+    covered required skills: javascript, qa, selenium, ui/ux
+    missing required skills: none
+    covered preferred skills: cypress, playwright, react, typescript
+    role families: design ux, frontend, product project, qa testing
+
+Baseline comparison
+----------------------------------------
+Main method:              round_based_marginal_contribution_with_local_improvement
+Best objective score:     round_based_marginal_contribution_with_local_improvement
+Best minimum team score:  round_based_marginal_contribution_with_local_improvement
+Best fairness deviation:  round_based_marginal_contribution_with_local_improvement
+
+Method summaries:
+  method | feasible | objective | mean team | min team | max team | fairness dev. | assigned
+  round_based_marginal_contribution_with_local_improvement | yes | 3.831 | 0.958 | 0.953 | 0.963 | 0.009 | 16/16
+  baseline_random_constrained | yes | 1.570 | 0.412 | 0.270 | 0.589 | 0.320 | 16/16
+  baseline_greedy_fit | yes | 2.969 | 0.751 | 0.658 | 0.801 | 0.142 | 16/16
+  baseline_machado_k_rounds | yes | 2.969 | 0.751 | 0.658 | 0.801 | 0.142 | 16/16
+  baseline_balanced_greedy | yes | 2.969 | 0.751 | 0.658 | 0.801 | 0.142 | 16/16
+
+Timing
+----------------------------------------
+  - resolve_input_paths: 0.0000s
+  - load_inputs: 0.0156s
+  - normalize_inputs: 0.1767s
+  - validate_inputs: 0.0003s
+  - score_candidate_project_pairs: 0.0458s
+  - allocate_and_improve: 73.5487s
+  - compare_baselines: 0.0805s
+  - total_runtime_seconds: 73.8675s
+
+Status: input loading, validation, scoring, allocation, local improvement, and baseline comparison completed successfully.

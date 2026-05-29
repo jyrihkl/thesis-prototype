@@ -1,0 +1,163 @@
+
+Team formation prototype pipeline
+========================================
+Participants file:     data/processed/participants/candidates_2400.csv
+Projects file:         data/projects_set_c.json
+Participants read:     2400
+Projects read:         5
+Required team slots:   19
+Available candidates:  2400
+
+Projects:
+  - Course Feedback Analytics Dashboard
+  - Event Check-In Mobile Prototype
+  - Open Data Storytelling Site
+  - Lightweight API Monitoring Tool
+  - Student Portfolio Builder
+
+Validation
+----------------------------------------
+Summary: 8 passed, 0 warning(s), 0 failure(s)
+  [OK] candidate_count: 2400 candidate(s) available.
+  [OK] project_count: 5 project brief(s) available.
+  [OK] candidate_ids_unique: Candidate IDs are unique.
+  [OK] project_ids_unique: Project IDs are unique.
+  [OK] project_team_sizes_positive: All project team sizes are positive.
+  [OK] candidate_capacity: 19 project slot(s) required and 2400 candidate(s) available.
+  [OK] project_required_skills_present: All projects define at least one required skill.
+  [OK] candidate_skills_present: All candidates have at least one extracted skill.
+
+Candidate-to-project scoring
+----------------------------------------
+Total pairs scored:   12000
+Feasible pairs:       12000
+Weights:
+  - required_skills: 0.40
+  - preferred_skills: 0.20
+  - role: 0.20
+  - experience: 0.10
+  - language: 0.05
+  - interests: 0.05
+
+Project score summaries:
+  - C1 | Course Feedback Analytics Dashboard
+    candidates: 2400, feasible: 2400, min/mean/max: 0.079 / 0.223 / 0.716
+    top candidates: cdd768e6-777d-544c-904d-9762d16acc24, 96db37b9-43ac-577f-9974-61aa7a759b5e, 132593d2-9335-5557-a072-26f3782e169b
+  - C2 | Event Check-In Mobile Prototype
+    candidates: 2400, feasible: 2400, min/mean/max: 0.079 / 0.296 / 0.679
+    top candidates: 24c52800-3e3f-5a1a-831d-1e6c4d885970, d19e3b33-ea7b-5ca0-bfb9-c8063805607e, c2fc18ea-1e3b-5539-9125-fdb57ec0a0ee
+  - C3 | Open Data Storytelling Site
+    candidates: 2400, feasible: 2400, min/mean/max: 0.079 / 0.276 / 0.732
+    top candidates: 89ab7c25-fb35-5903-8a49-08c506305919, 28086fe0-5832-5a13-8577-ab9b89435b2f, 031a1839-ccfa-559a-972b-496c08599a8b
+  - C4 | Lightweight API Monitoring Tool
+    candidates: 2400, feasible: 2400, min/mean/max: 0.079 / 0.272 / 0.847
+    top candidates: 8f42fc61-c19f-59fc-9542-312be4c31ce1, 52c497d2-c1e5-5abd-bc51-c6493b01ef6f, 5c357efd-bdba-50ff-a5df-0f27cbbadad3
+  - C5 | Student Portfolio Builder
+    candidates: 2400, feasible: 2400, min/mean/max: 0.079 / 0.285 / 0.821
+    top candidates: 0947f950-91be-5d75-8e7e-f5c915ce2624, 6fa51af6-d879-595a-80b1-af75b90d211d, 031a1839-ccfa-559a-972b-496c08599a8b
+
+Round-based allocation
+----------------------------------------
+Method:              round_based_marginal_contribution_with_local_improvement
+Feasible allocation: yes
+Assigned candidates: 19 / 19
+Unassigned pool:     2381
+Objective score:     4.273
+Fairness deviation:  0.211
+Team score min/mean/max: 0.751 / 0.865 / 0.962
+
+Local improvement
+----------------------------------------
+Objective before/after: 4.160 / 4.273
+Improvement gain:       0.113
+Accepted swaps:         0
+Accepted replacements:  13
+Evaluated swaps:        2002
+Evaluated replacements: 633346
+Iterations:             14
+Stop reason:            no_improving_move_found
+
+Accepted moves:
+  - iteration 1: replacement, gain=0.052 | Replaced candidate aaca2bf2-f3e1-50f1-84d4-5b9743b6c5a1 with unassigned candidate 6fa51af6-d879-595a-80b1-af75b90d211d in project C2.
+  - iteration 2: replacement, gain=0.011 | Replaced candidate b15c9f99-3faa-5643-87de-1c0cb6cddb20 with unassigned candidate dc651e2d-e722-5ff6-9110-cf96d0c9a049 in project C5.
+  - iteration 3: replacement, gain=0.011 | Replaced candidate 3cfa6cee-ef96-5695-b12e-27ba168bed49 with unassigned candidate 19ab63e1-3c00-5d4f-a85c-77900ecb267d in project C5.
+  - iteration 4: replacement, gain=0.011 | Replaced candidate 54a93621-f029-5930-9c1b-a604960bdc14 with unassigned candidate ce1d58f8-68a0-5a1f-9eb5-d250a1967f73 in project C5.
+  - iteration 5: replacement, gain=0.005 | Replaced candidate 28086fe0-5832-5a13-8577-ab9b89435b2f with unassigned candidate 75c05e76-3309-5915-9420-ea57efb75990 in project C3.
+  - iteration 6: replacement, gain=0.005 | Replaced candidate 906c02f0-e964-5e50-a0e8-6a6ce780e53c with unassigned candidate add72b79-7934-56de-b99f-aae8662e692d in project C3.
+  - iteration 7: replacement, gain=0.010 | Replaced candidate 73e625ca-b771-539d-b33e-eeb3f3ec44d2 with unassigned candidate 27ee1500-5e60-5df3-8077-add4d50eb6a5 in project C3.
+  - iteration 8: replacement, gain=0.003 | Replaced candidate 00259d3e-6830-597c-a4c3-a0ed9fc866d5 with unassigned candidate d92f3336-8641-5783-82b6-7475e34ec637 in project C4.
+  - iteration 9: replacement, gain=0.002 | Replaced candidate 8f42fc61-c19f-59fc-9542-312be4c31ce1 with unassigned candidate 23b3e9fd-f191-5085-8264-5087baa52248 in project C4.
+  - iteration 10: replacement, gain=0.002 | Replaced candidate 37fd52ea-fa16-51ba-8e30-fb4669a3b3f1 with unassigned candidate 6c0ecb0c-80da-54e3-b2c2-2775265ac279 in project C1.
+  - iteration 11: replacement, gain=0.001 | Replaced candidate 83e966ee-c07f-5e2f-9543-3a2f13c41ae6 with unassigned candidate 3f14073e-2cc9-5b0c-b9a9-636d6e07f78b in project C2.
+  - iteration 12: replacement, gain=0.000 | Replaced candidate d92f3336-8641-5783-82b6-7475e34ec637 with unassigned candidate 862bb247-e33a-5db5-8262-a40e609f9bb3 in project C4.
+  - iteration 13: replacement, gain=0.000 | Replaced candidate 169ccb87-826f-5c69-a872-02bcbddd3814 with unassigned candidate ea895472-8d61-5f12-b452-a6c6cf249d8a in project C1.
+
+Teams:
+  - C1 | Course Feedback Analytics Dashboard
+    members: 3 / 3 | score: 0.751
+    member IDs: cdd768e6-777d-544c-904d-9762d16acc24, 6c0ecb0c-80da-54e3-b2c2-2775265ac279, ea895472-8d61-5f12-b452-a6c6cf249d8a
+    components: required_skill_coverage=0.750, preferred_skill_coverage=0.250, role_balance=1.000, experience_balance=1.000, average_individual_fit=0.593, redundancy_score=0.842
+    covered required skills: nlp, pandas, python
+    missing required skills: dashboard
+    covered preferred skills: sql
+    role families: data analytics, frontend, machine learning
+  - C2 | Event Check-In Mobile Prototype
+    members: 4 / 4 | score: 0.862
+    member IDs: 24c52800-3e3f-5a1a-831d-1e6c4d885970, 6fa51af6-d879-595a-80b1-af75b90d211d, 3beeeaa5-f1f8-52dd-9245-e1e040bae427, 3f14073e-2cc9-5b0c-b9a9-636d6e07f78b
+    components: required_skill_coverage=1.000, preferred_skill_coverage=0.750, role_balance=0.750, experience_balance=1.000, average_individual_fit=0.534, redundancy_score=0.918
+    covered required skills: api, javascript, react native, ui/ux
+    missing required skills: none
+    covered preferred skills: figma, node.js, qa
+    role families: backend, design ux, frontend, mobile
+  - C3 | Open Data Storytelling Site
+    members: 5 / 5 | score: 0.792
+    member IDs: 75c05e76-3309-5915-9420-ea57efb75990, befa5d8e-f53d-58db-b058-ec1b44be8514, 27ee1500-5e60-5df3-8077-add4d50eb6a5, add72b79-7934-56de-b99f-aae8662e692d, 031a1839-ccfa-559a-972b-496c08599a8b
+    components: required_skill_coverage=0.750, preferred_skill_coverage=0.500, role_balance=1.000, experience_balance=1.000, average_individual_fit=0.611, redundancy_score=0.872
+    covered required skills: javascript, react, ui/ux
+    missing required skills: data visualization
+    covered preferred skills: project management, typescript
+    role families: data analytics, design ux, frontend, product project
+  - C4 | Lightweight API Monitoring Tool
+    members: 3 / 3 | score: 0.962
+    member IDs: 23b3e9fd-f191-5085-8264-5087baa52248, 862bb247-e33a-5db5-8262-a40e609f9bb3, 394ab308-64a6-513b-8dc4-6cf6c8cb9182
+    components: required_skill_coverage=1.000, preferred_skill_coverage=1.000, role_balance=1.000, experience_balance=1.000, average_individual_fit=0.725, redundancy_score=0.796
+    covered required skills: api, docker, python, sql
+    missing required skills: none
+    covered preferred skills: aws, ci/cd, fastapi, postgresql
+    role families: backend, devops cloud, qa testing
+  - C5 | Student Portfolio Builder
+    members: 4 / 4 | score: 0.958
+    member IDs: 0947f950-91be-5d75-8e7e-f5c915ce2624, dc651e2d-e722-5ff6-9110-cf96d0c9a049, ce1d58f8-68a0-5a1f-9eb5-d250a1967f73, 19ab63e1-3c00-5d4f-a85c-77900ecb267d
+    components: required_skill_coverage=1.000, preferred_skill_coverage=1.000, role_balance=1.000, experience_balance=1.000, average_individual_fit=0.650, redundancy_score=0.856
+    covered required skills: node.js, postgresql, react, ui/ux
+    missing required skills: none
+    covered preferred skills: docker, project management, qa, typescript
+    role families: backend, design ux, frontend, product project
+
+Baseline comparison
+----------------------------------------
+Main method:              round_based_marginal_contribution_with_local_improvement
+Best objective score:     round_based_marginal_contribution_with_local_improvement
+Best minimum team score:  round_based_marginal_contribution_with_local_improvement
+Best fairness deviation:  baseline_greedy_fit
+
+Method summaries:
+  method | feasible | objective | mean team | min team | max team | fairness dev. | assigned
+  round_based_marginal_contribution_with_local_improvement | yes | 4.273 | 0.865 | 0.751 | 0.962 | 0.211 | 19/19
+  baseline_random_constrained | yes | 1.915 | 0.404 | 0.222 | 0.639 | 0.418 | 19/19
+  baseline_greedy_fit | yes | 3.329 | 0.676 | 0.592 | 0.800 | 0.208 | 19/19
+  baseline_machado_k_rounds | yes | 3.329 | 0.676 | 0.592 | 0.800 | 0.208 | 19/19
+  baseline_balanced_greedy | yes | 3.329 | 0.676 | 0.592 | 0.800 | 0.208 | 19/19
+
+Timing
+----------------------------------------
+  - resolve_input_paths: 0.0000s
+  - load_inputs: 0.0151s
+  - normalize_inputs: 0.1717s
+  - validate_inputs: 0.0003s
+  - score_candidate_project_pairs: 0.0541s
+  - allocate_and_improve: 187.3147s
+  - compare_baselines: 0.0968s
+  - total_runtime_seconds: 187.6527s
+
+Status: input loading, validation, scoring, allocation, local improvement, and baseline comparison completed successfully.

@@ -1,0 +1,11 @@
+Batch result plots
+========================================
+
+- fairness_by_method.png
+- local_improvement_gain_by_project_set.png
+- min_team_score_by_method.png
+- objective_by_method.png
+- objective_by_project_set_and_method.png
+- objective_by_weight_profile.png
+- runtime_by_participant_count.png
+- runtime_by_project_set.png

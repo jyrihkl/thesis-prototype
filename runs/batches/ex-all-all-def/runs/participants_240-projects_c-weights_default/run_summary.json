@@ -1,0 +1,234 @@
+{
+  "run_id": "participants_240-projects_c-weights_default",
+  "participants_path": "data/processed/participants/candidates_240.csv",
+  "projects_path": "data/projects_set_c.json",
+  "participant_count": 240,
+  "project_count": 5,
+  "project_titles": [
+    "Course Feedback Analytics Dashboard",
+    "Event Check-In Mobile Prototype",
+    "Open Data Storytelling Site",
+    "Lightweight API Monitoring Tool",
+    "Student Portfolio Builder"
+  ],
+  "required_slots": 19,
+  "available_candidates": 240,
+  "validation": {
+    "passed": 8,
+    "warnings": 0,
+    "failures": 0,
+    "checks": [
+      {
+        "name": "candidate_count",
+        "status": "pass",
+        "message": "240 candidate(s) available."
+      },
+      {
+        "name": "project_count",
+        "status": "pass",
+        "message": "5 project brief(s) available."
+      },
+      {
+        "name": "candidate_ids_unique",
+        "status": "pass",
+        "message": "Candidate IDs are unique."
+      },
+      {
+        "name": "project_ids_unique",
+        "status": "pass",
+        "message": "Project IDs are unique."
+      },
+      {
+        "name": "project_team_sizes_positive",
+        "status": "pass",
+        "message": "All project team sizes are positive."
+      },
+      {
+        "name": "candidate_capacity",
+        "status": "pass",
+        "message": "19 project slot(s) required and 240 candidate(s) available."
+      },
+      {
+        "name": "project_required_skills_present",
+        "status": "pass",
+        "message": "All projects define at least one required skill."
+      },
+      {
+        "name": "candidate_skills_present",
+        "status": "pass",
+        "message": "All candidates have at least one extracted skill."
+      }
+    ]
+  },
+  "scoring": {
+    "total_pairs": 1200,
+    "feasible_pairs": 1200,
+    "weights": {
+      "required_skills": 0.4,
+      "preferred_skills": 0.2,
+      "role": 0.2,
+      "experience": 0.1,
+      "language": 0.05,
+      "interests": 0.05
+    },
+    "project_summaries": [
+      {
+        "project_id": "C1",
+        "project_title": "Course Feedback Analytics Dashboard",
+        "scored_candidates": 240,
+        "feasible_candidates": 240,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.22666666666666666,
+        "max_score": 0.6736842105263158,
+        "top_candidate_ids": [
+          "0127f285-94c0-5efb-b4df-95de456a5a2f",
+          "a97ac400-2055-5d89-a8aa-8684f345eb9b",
+          "12f8b3a2-53f5-55c1-a70f-c7da95cf16f1"
+        ]
+      },
+      {
+        "project_id": "C2",
+        "project_title": "Event Check-In Mobile Prototype",
+        "scored_candidates": 240,
+        "feasible_candidates": 240,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.2985964912280702,
+        "max_score": 0.6631578947368422,
+        "top_candidate_ids": [
+          "d19e3b33-ea7b-5ca0-bfb9-c8063805607e",
+          "1e2f3b47-7b28-5a0e-9526-b72436a78590",
+          "b228b9a1-6fd8-5e62-b273-ed7b9bcf9c5b"
+        ]
+      },
+      {
+        "project_id": "C3",
+        "project_title": "Open Data Storytelling Site",
+        "scored_candidates": 240,
+        "feasible_candidates": 240,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.2792982456140351,
+        "max_score": 0.6105263157894737,
+        "top_candidate_ids": [
+          "6c039ca4-b82f-574d-bf3b-9d55e182d956",
+          "169ccb87-826f-5c69-a872-02bcbddd3814",
+          "ea895472-8d61-5f12-b452-a6c6cf249d8a"
+        ]
+      },
+      {
+        "project_id": "C4",
+        "project_title": "Lightweight API Monitoring Tool",
+        "scored_candidates": 240,
+        "feasible_candidates": 240,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.27885964912280703,
+        "max_score": 0.7947368421052632,
+        "top_candidate_ids": [
+          "394ab308-64a6-513b-8dc4-6cf6c8cb9182",
+          "4e298ad7-ee55-5c61-a60a-96ac938b97ba",
+          "f1f7e887-caa3-52a0-9e3b-49c690ea00a9"
+        ]
+      },
+      {
+        "project_id": "C5",
+        "project_title": "Student Portfolio Builder",
+        "scored_candidates": 240,
+        "feasible_candidates": 240,
+        "min_score": 0.07894736842105264,
+        "mean_score": 0.28785087719298247,
+        "max_score": 0.6631578947368422,
+        "top_candidate_ids": [
+          "ca611b6d-940b-58a1-8486-d4bae307ab60",
+          "169ccb87-826f-5c69-a872-02bcbddd3814",
+          "ea895472-8d61-5f12-b452-a6c6cf249d8a"
+        ]
+      }
+    ]
+  },
+  "main_allocation": {
+    "method": "round_based_marginal_contribution_with_local_improvement",
+    "feasible": true,
+    "objective_score": 4.131981061275599,
+    "fairness_deviation": 0.2152028503584198,
+    "min_team_score": 0.7159585231264114,
+    "mean_team_score": 0.837156354773041,
+    "max_team_score": 0.9311613734848312,
+    "local_improvement_gain": 0.20577529678344497,
+    "accepted_swaps": 1,
+    "accepted_replacements": 12
+  },
+  "baseline_comparison": {
+    "best_by_objective": "round_based_marginal_contribution_with_local_improvement",
+    "best_by_min_team_score": "round_based_marginal_contribution_with_local_improvement",
+    "best_by_fairness": "round_based_marginal_contribution_with_local_improvement",
+    "method_summaries": [
+      {
+        "method": "round_based_marginal_contribution_with_local_improvement",
+        "feasible": true,
+        "objective_score": 4.131981061275599,
+        "mean_team_score": 0.837156354773041,
+        "min_team_score": 0.7159585231264114,
+        "max_team_score": 0.9311613734848312,
+        "fairness_deviation": 0.2152028503584198,
+        "assigned_count": 19,
+        "required_slots": 19
+      },
+      {
+        "method": "baseline_random_constrained",
+        "feasible": true,
+        "objective_score": 1.8724081088509734,
+        "mean_team_score": 0.38998202446195074,
+        "min_team_score": 0.2254785546196706,
+        "max_team_score": 0.5354866084547907,
+        "fairness_deviation": 0.3100080538351201,
+        "assigned_count": 19,
+        "required_slots": 19
+      },
+      {
+        "method": "baseline_greedy_fit",
+        "feasible": true,
+        "objective_score": 3.2035284711902485,
+        "mean_team_score": 0.6590933741188242,
+        "min_team_score": 0.46141862131965566,
+        "max_team_score": 0.829172218935144,
+        "fairness_deviation": 0.36775359761548837,
+        "assigned_count": 19,
+        "required_slots": 19
+      },
+      {
+        "method": "baseline_machado_k_rounds",
+        "feasible": true,
+        "objective_score": 2.9898534493903774,
+        "mean_team_score": 0.6161425440852263,
+        "min_team_score": 0.4594175234623577,
+        "max_team_score": 0.8228546076053753,
+        "fairness_deviation": 0.3634370841430176,
+        "assigned_count": 19,
+        "required_slots": 19
+      },
+      {
+        "method": "baseline_balanced_greedy",
+        "feasible": true,
+        "objective_score": 2.9898534493903774,
+        "mean_team_score": 0.6161425440852263,
+        "min_team_score": 0.4594175234623577,
+        "max_team_score": 0.8228546076053753,
+        "fairness_deviation": 0.3634370841430176,
+        "assigned_count": 19,
+        "required_slots": 19
+      }
+    ]
+  },
+  "timing": {
+    "stages": {
+      "resolve_input_paths": 2.338900003451272e-05,
+      "load_inputs": 0.0017210880000675388,
+      "normalize_inputs": 0.01767511400021249,
+      "validate_inputs": 6.394000001819222e-05,
+      "score_candidate_project_pairs": 0.005658968000261666,
+      "allocate_and_improve": 17.56458516900011,
+      "compare_baselines": 0.008301666000079422,
+      "total_runtime_seconds": 17.598029334000785
+    },
+    "total_runtime_seconds": 17.598029334000785
+  }
+}
