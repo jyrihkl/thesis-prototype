@@ -27,6 +27,7 @@ from team_builder.pipeline import run_pipeline
 from team_builder.weights import WEIGHT_PROFILES, get_weight_profile
 
 
+DEFAULT_PARTICIPANT_SETS = ("080", "120", "240", "480", "1200", "2400")
 DEFAULT_PROJECT_SETS = ("a", "b", "c", "d", "e")
 
 
@@ -34,7 +35,7 @@ DEFAULT_PROJECT_SETS = ("a", "b", "c", "d", "e")
 class BatchEvaluationConfig:
     """Runtime configuration for a batch evaluation."""
 
-    participant_set: str
+    participant_sets: tuple[str, ...] = ("080",)
     project_sets: tuple[str, ...] = DEFAULT_PROJECT_SETS
     weight_profiles: tuple[str, ...] = ("default",)
     output_dir: Path = Path("runs/batches")
@@ -51,7 +52,7 @@ class BatchEvaluationResult:
 
     batch_id: str
     batch_dir: Path
-    participant_set: str
+    participant_sets: tuple[str, ...]
     project_sets: tuple[str, ...]
     weight_profiles: tuple[str, ...]
     run_count: int
@@ -65,6 +66,21 @@ def make_batch_id() -> str:
     """Create a filesystem-friendly timestamped batch identifier."""
 
     return "batch-" + datetime.now().strftime("%Y%m%d-%H%M%S")
+
+
+def normalize_participant_set_name(participant_set: str) -> str:
+    """Normalize participant set labels used by the CLI and file names."""
+
+    normalized = participant_set.strip().lower().replace("participants_", "")
+    normalized = normalized.replace("candidates_", "")
+
+    if normalized.endswith(".csv"):
+        normalized = normalized[:-4]
+
+    if normalized.isdigit() and len(normalized) < 3:
+        normalized = normalized.zfill(3)
+
+    return normalized
 
 
 def participant_path_for_set(participant_set: str) -> Path:
@@ -234,13 +250,13 @@ def _format_batch_report(
     lines = [
         "Team formation batch evaluation",
         "=" * 40,
-        f"Batch ID:          {batch_id}",
-        f"Batch directory:   {batch_dir}",
-        f"Participant set:   {config.participant_set}",
-        f"Project sets:      {', '.join(config.project_sets)}",
-        f"Weight profiles:   {', '.join(config.weight_profiles)}",
-        f"Runs:              {len(main_rows)}",
-        f"Feasible main runs:{feasible_main_runs} / {len(main_rows)}",
+        f"Batch ID:           {batch_id}",
+        f"Batch directory:    {batch_dir}",
+        f"Participant sets:   {', '.join(config.participant_sets)}",
+        f"Project sets:       {', '.join(config.project_sets)}",
+        f"Weight profiles:    {', '.join(config.weight_profiles)}",
+        f"Runs:               {len(main_rows)}",
+        f"Feasible main runs: {feasible_main_runs} / {len(main_rows)}",
         "",
         "Outputs:",
         "  - batch_runs.csv",
@@ -262,6 +278,31 @@ def _format_batch_report(
     return "\n".join(lines)
 
 
+def _validate_participant_paths(participant_sets: tuple[str, ...]) -> dict[str, Path]:
+    """Validate participant set files and return their resolved default paths."""
+
+    paths = {
+        participant_set: participant_path_for_set(participant_set)
+        for participant_set in participant_sets
+    }
+
+    missing_paths = [
+        path
+        for path in paths.values()
+        if not path.exists()
+    ]
+
+    if missing_paths:
+        missing_text = "\n".join(f"  - {path}" for path in missing_paths)
+        raise FileNotFoundError(
+            "Participant set file(s) not found:\n"
+            f"{missing_text}\n"
+            "Generate participant sets before running batch evaluation."
+        )
+
+    return paths
+
+
 def run_batch_evaluation(config: BatchEvaluationConfig) -> BatchEvaluationResult:
     """Run a batch evaluation and write aggregate outputs."""
 
@@ -270,60 +311,59 @@ def run_batch_evaluation(config: BatchEvaluationConfig) -> BatchEvaluationResult
     individual_runs_dir = batch_dir / "runs"
     batch_dir.mkdir(parents=True, exist_ok=False)
 
-    participant_path = participant_path_for_set(config.participant_set)
-
-    if not participant_path.exists():
-        raise FileNotFoundError(
-            f"Participant set file not found: {participant_path}. "
-            "Generate participant sets before running batch evaluation."
-        )
+    participant_paths = _validate_participant_paths(config.participant_sets)
 
     main_rows: list[dict[str, Any]] = []
     method_rows: list[dict[str, Any]] = []
 
-    for project_set in config.project_sets:
-        for weight_profile_name in config.weight_profiles:
-            weights = get_weight_profile(weight_profile_name)
-            run_id = (
-                f"participants_{config.participant_set}"
-                f"-projects_{project_set}"
-                f"-weights_{weight_profile_name}"
-            )
+    for participant_set in config.participant_sets:
+        participant_path = participant_paths[participant_set]
 
-            result = run_pipeline(
-                PipelineConfig(
-                    participants_path=participant_path,
-                    project_set=project_set,
-                    score_weights=weights,
-                    fairness_penalty=config.fairness_penalty,
-                    enable_local_improvement=config.enable_local_improvement,
-                    max_local_improvement_iterations=config.max_local_improvement_iterations,
-                    save_run=config.save_individual_runs,
-                    output_dir=individual_runs_dir,
-                    run_id=run_id,
+        for project_set in config.project_sets:
+            for weight_profile_name in config.weight_profiles:
+                weights = get_weight_profile(weight_profile_name)
+                run_id = (
+                    f"participants_{participant_set}"
+                    f"-projects_{project_set}"
+                    f"-weights_{weight_profile_name}"
                 )
-            )
 
-            main_rows.append(
-                _main_run_row(
-                    batch_id=batch_id,
-                    run_id=run_id,
-                    participant_set=config.participant_set,
-                    project_set=project_set,
-                    weight_profile=weight_profile_name,
-                    result=result,
+                result = run_pipeline(
+                    PipelineConfig(
+                        participants_path=participant_path,
+                        project_set=project_set,
+                        score_weights=weights,
+                        fairness_penalty=config.fairness_penalty,
+                        enable_local_improvement=config.enable_local_improvement,
+                        max_local_improvement_iterations=(
+                            config.max_local_improvement_iterations
+                        ),
+                        save_run=config.save_individual_runs,
+                        output_dir=individual_runs_dir,
+                        run_id=run_id,
+                    )
                 )
-            )
-            method_rows.extend(
-                _method_rows(
-                    batch_id=batch_id,
-                    run_id=run_id,
-                    participant_set=config.participant_set,
-                    project_set=project_set,
-                    weight_profile=weight_profile_name,
-                    result=result,
+
+                main_rows.append(
+                    _main_run_row(
+                        batch_id=batch_id,
+                        run_id=run_id,
+                        participant_set=participant_set,
+                        project_set=project_set,
+                        weight_profile=weight_profile_name,
+                        result=result,
+                    )
                 )
-            )
+                method_rows.extend(
+                    _method_rows(
+                        batch_id=batch_id,
+                        run_id=run_id,
+                        participant_set=participant_set,
+                        project_set=project_set,
+                        weight_profile=weight_profile_name,
+                        result=result,
+                    )
+                )
 
     batch_runs_csv = batch_dir / "batch_runs.csv"
     batch_methods_csv = batch_dir / "batch_methods.csv"
@@ -396,16 +436,19 @@ def run_batch_evaluation(config: BatchEvaluationConfig) -> BatchEvaluationResult
         batch_summary_json,
         {
             "batch_id": batch_id,
-            "participant_set": config.participant_set,
-            "participant_path": participant_path,
+            "participant_sets": config.participant_sets,
+            "participant_paths": participant_paths,
             "project_sets": config.project_sets,
             "weight_profiles": config.weight_profiles,
+            "available_participant_sets": DEFAULT_PARTICIPANT_SETS,
             "available_weight_profiles": sorted(WEIGHT_PROFILES),
             "run_count": len(main_rows),
             "save_individual_runs": config.save_individual_runs,
             "fairness_penalty": config.fairness_penalty,
             "enable_local_improvement": config.enable_local_improvement,
-            "max_local_improvement_iterations": config.max_local_improvement_iterations,
+            "max_local_improvement_iterations": (
+                config.max_local_improvement_iterations
+            ),
             "batch_runs_csv": batch_runs_csv,
             "batch_methods_csv": batch_methods_csv,
             "main_rows": main_rows,
@@ -425,7 +468,7 @@ def run_batch_evaluation(config: BatchEvaluationConfig) -> BatchEvaluationResult
     return BatchEvaluationResult(
         batch_id=batch_id,
         batch_dir=batch_dir,
-        participant_set=config.participant_set,
+        participant_sets=config.participant_sets,
         project_sets=config.project_sets,
         weight_profiles=config.weight_profiles,
         run_count=len(main_rows),
