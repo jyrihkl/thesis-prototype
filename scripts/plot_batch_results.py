@@ -219,7 +219,7 @@ def plot_runtime_by_project_set(runs: pd.DataFrame, output_dir: Path, dpi: int) 
         return
 
     plt.figure(figsize=(8, 5))
-    plt.bar(grouped["project_set"].astype(str), grouped["total_runtime_seconds"])
+    plt.bar([str.upper(s) for s in grouped["project_set"].astype(str)], grouped["total_runtime_seconds"])
     plt.title("Mean runtime by project set")
     plt.xlabel("Project set")
     plt.ylabel("Mean runtime, seconds")
@@ -272,7 +272,7 @@ def plot_local_improvement_gain(runs: pd.DataFrame, output_dir: Path, dpi: int) 
         return
 
     plt.figure(figsize=(8, 5))
-    plt.bar(grouped["project_set"].astype(str), grouped["local_improvement_gain"])
+    plt.bar([str.upper(s) for s in grouped["project_set"].astype(str)], grouped["local_improvement_gain"])
     plt.title("Mean local-improvement gain by project set")
     plt.xlabel("Project set")
     plt.ylabel("Mean objective gain")
@@ -352,7 +352,7 @@ def plot_method_scores_by_project_set(methods: pd.DataFrame, output_dir: Path, d
     plt.title("Mean objective score by project set and method")
     plt.xlabel("Project set")
     plt.ylabel("Mean objective score")
-    plt.xticks(x_positions, project_sets)
+    plt.xticks(x_positions, [str.upper(s) for s in project_sets])
     plt.legend(fontsize="small")
     save_current_plot(output_dir / "objective_by_project_set_and_method.png", dpi)
 
