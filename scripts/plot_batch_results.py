@@ -243,8 +243,12 @@ def _plot_metric_by_method(
         ordered=True,
     )
     grouped = grouped.sort_values("method_label")
-    # Don't draw error bars for methods other than random, even if they have a std column.
-    grouped.loc[grouped["method_label"] != "random", f"{metric}_error"] = None
+
+    # Don't draw error bars for methods other than random.
+    grouped.loc[
+        grouped["method_label"] != "random",
+        f"{metric}_error",
+    ] = None
 
     plt.figure(figsize=(10, 5))
     plt.bar(
@@ -383,35 +387,120 @@ def plot_runtime_by_participant_count(
 
 
 def plot_local_improvement_gain(
-    runs: pd.DataFrame,
+    methods: pd.DataFrame,
     output_dir: Path,
     dpi: int,
 ) -> None:
-    """Plot mean local-improvement gain by project set."""
+    """Compare local-improvement gains for both construction procedures.
 
-    if "local_improvement_gain" not in runs.columns:
+    Gains are calculated within each batch run before averaging by project set:
+
+    - thesis - thesis_no_li
+    - machado_k_rounds_li - machado_k_rounds
+
+    Pairing rows before aggregation avoids comparing methods across mismatched
+    participant sets, project sets, or weight profiles.
+    """
+
+    required_columns = {"project_set", "method_label", "objective_score"}
+    if not required_columns.issubset(methods.columns):
         return
 
-    df = runs.copy()
-    df["local_improvement_gain"] = numeric_column(df, "local_improvement_gain")
+    df = methods.copy()
+    df["objective_score"] = numeric_column(df, "objective_score")
+    df = df.dropna(subset=["project_set", "method_label", "objective_score"])
+
+    pair_definitions = [
+        ("thesis_no_li", "thesis", "Thesis construction"),
+        ("machado_k_rounds", "machado_k_rounds_li", "Machado K-rounds"),
+    ]
+
+    # run_id identifies one participant/project/weight configuration. Retain
+    # explicit fallback keys so older batch exports can still be plotted.
+    if "run_id" in df.columns:
+        pairing_columns = ["run_id", "project_set"]
+    else:
+        pairing_columns = [
+            column
+            for column in ("participant_set", "project_set", "weight_profile")
+            if column in df.columns
+        ]
+
+    if "project_set" not in pairing_columns:
+        pairing_columns.append("project_set")
+
+    gain_frames: list[pd.DataFrame] = []
+
+    for before_method, after_method, construction_label in pair_definitions:
+        before = (
+            df[df["method_label"] == before_method]
+            [pairing_columns + ["objective_score"]]
+            .rename(columns={"objective_score": "objective_before"})
+        )
+        after = (
+            df[df["method_label"] == after_method]
+            [pairing_columns + ["objective_score"]]
+            .rename(columns={"objective_score": "objective_after"})
+        )
+
+        paired = before.merge(after, on=pairing_columns, how="inner")
+        if paired.empty:
+            continue
+
+        paired["local_improvement_gain"] = (
+            paired["objective_after"] - paired["objective_before"]
+        )
+        paired["construction"] = construction_label
+        gain_frames.append(
+            paired[["project_set", "construction", "local_improvement_gain"]]
+        )
+
+    if not gain_frames:
+        return
+
+    gains = pd.concat(gain_frames, ignore_index=True)
     grouped = (
-        df.groupby("project_set", as_index=False)["local_improvement_gain"]
+        gains.groupby(["project_set", "construction"], as_index=False)
+        ["local_improvement_gain"]
         .mean()
         .dropna()
-        .sort_values("project_set")
+        .sort_values(["project_set", "construction"])
     )
 
     if grouped.empty:
         return
 
-    plt.figure(figsize=(8, 5))
-    plt.bar(
-        [str.upper(value) for value in grouped["project_set"].astype(str)],
-        grouped["local_improvement_gain"],
-    )
+    project_sets = sorted(grouped["project_set"].astype(str).unique())
+    constructions = ["Thesis construction", "Machado K-rounds"]
+    x_positions = list(range(len(project_sets)))
+    bar_width = 0.36
+
+    plt.figure(figsize=(9, 5))
+
+    for construction_index, construction in enumerate(constructions):
+        values: list[float] = []
+        for project_set in project_sets:
+            match = grouped[
+                (grouped["project_set"].astype(str) == project_set)
+                & (grouped["construction"] == construction)
+            ]
+            values.append(
+                float(match["local_improvement_gain"].iloc[0])
+                if not match.empty
+                else 0.0
+            )
+
+        offsets = [
+            position + (construction_index - 0.5) * bar_width
+            for position in x_positions
+        ]
+        plt.bar(offsets, values, width=bar_width, label=construction)
+
     plt.title("Mean local-improvement gain by project set")
     plt.xlabel("Project set")
     plt.ylabel("Mean objective gain")
+    plt.xticks(x_positions, [value.upper() for value in project_sets])
+    plt.legend()
     save_current_plot(output_dir / "local_improvement_gain_by_project_set.png", dpi)
 
 
@@ -501,14 +590,22 @@ def plot_method_scores_by_project_set(
             for position in x_positions
         ]
 
-        plt.bar(
-            offsets,
-            values,
-            width=bar_width,
-            label=method,
-            yerr=errors,
-            capsize=3 if method == "random" else 0,
-        )
+        if method == "random":
+            plt.bar(
+                offsets,
+                values,
+                width=bar_width,
+                label=method,
+                yerr=errors,
+                capsize=3,
+            )
+        else:
+            plt.bar(
+                offsets,
+                values,
+                width=bar_width,
+                label=method,
+            )
 
     plt.title("Mean objective score by project set and method")
     plt.xlabel("Project set")
@@ -555,7 +652,7 @@ def main() -> int:
     plot_min_team_score_by_method(methods, output_dir, args.dpi)
     plot_runtime_by_project_set(runs, output_dir, args.dpi)
     plot_runtime_by_participant_count(runs, output_dir, args.dpi)
-    plot_local_improvement_gain(runs, output_dir, args.dpi)
+    plot_local_improvement_gain(methods, output_dir, args.dpi)
     plot_objective_by_weight_profile(runs, output_dir, args.dpi)
     plot_method_scores_by_project_set(methods, output_dir, args.dpi)
 
