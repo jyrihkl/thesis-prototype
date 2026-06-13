@@ -1,6 +1,9 @@
 Batch result plots
 ========================================
 
+Random-baseline error bars show pooled within-configuration
+standard deviation across seeded random allocations.
+
 - fairness_by_method.png
 - local_improvement_gain_by_project_set.png
 - min_team_score_by_method.png

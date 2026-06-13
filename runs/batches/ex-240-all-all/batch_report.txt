@@ -5,6 +5,7 @@ Batch directory:    runs/batches/ex-240-all-all
 Participant sets:   240
 Project sets:       a, b, c, d, e
 Weight profiles:    balance_heavy, default, role_heavy, skill_heavy
+Random baseline:   30 seeds from 42
 Runs:               20
 Feasible main runs: 20 / 20
 
@@ -14,4 +15,5 @@ Outputs:
   - batch_summary.json
 
 Best-by-objective counts:
-  - round_based_marginal_contribution_with_local_improvement: 20
+  - machado_k_rounds_li: 11
+  - thesis: 9

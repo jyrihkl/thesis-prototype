@@ -1,5 +1,6 @@
 {
-  "method": "round_based_marginal_contribution_with_local_improvement",
+  "method": "thesis",
+  "random_seed": null,
   "feasible": true,
   "assigned_count": 34,
   "unassigned_count": 2366,

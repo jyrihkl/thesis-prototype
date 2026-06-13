@@ -1,11 +1,11 @@
 {
-  "main_method": "round_based_marginal_contribution_with_local_improvement",
-  "best_by_objective": "round_based_marginal_contribution_with_local_improvement",
-  "best_by_min_team_score": "round_based_marginal_contribution_with_local_improvement",
-  "best_by_fairness": "round_based_marginal_contribution_with_local_improvement",
+  "main_method": "thesis",
+  "best_by_objective": "machado_k_rounds_li",
+  "best_by_min_team_score": "machado_k_rounds_li",
+  "best_by_fairness": "machado_k_rounds_li",
   "method_summaries": [
     {
-      "method": "round_based_marginal_contribution_with_local_improvement",
+      "method": "thesis",
       "feasible": true,
       "objective_score": 6.34038093315719,
       "mean_team_score": 0.7988726069401321,
@@ -13,21 +13,55 @@
       "max_team_score": 0.900942199576923,
       "fairness_deviation": 0.2023996894554655,
       "assigned_count": 34,
-      "required_slots": 34
+      "required_slots": 34,
+      "sample_count": 1,
+      "feasible_count": 1,
+      "objective_score_std": null,
+      "objective_score_min": null,
+      "objective_score_max": null,
+      "mean_team_score_std": null,
+      "mean_team_score_min": null,
+      "mean_team_score_max": null,
+      "min_team_score_std": null,
+      "min_team_score_min": null,
+      "min_team_score_max": null,
+      "max_team_score_std": null,
+      "max_team_score_min": null,
+      "max_team_score_max": null,
+      "fairness_deviation_std": null,
+      "fairness_deviation_min": null,
+      "fairness_deviation_max": null
     },
     {
-      "method": "baseline_random_constrained",
+      "method": "random",
       "feasible": true,
-      "objective_score": 3.1749965337857247,
-      "mean_team_score": 0.40972503153109974,
-      "min_team_score": 0.154558328142044,
-      "max_team_score": 0.5657732019943376,
-      "fairness_deviation": 0.41121487385229355,
+      "objective_score": 3.237141401410455,
+      "mean_team_score": 0.4158011807887866,
+      "min_team_score": 0.23514670213139444,
+      "max_team_score": 0.592218881730746,
+      "fairness_deviation": 0.3570721795993515,
       "assigned_count": 34,
-      "required_slots": 34
+      "required_slots": 34,
+      "sample_count": 30,
+      "feasible_count": 30,
+      "objective_score_std": 0.32140531655174576,
+      "objective_score_min": 2.6814311471988437,
+      "objective_score_max": 3.7053914515909923,
+      "mean_team_score_std": 0.040448433259518544,
+      "mean_team_score_min": 0.34421483658033686,
+      "mean_team_score_max": 0.4770727795139656,
+      "min_team_score_std": 0.0617757176011847,
+      "min_team_score_min": 0.13678056531234611,
+      "min_team_score_max": 0.3659603255836313,
+      "max_team_score_std": 0.07694987141218584,
+      "max_team_score_min": 0.4139262270791512,
+      "max_team_score_max": 0.7459834949493711,
+      "fairness_deviation_std": 0.09007032021706037,
+      "fairness_deviation_min": 0.14078328444953736,
+      "fairness_deviation_max": 0.5905435529994204
     },
     {
-      "method": "baseline_greedy_fit",
+      "method": "greedy_fit",
       "feasible": true,
       "objective_score": 4.714532652619094,
       "mean_team_score": 0.6020230569461125,
@@ -35,10 +69,27 @@
       "max_team_score": 0.7729168999371148,
       "fairness_deviation": 0.4066072117992221,
       "assigned_count": 34,
-      "required_slots": 34
+      "required_slots": 34,
+      "sample_count": 1,
+      "feasible_count": 1,
+      "objective_score_std": null,
+      "objective_score_min": null,
+      "objective_score_max": null,
+      "mean_team_score_std": null,
+      "mean_team_score_min": null,
+      "mean_team_score_max": null,
+      "min_team_score_std": null,
+      "min_team_score_min": null,
+      "min_team_score_max": null,
+      "max_team_score_std": null,
+      "max_team_score_min": null,
+      "max_team_score_max": null,
+      "fairness_deviation_std": null,
+      "fairness_deviation_min": null,
+      "fairness_deviation_max": null
     },
     {
-      "method": "baseline_machado_k_rounds",
+      "method": "machado_k_rounds",
       "feasible": true,
       "objective_score": 4.819414153427616,
       "mean_team_score": 0.6144087386130014,
@@ -46,423 +97,480 @@
       "max_team_score": 0.8104042887968403,
       "fairness_deviation": 0.38342302190558125,
       "assigned_count": 34,
-      "required_slots": 34
+      "required_slots": 34,
+      "sample_count": 1,
+      "feasible_count": 1,
+      "objective_score_std": null,
+      "objective_score_min": null,
+      "objective_score_max": null,
+      "mean_team_score_std": null,
+      "mean_team_score_min": null,
+      "mean_team_score_max": null,
+      "min_team_score_std": null,
+      "min_team_score_min": null,
+      "min_team_score_max": null,
+      "max_team_score_std": null,
+      "max_team_score_min": null,
+      "max_team_score_max": null,
+      "fairness_deviation_std": null,
+      "fairness_deviation_min": null,
+      "fairness_deviation_max": null
     },
     {
-      "method": "baseline_balanced_greedy",
+      "method": "thesis_no_li",
       "feasible": true,
-      "objective_score": 4.6164783742485564,
-      "mean_team_score": 0.5906721789399477,
-      "min_team_score": 0.3916042569155121,
-      "max_team_score": 0.8272004859996136,
-      "fairness_deviation": 0.4355962290841015,
+      "objective_score": 6.015487223841704,
+      "mean_team_score": 0.7597547525967822,
+      "min_team_score": 0.6270086201269592,
+      "max_team_score": 0.8772118078571753,
+      "fairness_deviation": 0.2502031877302161,
       "assigned_count": 34,
-      "required_slots": 34
+      "required_slots": 34,
+      "sample_count": 1,
+      "feasible_count": 1,
+      "objective_score_std": null,
+      "objective_score_min": null,
+      "objective_score_max": null,
+      "mean_team_score_std": null,
+      "mean_team_score_min": null,
+      "mean_team_score_max": null,
+      "min_team_score_std": null,
+      "min_team_score_min": null,
+      "min_team_score_max": null,
+      "max_team_score_std": null,
+      "max_team_score_min": null,
+      "max_team_score_max": null,
+      "fairness_deviation_std": null,
+      "fairness_deviation_min": null,
+      "fairness_deviation_max": null
+    },
+    {
+      "method": "machado_k_rounds_li",
+      "feasible": true,
+      "objective_score": 6.362954303273997,
+      "mean_team_score": 0.8016769271347503,
+      "min_team_score": 0.6990977443609023,
+      "max_team_score": 0.900942199576923,
+      "fairness_deviation": 0.20184445521602068,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "sample_count": 1,
+      "feasible_count": 1,
+      "objective_score_std": null,
+      "objective_score_min": null,
+      "objective_score_max": null,
+      "mean_team_score_std": null,
+      "mean_team_score_min": null,
+      "mean_team_score_max": null,
+      "min_team_score_std": null,
+      "min_team_score_min": null,
+      "min_team_score_max": null,
+      "max_team_score_std": null,
+      "max_team_score_min": null,
+      "max_team_score_max": null,
+      "fairness_deviation_std": null,
+      "fairness_deviation_min": null,
+      "fairness_deviation_max": null
+    }
+  ],
+  "random_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71
+  ],
+  "random_run_summaries": [
+    {
+      "seed": 42,
+      "feasible": true,
+      "objective_score": 3.568500114965642,
+      "mean_team_score": 0.45312825536942003,
+      "min_team_score": 0.2982190160789306,
+      "max_team_score": 0.5243227280378026,
+      "fairness_deviation": 0.22610371195887197,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 43,
+      "feasible": true,
+      "objective_score": 2.8430398456653387,
+      "mean_team_score": 0.36520183699824815,
+      "min_team_score": 0.16758141643711544,
+      "max_team_score": 0.48188081771970076,
+      "fairness_deviation": 0.3142994012825853,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 44,
+      "feasible": true,
+      "objective_score": 3.4784681536702404,
+      "mean_team_score": 0.44685228555402295,
+      "min_team_score": 0.2769036857442849,
+      "max_team_score": 0.662304208792058,
+      "fairness_deviation": 0.38540052304777306,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 45,
+      "feasible": true,
+      "objective_score": 3.073100937289022,
+      "mean_team_score": 0.3934540163758198,
+      "min_team_score": 0.2480502922045943,
+      "max_team_score": 0.5461750670747387,
+      "fairness_deviation": 0.29812477487014444,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 46,
+      "feasible": true,
+      "objective_score": 3.611853649126683,
+      "mean_team_score": 0.46119192867835124,
+      "min_team_score": 0.28610811167052386,
+      "max_team_score": 0.5968352328710317,
+      "fairness_deviation": 0.3107271212005078,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 47,
+      "feasible": true,
+      "objective_score": 3.6890368321356473,
+      "mean_team_score": 0.4700572785970274,
+      "min_team_score": 0.3125547613102096,
+      "max_team_score": 0.598240347872498,
+      "fairness_deviation": 0.28568558656228843,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 48,
+      "feasible": true,
+      "objective_score": 3.3829617310813296,
+      "mean_team_score": 0.43364776711216574,
+      "min_team_score": 0.31744274110128323,
+      "max_team_score": 0.6623243643652682,
+      "fairness_deviation": 0.34488162326398497,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 49,
+      "feasible": true,
+      "objective_score": 3.692561412455104,
+      "mean_team_score": 0.4770727795139656,
+      "min_team_score": 0.24990020032288748,
+      "max_team_score": 0.7459834949493711,
+      "fairness_deviation": 0.4960832946264836,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 50,
+      "feasible": true,
+      "objective_score": 2.784286297463341,
+      "mean_team_score": 0.3603923432241251,
+      "min_team_score": 0.13678056531234611,
+      "max_team_score": 0.5321903586309858,
+      "fairness_deviation": 0.39540979331863974,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 51,
+      "feasible": true,
+      "objective_score": 3.5187448148786244,
+      "mean_team_score": 0.45109753386504675,
+      "min_team_score": 0.24526750648726378,
+      "max_team_score": 0.6054093306542621,
+      "fairness_deviation": 0.36014182416699825,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 52,
+      "feasible": true,
+      "objective_score": 2.8136743093457173,
+      "mean_team_score": 0.3561087663072627,
+      "min_team_score": 0.27314294262961386,
+      "max_team_score": 0.4139262270791512,
+      "fairness_deviation": 0.14078328444953736,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 53,
+      "feasible": true,
+      "objective_score": 2.816745579292361,
+      "mean_team_score": 0.36354566896283114,
+      "min_team_score": 0.16356579435224253,
+      "max_team_score": 0.5300448839933949,
+      "fairness_deviation": 0.3664790896411524,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 54,
+      "feasible": true,
+      "objective_score": 2.9945997968289024,
+      "mean_team_score": 0.3927794606348447,
+      "min_team_score": 0.15299807981663163,
+      "max_team_score": 0.743541632816052,
+      "fairness_deviation": 0.5905435529994204,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 55,
+      "feasible": true,
+      "objective_score": 3.284725043404388,
+      "mean_team_score": 0.42340885464849126,
+      "min_team_score": 0.24740897659230687,
+      "max_team_score": 0.6575921517264761,
+      "fairness_deviation": 0.41018317513416924,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 56,
+      "feasible": true,
+      "objective_score": 3.454649298462045,
+      "mean_team_score": 0.44696851944699506,
+      "min_team_score": 0.1742384174840151,
+      "max_team_score": 0.658633845939677,
+      "fairness_deviation": 0.48439542845566186,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 57,
+      "feasible": true,
+      "objective_score": 3.25709221705505,
+      "mean_team_score": 0.4192763484786983,
+      "min_team_score": 0.20620761965709666,
+      "max_team_score": 0.5946819027552435,
+      "fairness_deviation": 0.3884742830981468,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 58,
+      "feasible": true,
+      "objective_score": 3.4312762166856943,
+      "mean_team_score": 0.4365105022819591,
+      "min_team_score": 0.3185916931055483,
+      "max_team_score": 0.5618228993854614,
+      "fairness_deviation": 0.24323120627991307,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 59,
+      "feasible": true,
+      "objective_score": 3.2805957947667235,
+      "mean_team_score": 0.423859684256286,
+      "min_team_score": 0.16079400866646448,
+      "max_team_score": 0.6019207258007225,
+      "fairness_deviation": 0.44112671713425805,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 60,
+      "feasible": true,
+      "objective_score": 3.3465243427536726,
+      "mean_team_score": 0.4314627233280157,
+      "min_team_score": 0.24681372528890566,
+      "max_team_score": 0.6675235007707175,
+      "fairness_deviation": 0.4207097754818119,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 61,
+      "feasible": true,
+      "objective_score": 2.8328300324694746,
+      "mean_team_score": 0.363271752683024,
+      "min_team_score": 0.22265605197448043,
+      "max_team_score": 0.5160320079533486,
+      "fairness_deviation": 0.2933759559788681,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 62,
+      "feasible": true,
+      "objective_score": 2.8191390611896154,
+      "mean_team_score": 0.36447883895088035,
+      "min_team_score": 0.1820540785033542,
+      "max_team_score": 0.5688206801730638,
+      "fairness_deviation": 0.38676660166970955,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 63,
+      "feasible": true,
+      "objective_score": 2.884210530916376,
+      "mean_team_score": 0.37171852675480777,
+      "min_team_score": 0.19257994673581635,
+      "max_team_score": 0.5507306792241607,
+      "fairness_deviation": 0.3581507324883444,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 64,
+      "feasible": true,
+      "objective_score": 3.4120271657857226,
+      "mean_team_score": 0.44151408078209364,
+      "min_team_score": 0.18601217732016773,
+      "max_team_score": 0.6663540992042741,
+      "fairness_deviation": 0.4803419218841064,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 65,
+      "feasible": true,
+      "objective_score": 3.6741076327222193,
+      "mean_team_score": 0.4694687169267522,
+      "min_team_score": 0.3659603255836313,
+      "max_team_score": 0.6925287363508233,
+      "fairness_deviation": 0.32656841076719206,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 66,
+      "feasible": true,
+      "objective_score": 3.3229097449163345,
+      "mean_team_score": 0.4239083931665958,
+      "min_team_score": 0.3003624217322059,
+      "max_team_score": 0.5737920233979339,
+      "fairness_deviation": 0.273429601665728,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 67,
+      "feasible": true,
+      "objective_score": 3.086531935031937,
+      "mean_team_score": 0.39692388760817454,
+      "min_team_score": 0.1398374409929926,
+      "max_team_score": 0.4952741043268303,
+      "fairness_deviation": 0.35543666333383767,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 68,
+      "feasible": true,
+      "objective_score": 3.2959683463448326,
+      "mean_team_score": 0.4227963225147549,
+      "min_team_score": 0.2495596920220509,
+      "max_team_score": 0.5951686271148778,
+      "fairness_deviation": 0.345608935092827,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 69,
+      "feasible": true,
+      "objective_score": 3.7053914515909923,
+      "mean_team_score": 0.47249042683654485,
+      "min_team_score": 0.3079852795183804,
+      "max_team_score": 0.606113131923847,
+      "fairness_deviation": 0.2981278524054666,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 70,
+      "feasible": true,
+      "objective_score": 3.0772586068217755,
+      "mean_team_score": 0.3972330872260567,
+      "min_team_score": 0.20911363362340302,
+      "max_team_score": 0.6115379975701162,
+      "fairness_deviation": 0.40242436394671316,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
+    },
+    {
+      "seed": 71,
+      "feasible": true,
+      "objective_score": 2.6814311471988437,
+      "mean_team_score": 0.34421483658033686,
+      "min_team_score": 0.21571046167308544,
+      "max_team_score": 0.5048606434484895,
+      "fairness_deviation": 0.289150181775404,
+      "assigned_count": 34,
+      "required_slots": 34,
+      "warnings": []
     }
   ],
   "baseline_reports": [
     {
-      "method": "baseline_random_constrained",
-      "feasible": true,
-      "assigned_count": 34,
-      "unassigned_count": 86,
-      "required_slots": 34,
-      "objective_score": 3.1749965337857247,
-      "fairness_deviation": 0.41121487385229355,
-      "min_team_score": 0.154558328142044,
-      "mean_team_score": 0.40972503153109974,
-      "max_team_score": 0.5657732019943376,
-      "local_improvement": null,
-      "teams": [
-        {
-          "project_id": "E1",
-          "project_title": "AI Meeting Notes Assistant",
-          "member_ids": [
-            "1a9487a6-3f91-59ce-8245-87e68890a3e8",
-            "0a04b276-79b4-5f07-b6d6-b530d1c535b8",
-            "06f30731-246e-5bd3-bb83-d0dfa1cb4f2b",
-            "1fa679fd-e557-577b-9c23-e71468cafba1"
-          ],
-          "target_team_size": 4,
-          "team_score": 0.43236746683184074,
-          "components": {
-            "required_skill_coverage": 0.75,
-            "preferred_skill_coverage": 0.0,
-            "role_balance": 0.25,
-            "experience_balance": 0.3217158084958456,
-            "average_individual_fit": 0.2539473684210526,
-            "redundancy_score": 0.9243071743071744
-          },
-          "covered_required_skills": [
-            "api",
-            "python",
-            "react"
-          ],
-          "missing_required_skills": [
-            "nlp"
-          ],
-          "covered_preferred_skills": [],
-          "role_families": [
-            "backend",
-            "data analytics",
-            "devops cloud",
-            "fullstack"
-          ]
-        },
-        {
-          "project_id": "E2",
-          "project_title": "Learning Progress Tracker",
-          "member_ids": [
-            "3b536827-3d7a-5ff7-ae17-62b9dc97aca5",
-            "9a739623-c293-5917-9f8c-e1b3f15e9027",
-            "1e2f3b47-7b28-5a0e-9526-b72436a78590",
-            "0383da23-a018-548d-91c1-ce542b45c0c7"
-          ],
-          "target_team_size": 4,
-          "team_score": 0.154558328142044,
-          "components": {
-            "required_skill_coverage": 0.0,
-            "preferred_skill_coverage": 0.0,
-            "role_balance": 0.0,
-            "experience_balance": 0.6203986008689875,
-            "average_individual_fit": 0.12631578947368421,
-            "redundancy_score": 0.9773391812865497
-          },
-          "covered_required_skills": [],
-          "missing_required_skills": [
-            "data visualization",
-            "react",
-            "sql",
-            "ui/ux"
-          ],
-          "covered_preferred_skills": [],
-          "role_families": [
-            "backend",
-            "devops cloud",
-            "machine learning",
-            "mobile"
-          ]
-        },
-        {
-          "project_id": "E3",
-          "project_title": "Smart Scheduling Optimizer",
-          "member_ids": [
-            "a94201bf-10f4-51ad-92b7-0b5749bc791a",
-            "88895504-27c7-5af4-beb4-82e8c05d7fed",
-            "4b65017c-65d2-5afb-a709-95a3c95242d1",
-            "f2a6efc3-81a1-5280-8e48-c18e01a89d0d",
-            "5ad8402b-5445-56c3-ac3f-4e1aee3ce489"
-          ],
-          "target_team_size": 5,
-          "team_score": 0.563134581664669,
-          "components": {
-            "required_skill_coverage": 0.5,
-            "preferred_skill_coverage": 0.5,
-            "role_balance": 0.75,
-            "experience_balance": 0.5297754673444706,
-            "average_individual_fit": 0.3778947368421052,
-            "redundancy_score": 0.9175757575757576
-          },
-          "covered_required_skills": [
-            "python",
-            "sql"
-          ],
-          "missing_required_skills": [
-            "api",
-            "optimization"
-          ],
-          "covered_preferred_skills": [
-            "docker",
-            "react"
-          ],
-          "role_families": [
-            "backend",
-            "frontend",
-            "machine learning",
-            "product project"
-          ]
-        },
-        {
-          "project_id": "E4",
-          "project_title": "Accessibility Remediation Portal",
-          "member_ids": [
-            "576771cd-94f6-5a12-81b8-798165216c0f",
-            "e270dbbc-ec73-5315-ad81-ad58ae897560",
-            "47412c50-3715-5c57-b348-3b04013a86af"
-          ],
-          "target_team_size": 3,
-          "team_score": 0.3887706269120432,
-          "components": {
-            "required_skill_coverage": 0.5,
-            "preferred_skill_coverage": 0.5,
-            "role_balance": 0.0,
-            "experience_balance": 0.4500280590771297,
-            "average_individual_fit": 0.25087719298245614,
-            "redundancy_score": 0.9235739750445633
-          },
-          "covered_required_skills": [
-            "qa",
-            "react"
-          ],
-          "missing_required_skills": [
-            "accessibility",
-            "ui/ux"
-          ],
-          "covered_preferred_skills": [
-            "project management",
-            "typescript"
-          ],
-          "role_families": [
-            "fullstack",
-            "machine learning",
-            "mobile"
-          ]
-        },
-        {
-          "project_id": "E5",
-          "project_title": "Campus Energy Usage Visualizer",
-          "member_ids": [
-            "e63f13b0-56ff-5b7e-a44f-4e9591b2f1e0",
-            "7061c1d5-0673-53e1-a32f-9acb5e23b41a",
-            "c6563b4e-ed82-5ec2-83f3-769935cf511b",
-            "42e8e874-e7d8-50d9-a5e0-3b6095e1f507",
-            "c49e88a9-37dc-517d-9741-68877ba2be53"
-          ],
-          "target_team_size": 5,
-          "team_score": 0.32184438001915194,
-          "components": {
-            "required_skill_coverage": 0.25,
-            "preferred_skill_coverage": 0.25,
-            "role_balance": 0.25,
-            "experience_balance": 0.5123753720557402,
-            "average_individual_fit": 0.24526315789473685,
-            "redundancy_score": 0.9092351684263449
-          },
-          "covered_required_skills": [
-            "react"
-          ],
-          "missing_required_skills": [
-            "data visualization",
-            "python",
-            "sql"
-          ],
-          "covered_preferred_skills": [
-            "ui/ux"
-          ],
-          "role_families": [
-            "devops cloud",
-            "frontend",
-            "fullstack",
-            "product project"
-          ]
-        },
-        {
-          "project_id": "E6",
-          "project_title": "Prototype Deployment Hub",
-          "member_ids": [
-            "5edd45c9-4da9-589f-970d-136abb414f11",
-            "e5693019-3fc6-5cb3-9f13-7c16e68da19c",
-            "95ff400a-a38c-5c7e-869f-7ee8711ed9df",
-            "1226f57a-c089-5670-836c-668938704c00"
-          ],
-          "target_team_size": 4,
-          "team_score": 0.5657732019943376,
-          "components": {
-            "required_skill_coverage": 0.75,
-            "preferred_skill_coverage": 0.5,
-            "role_balance": 0.5,
-            "experience_balance": 0.31788726901062914,
-            "average_individual_fit": 0.32105263157894737,
-            "redundancy_score": 0.9696969696969697
-          },
-          "covered_required_skills": [
-            "api",
-            "ci/cd",
-            "docker"
-          ],
-          "missing_required_skills": [
-            "linux"
-          ],
-          "covered_preferred_skills": [
-            "aws",
-            "python"
-          ],
-          "role_families": [
-            "devops cloud",
-            "frontend",
-            "fullstack",
-            "product project"
-          ]
-        },
-        {
-          "project_id": "E7",
-          "project_title": "Peer Review Workflow Tool",
-          "member_ids": [
-            "9f483db5-12d7-5464-be33-e31d9ea6c57d",
-            "af219ade-2519-51e9-8843-ae844190e7e5",
-            "22308711-1619-5847-b039-b13b3a2b7eaf",
-            "235e034c-5a41-5067-b77f-c163ffa0429a",
-            "583ee381-c494-5cb4-94d2-b9294b042123",
-            "568fff9c-6847-51fa-b625-961c263e72ca"
-          ],
-          "target_team_size": 6,
-          "team_score": 0.4706739099336782,
-          "components": {
-            "required_skill_coverage": 0.5,
-            "preferred_skill_coverage": 0.25,
-            "role_balance": 0.6,
-            "experience_balance": 0.411235600160371,
-            "average_individual_fit": 0.2850877192982456,
-            "redundancy_score": 0.9595959595959596
-          },
-          "covered_required_skills": [
-            "node.js",
-            "project management"
-          ],
-          "missing_required_skills": [
-            "postgresql",
-            "react"
-          ],
-          "covered_preferred_skills": [
-            "qa"
-          ],
-          "role_families": [
-            "backend",
-            "fullstack",
-            "machine learning",
-            "mobile",
-            "product project",
-            "qa testing"
-          ]
-        },
-        {
-          "project_id": "E8",
-          "project_title": "Lightweight Chatbot FAQ",
-          "member_ids": [
-            "c3ad1504-3307-5307-8d7f-67b6b4b0281b",
-            "ef30012f-d22a-51e5-a24d-bb208f28c178",
-            "fb1e7ad9-bdcf-5aa6-a60a-ea92bd1ce4e4"
-          ],
-          "target_team_size": 3,
-          "team_score": 0.38067775675103305,
-          "components": {
-            "required_skill_coverage": 0.25,
-            "preferred_skill_coverage": 0.25,
-            "role_balance": 0.5,
-            "experience_balance": 0.5077765237036291,
-            "average_individual_fit": 0.3070175438596491,
-            "redundancy_score": 0.9761904761904762
-          },
-          "covered_required_skills": [
-            "python"
-          ],
-          "missing_required_skills": [
-            "api",
-            "nlp",
-            "ui/ux"
-          ],
-          "covered_preferred_skills": [
-            "react"
-          ],
-          "role_families": [
-            "backend",
-            "frontend",
-            "qa testing"
-          ]
-        }
-      ],
-      "unassigned_candidate_ids": [
-        "0127f285-94c0-5efb-b4df-95de456a5a2f",
-        "04db6a91-d47a-5fe5-bc25-f1d95aa3127d",
-        "09128e7c-f5c4-58e6-8275-e3b36d8b4bb4",
-        "0b7a4676-7dbc-583c-bb97-6ce044d83934",
-        "0c062883-e286-5be8-a699-a01962178273",
-        "0d138415-50d2-5450-bf3f-1f04d20799c4",
-        "10319d23-5e5a-571e-84e1-158457d2f20e",
-        "12bf9b94-a222-5be8-b87a-7eb53a08933f",
-        "186b668c-af9c-5ee8-b954-d3f82aea363d",
-        "1a9277b6-a4aa-5876-8be1-b7bb2dfd7e31",
-        "1b749e97-aa4d-55e4-9768-c6c269087c89",
-        "1cc35c03-0c1d-50a6-80d3-6346fabb7677",
-        "1d7fffe6-374b-525b-87e4-25797ad74d7a",
-        "21a67b4c-4f65-52c0-8873-f4b07caab78d",
-        "2c744927-ce2b-5c42-9f5c-42abf4cab95b",
-        "2cef3dac-5804-5003-a36c-e8ec64dacdb4",
-        "2f30dd9c-450a-587d-8a3c-55d6faa2083f",
-        "2fad21b4-cc7f-5c62-b31a-d6098630194c",
-        "304bf4fc-6c5c-5f2e-be8b-dcd0df64887a",
-        "3248ada6-8b83-5af9-b2d5-0505b26ad0db",
-        "3338fbd7-20d9-5d97-840f-936d909046e0",
-        "35a5f606-4876-5e74-9f65-d4027b842bda",
-        "3696071f-862d-564d-9f94-c418f1f57837",
-        "381a8fb9-da9b-581b-95c5-197c1f8029b6",
-        "394ab308-64a6-513b-8dc4-6cf6c8cb9182",
-        "3add7b7e-304c-5d82-9b17-a7715813d363",
-        "3c5ff46a-2c49-58e6-96ba-2b49852eb3e9",
-        "40919599-8a7b-5503-a38e-747f74a6ae49",
-        "41123501-22da-5cbb-a9eb-754ad0c1f5de",
-        "44944dce-9bd9-5723-b45b-c8df733c5284",
-        "470d74e5-9aa4-5f24-bb4a-c5f8d0bb0504",
-        "4abe22f0-a3ec-564b-93e2-a33813ebdd7a",
-        "5342417e-c6e3-54d6-9129-16e6638210c7",
-        "5345277a-3402-5fa3-8e76-08fb08f3cb68",
-        "547077a3-3697-5235-89c5-9dd308cdbf7a",
-        "54837e67-3760-5c0f-be88-38ec0bf6a3d2",
-        "582a8783-6b63-53cf-95f6-171c771535aa",
-        "5960ea10-cdb8-5d1c-9d13-863b9aaa3ba3",
-        "5aa1cede-5a4b-59d1-9212-fdf89b17bbff",
-        "5bf53026-b5dc-5e6e-a2b7-90377fff9ecb",
-        "60fea5ca-4979-5166-bb3c-63c387a0b378",
-        "6ed94aaf-d0f4-5c50-bf62-af3006ae903a",
-        "7062abfe-f109-548a-a12e-438bf0a38d14",
-        "713ef046-b790-5987-bcab-fdf9bde97554",
-        "742f7b8d-2497-50ef-835b-671f25ab9b4e",
-        "760399be-0a50-5af2-999a-c74e10e6e7a4",
-        "779a1d4d-9243-5cbf-8ceb-dd14e24b2028",
-        "78942893-349a-5b1b-b3ae-b4c497386775",
-        "81172377-a476-5c29-b962-9c7f6abe3601",
-        "83589d53-69b6-533a-b537-4d8fd40d660d",
-        "8a676663-678c-5250-bf71-b9be0ac00031",
-        "8e5535bb-8a6a-51b9-b304-a0831aeecb17",
-        "91610a9c-9c9f-5f3b-95ea-67c80a65196b",
-        "938aa8fc-8a45-5a7a-90a6-a8cbfaeb8019",
-        "98eaa22a-e3b0-5bdf-8740-9e110c73a308",
-        "9e72aae6-b328-5dc4-98fd-208cb5a911d3",
-        "9fc1487b-25f4-5931-99e9-fc548ef99c40",
-        "a595291c-37a8-5c67-af74-048dc3194153",
-        "a683bb71-4b7e-5489-be29-5b4ff50487c6",
-        "a97ac400-2055-5d89-a8aa-8684f345eb9b",
-        "af24c099-9cb1-5230-9ba2-32218d0acb02",
-        "af59892f-e7dd-5679-be1e-f48b665a83a0",
-        "b98a4ecf-dc8d-50a7-9b48-073968e6a49c",
-        "bb9161d3-5b5b-501b-8072-f1655c792570",
-        "bbc04570-5e0c-594b-a285-8b522cf0179d",
-        "c19b3751-cf65-5bd5-baa8-fc88137acecf",
-        "c2d02cab-a32f-54fd-8f0a-4daf81d200d4",
-        "c5fe1103-5420-5085-a2a2-0357e6ff58c1",
-        "c80506b5-fb7b-5d11-97ba-6541578292b0",
-        "cbf21c0b-0712-5a55-9982-3ab9963cfa09",
-        "cd1715bb-1f95-5cf9-867b-c6535cddb64c",
-        "d1eaa6ba-cbe5-5a6e-b8be-0b48a43fdb2c",
-        "d4cbd86d-3ac2-5024-b0ba-ca9eb8f0b229",
-        "d55f43ef-409c-5bae-abec-8bbf5c92f90d",
-        "d9443d7e-d854-55cd-8cf9-b47a3b6be8d5",
-        "d9516049-653c-5e9f-9f18-69e652ea02d3",
-        "e210673e-707f-5f77-9a5b-2384d9a1c07e",
-        "e32c2d98-3dae-525a-be31-376692f5fcd0",
-        "e5716d06-3daf-5324-97b1-ee2557324c06",
-        "e85a9a56-5436-54c4-92de-575a348d0cd0",
-        "ed474391-09ee-576d-ba22-1268be6c6dba",
-        "f04bc6ec-383c-597a-a360-f599c4269155",
-        "f1f7e887-caa3-52a0-9e3b-49c690ea00a9",
-        "f2025a33-0c16-5f88-8acd-7c0b03645879",
-        "f2e31d3f-a431-525e-a6a4-aada5373b6dc",
-        "f3fadbf4-ee9c-52c7-99c2-0718b15c4308"
-      ],
-      "warnings": []
-    },
-    {
-      "method": "baseline_greedy_fit",
+      "method": "greedy_fit",
+      "random_seed": null,
       "feasible": true,
       "assigned_count": 34,
       "unassigned_count": 86,
@@ -852,7 +960,8 @@
       "warnings": []
     },
     {
-      "method": "baseline_machado_k_rounds",
+      "method": "machado_k_rounds",
+      "random_seed": null,
       "feasible": true,
       "assigned_count": 34,
       "unassigned_count": 86,
@@ -1243,51 +1352,64 @@
       "warnings": []
     },
     {
-      "method": "baseline_balanced_greedy",
+      "method": "thesis_no_li",
+      "random_seed": null,
       "feasible": true,
       "assigned_count": 34,
       "unassigned_count": 86,
       "required_slots": 34,
-      "objective_score": 4.6164783742485564,
-      "fairness_deviation": 0.4355962290841015,
-      "min_team_score": 0.3916042569155121,
-      "mean_team_score": 0.5906721789399477,
-      "max_team_score": 0.8272004859996136,
-      "local_improvement": null,
+      "objective_score": 6.015487223841704,
+      "fairness_deviation": 0.2502031877302161,
+      "min_team_score": 0.6270086201269592,
+      "mean_team_score": 0.7597547525967822,
+      "max_team_score": 0.8772118078571753,
+      "local_improvement": {
+        "enabled": false,
+        "initial_objective_score": 6.015487223841704,
+        "final_objective_score": 6.015487223841704,
+        "improvement_gain": 0.0,
+        "accepted_swaps": 0,
+        "accepted_replacements": 0,
+        "evaluated_swaps": 0,
+        "evaluated_replacements": 0,
+        "iterations": 0,
+        "stop_reason": "disabled",
+        "accepted_moves": []
+      },
       "teams": [
         {
           "project_id": "E1",
           "project_title": "AI Meeting Notes Assistant",
           "member_ids": [
             "f1f7e887-caa3-52a0-9e3b-49c690ea00a9",
-            "5ad8402b-5445-56c3-ac3f-4e1aee3ce489",
-            "9a739623-c293-5917-9f8c-e1b3f15e9027",
-            "88895504-27c7-5af4-beb4-82e8c05d7fed"
+            "c19b3751-cf65-5bd5-baa8-fc88137acecf",
+            "10319d23-5e5a-571e-84e1-158457d2f20e",
+            "f2a6efc3-81a1-5280-8e48-c18e01a89d0d"
           ],
           "target_team_size": 4,
-          "team_score": 0.6649728032147013,
+          "team_score": 0.8320739188955343,
           "components": {
-            "required_skill_coverage": 0.75,
+            "required_skill_coverage": 1.0,
             "preferred_skill_coverage": 0.5,
-            "role_balance": 0.75,
-            "experience_balance": 0.521286446121831,
-            "average_individual_fit": 0.5513157894736842,
-            "redundancy_score": 0.8829651469811652
+            "role_balance": 1.0,
+            "experience_balance": 0.7275688160287079,
+            "average_individual_fit": 0.49605263157894736,
+            "redundancy_score": 0.9666666666666667
           },
           "covered_required_skills": [
             "api",
+            "nlp",
             "python",
             "react"
           ],
-          "missing_required_skills": [
-            "nlp"
-          ],
+          "missing_required_skills": [],
           "covered_preferred_skills": [
-            "docker",
-            "postgresql"
+            "postgresql",
+            "ui/ux"
           ],
           "role_families": [
             "backend",
+            "design ux",
             "frontend",
             "machine learning"
           ]
@@ -1297,33 +1419,35 @@
           "project_title": "Learning Progress Tracker",
           "member_ids": [
             "a94201bf-10f4-51ad-92b7-0b5749bc791a",
-            "e85a9a56-5436-54c4-92de-575a348d0cd0",
-            "304bf4fc-6c5c-5f2e-be8b-dcd0df64887a",
-            "1d7fffe6-374b-525b-87e4-25797ad74d7a"
+            "88895504-27c7-5af4-beb4-82e8c05d7fed",
+            "81172377-a476-5c29-b962-9c7f6abe3601",
+            "ed474391-09ee-576d-ba22-1268be6c6dba"
           ],
           "target_team_size": 4,
-          "team_score": 0.3916042569155121,
+          "team_score": 0.7199888504137868,
           "components": {
-            "required_skill_coverage": 0.25,
+            "required_skill_coverage": 0.75,
             "preferred_skill_coverage": 0.25,
-            "role_balance": 0.5,
-            "experience_balance": 0.5750817072006014,
-            "average_individual_fit": 0.49736842105263157,
-            "redundancy_score": 0.6121031746031746
+            "role_balance": 1.0,
+            "experience_balance": 0.8183792106858052,
+            "average_individual_fit": 0.48157894736842105,
+            "redundancy_score": 0.9814814814814815
           },
           "covered_required_skills": [
+            "react",
+            "sql",
             "ui/ux"
           ],
           "missing_required_skills": [
-            "data visualization",
-            "react",
-            "sql"
+            "data visualization"
           ],
           "covered_preferred_skills": [
             "project management"
           ],
           "role_families": [
+            "data analytics",
             "design ux",
+            "frontend",
             "product project"
           ]
         },
@@ -1332,20 +1456,20 @@
           "project_title": "Smart Scheduling Optimizer",
           "member_ids": [
             "06f30731-246e-5bd3-bb83-d0dfa1cb4f2b",
-            "e210673e-707f-5f77-9a5b-2384d9a1c07e",
-            "60fea5ca-4979-5166-bb3c-63c387a0b378",
-            "3248ada6-8b83-5af9-b2d5-0505b26ad0db",
-            "f2e31d3f-a431-525e-a6a4-aada5373b6dc"
+            "f3fadbf4-ee9c-52c7-99c2-0718b15c4308",
+            "04db6a91-d47a-5fe5-bc25-f1d95aa3127d",
+            "742f7b8d-2497-50ef-835b-671f25ab9b4e",
+            "c3ad1504-3307-5307-8d7f-67b6b4b0281b"
           ],
           "target_team_size": 5,
-          "team_score": 0.5193142534735041,
+          "team_score": 0.7535791116559977,
           "components": {
             "required_skill_coverage": 0.75,
-            "preferred_skill_coverage": 0.0,
-            "role_balance": 0.25,
-            "experience_balance": 0.7891814893221081,
-            "average_individual_fit": 0.5452631578947369,
-            "redundancy_score": 0.6782142857142857
+            "preferred_skill_coverage": 0.5,
+            "role_balance": 1.0,
+            "experience_balance": 0.8454396917417383,
+            "average_individual_fit": 0.39263157894736844,
+            "redundancy_score": 1.0
           },
           "covered_required_skills": [
             "api",
@@ -1355,9 +1479,15 @@
           "missing_required_skills": [
             "optimization"
           ],
-          "covered_preferred_skills": [],
+          "covered_preferred_skills": [
+            "docker",
+            "react"
+          ],
           "role_families": [
-            "data analytics"
+            "backend",
+            "data analytics",
+            "frontend",
+            "product project"
           ]
         },
         {
@@ -1365,33 +1495,34 @@
           "project_title": "Accessibility Remediation Portal",
           "member_ids": [
             "1b749e97-aa4d-55e4-9768-c6c269087c89",
-            "d1eaa6ba-cbe5-5a6e-b8be-0b48a43fdb2c",
-            "ef30012f-d22a-51e5-a24d-bb208f28c178"
+            "304bf4fc-6c5c-5f2e-be8b-dcd0df64887a",
+            "78942893-349a-5b1b-b3ae-b4c497386775"
           ],
           "target_team_size": 3,
-          "team_score": 0.49523359359513913,
+          "team_score": 0.6843552378574171,
           "components": {
-            "required_skill_coverage": 0.5,
+            "required_skill_coverage": 0.75,
             "preferred_skill_coverage": 0.25,
-            "role_balance": 0.5,
-            "experience_balance": 0.6399588500884521,
-            "average_individual_fit": 0.5368421052631579,
-            "redundancy_score": 0.6611111111111111
+            "role_balance": 0.75,
+            "experience_balance": 0.9214325798681614,
+            "average_individual_fit": 0.4614035087719298,
+            "redundancy_score": 1.0
           },
           "covered_required_skills": [
             "qa",
-            "react"
+            "react",
+            "ui/ux"
           ],
           "missing_required_skills": [
-            "accessibility",
-            "ui/ux"
+            "accessibility"
           ],
           "covered_preferred_skills": [
             "project management"
           ],
           "role_families": [
+            "design ux",
             "frontend",
-            "qa testing"
+            "product project"
           ]
         },
         {
@@ -1399,20 +1530,20 @@
           "project_title": "Campus Energy Usage Visualizer",
           "member_ids": [
             "fb1e7ad9-bdcf-5aa6-a60a-ea92bd1ce4e4",
-            "576771cd-94f6-5a12-81b8-798165216c0f",
-            "1cc35c03-0c1d-50a6-80d3-6346fabb7677",
-            "81172377-a476-5c29-b962-9c7f6abe3601",
-            "5bf53026-b5dc-5e6e-a2b7-90377fff9ecb"
+            "2f30dd9c-450a-587d-8a3c-55d6faa2083f",
+            "470d74e5-9aa4-5f24-bb4a-c5f8d0bb0504",
+            "4b65017c-65d2-5afb-a709-95a3c95242d1",
+            "60fea5ca-4979-5166-bb3c-63c387a0b378"
           ],
           "target_team_size": 5,
-          "team_score": 0.5784699822825324,
+          "team_score": 0.7643420237816692,
           "components": {
             "required_skill_coverage": 0.75,
-            "preferred_skill_coverage": 0.25,
-            "role_balance": 0.75,
-            "experience_balance": 0.2406142833403656,
-            "average_individual_fit": 0.5010526315789474,
-            "redundancy_score": 0.8454515324716563
+            "preferred_skill_coverage": 0.5,
+            "role_balance": 1.0,
+            "experience_balance": 0.9087129070824723,
+            "average_individual_fit": 0.41368421052631577,
+            "redundancy_score": 0.9833333333333333
           },
           "covered_required_skills": [
             "python",
@@ -1423,13 +1554,14 @@
             "data visualization"
           ],
           "covered_preferred_skills": [
-            "postgresql"
+            "postgresql",
+            "ui/ux"
           ],
           "role_families": [
             "backend",
             "data analytics",
-            "frontend",
-            "fullstack"
+            "design ux",
+            "frontend"
           ]
         },
         {
@@ -1437,19 +1569,19 @@
           "project_title": "Prototype Deployment Hub",
           "member_ids": [
             "394ab308-64a6-513b-8dc4-6cf6c8cb9182",
-            "09128e7c-f5c4-58e6-8275-e3b36d8b4bb4",
-            "582a8783-6b63-53cf-95f6-171c771535aa",
-            "95ff400a-a38c-5c7e-869f-7ee8711ed9df"
+            "2fad21b4-cc7f-5c62-b31a-d6098630194c",
+            "7062abfe-f109-548a-a12e-438bf0a38d14",
+            "0383da23-a018-548d-91c1-ce542b45c0c7"
           ],
           "target_team_size": 4,
-          "team_score": 0.7729168999371148,
+          "team_score": 0.8772118078571753,
           "components": {
             "required_skill_coverage": 1.0,
             "preferred_skill_coverage": 0.75,
-            "role_balance": 0.5,
-            "experience_balance": 0.6881952177688382,
-            "average_individual_fit": 0.7263157894736842,
-            "redundancy_score": 0.6911207664884136
+            "role_balance": 1.0,
+            "experience_balance": 0.7534966757041827,
+            "average_individual_fit": 0.531578947368421,
+            "redundancy_score": 0.9705882352941176
           },
           "covered_required_skills": [
             "api",
@@ -1464,7 +1596,9 @@
             "python"
           ],
           "role_families": [
+            "backend",
             "devops cloud",
+            "product project",
             "qa testing"
           ]
         },
@@ -1474,20 +1608,767 @@
           "member_ids": [
             "6ed94aaf-d0f4-5c50-bf62-af3006ae903a",
             "0b7a4676-7dbc-583c-bb97-6ce044d83934",
-            "547077a3-3697-5235-89c5-9dd308cdbf7a",
-            "f3fadbf4-ee9c-52c7-99c2-0718b15c4308",
-            "40919599-8a7b-5503-a38e-747f74a6ae49",
-            "9f483db5-12d7-5464-be33-e31d9ea6c57d"
+            "9f483db5-12d7-5464-be33-e31d9ea6c57d",
+            "1d7fffe6-374b-525b-87e4-25797ad74d7a",
+            "c49e88a9-37dc-517d-9741-68877ba2be53",
+            "3c5ff46a-2c49-58e6-96ba-2b49852eb3e9"
           ],
           "target_team_size": 6,
-          "team_score": 0.8272004859996136,
+          "team_score": 0.8194784501857173,
+          "components": {
+            "required_skill_coverage": 1.0,
+            "preferred_skill_coverage": 0.5,
+            "role_balance": 1.0,
+            "experience_balance": 0.6722104521887238,
+            "average_individual_fit": 0.46754385964912276,
+            "redundancy_score": 0.9378499278499278
+          },
+          "covered_required_skills": [
+            "node.js",
+            "postgresql",
+            "project management",
+            "react"
+          ],
+          "missing_required_skills": [],
+          "covered_preferred_skills": [
+            "qa",
+            "ui/ux"
+          ],
+          "role_families": [
+            "backend",
+            "design ux",
+            "frontend",
+            "product project",
+            "qa testing"
+          ]
+        },
+        {
+          "project_id": "E8",
+          "project_title": "Lightweight Chatbot FAQ",
+          "member_ids": [
+            "0127f285-94c0-5efb-b4df-95de456a5a2f",
+            "0d138415-50d2-5450-bf3f-1f04d20799c4",
+            "3add7b7e-304c-5d82-9b17-a7715813d363"
+          ],
+          "target_team_size": 3,
+          "team_score": 0.6270086201269592,
+          "components": {
+            "required_skill_coverage": 0.75,
+            "preferred_skill_coverage": 0.25,
+            "role_balance": 0.75,
+            "experience_balance": 0.5285954792089682,
+            "average_individual_fit": 0.47719298245614034,
+            "redundancy_score": 1.0
+          },
+          "covered_required_skills": [
+            "nlp",
+            "python",
+            "ui/ux"
+          ],
+          "missing_required_skills": [
+            "api"
+          ],
+          "covered_preferred_skills": [
+            "react"
+          ],
+          "role_families": [
+            "design ux",
+            "frontend",
+            "machine learning"
+          ]
+        }
+      ],
+      "unassigned_candidate_ids": [
+        "09128e7c-f5c4-58e6-8275-e3b36d8b4bb4",
+        "0a04b276-79b4-5f07-b6d6-b530d1c535b8",
+        "0c062883-e286-5be8-a699-a01962178273",
+        "1226f57a-c089-5670-836c-668938704c00",
+        "12bf9b94-a222-5be8-b87a-7eb53a08933f",
+        "186b668c-af9c-5ee8-b954-d3f82aea363d",
+        "1a9277b6-a4aa-5876-8be1-b7bb2dfd7e31",
+        "1a9487a6-3f91-59ce-8245-87e68890a3e8",
+        "1cc35c03-0c1d-50a6-80d3-6346fabb7677",
+        "1e2f3b47-7b28-5a0e-9526-b72436a78590",
+        "1fa679fd-e557-577b-9c23-e71468cafba1",
+        "21a67b4c-4f65-52c0-8873-f4b07caab78d",
+        "22308711-1619-5847-b039-b13b3a2b7eaf",
+        "235e034c-5a41-5067-b77f-c163ffa0429a",
+        "2c744927-ce2b-5c42-9f5c-42abf4cab95b",
+        "2cef3dac-5804-5003-a36c-e8ec64dacdb4",
+        "3248ada6-8b83-5af9-b2d5-0505b26ad0db",
+        "3338fbd7-20d9-5d97-840f-936d909046e0",
+        "35a5f606-4876-5e74-9f65-d4027b842bda",
+        "3696071f-862d-564d-9f94-c418f1f57837",
+        "381a8fb9-da9b-581b-95c5-197c1f8029b6",
+        "3b536827-3d7a-5ff7-ae17-62b9dc97aca5",
+        "40919599-8a7b-5503-a38e-747f74a6ae49",
+        "41123501-22da-5cbb-a9eb-754ad0c1f5de",
+        "42e8e874-e7d8-50d9-a5e0-3b6095e1f507",
+        "44944dce-9bd9-5723-b45b-c8df733c5284",
+        "47412c50-3715-5c57-b348-3b04013a86af",
+        "4abe22f0-a3ec-564b-93e2-a33813ebdd7a",
+        "5342417e-c6e3-54d6-9129-16e6638210c7",
+        "5345277a-3402-5fa3-8e76-08fb08f3cb68",
+        "547077a3-3697-5235-89c5-9dd308cdbf7a",
+        "54837e67-3760-5c0f-be88-38ec0bf6a3d2",
+        "568fff9c-6847-51fa-b625-961c263e72ca",
+        "576771cd-94f6-5a12-81b8-798165216c0f",
+        "582a8783-6b63-53cf-95f6-171c771535aa",
+        "583ee381-c494-5cb4-94d2-b9294b042123",
+        "5960ea10-cdb8-5d1c-9d13-863b9aaa3ba3",
+        "5aa1cede-5a4b-59d1-9212-fdf89b17bbff",
+        "5ad8402b-5445-56c3-ac3f-4e1aee3ce489",
+        "5bf53026-b5dc-5e6e-a2b7-90377fff9ecb",
+        "5edd45c9-4da9-589f-970d-136abb414f11",
+        "7061c1d5-0673-53e1-a32f-9acb5e23b41a",
+        "713ef046-b790-5987-bcab-fdf9bde97554",
+        "760399be-0a50-5af2-999a-c74e10e6e7a4",
+        "779a1d4d-9243-5cbf-8ceb-dd14e24b2028",
+        "83589d53-69b6-533a-b537-4d8fd40d660d",
+        "8a676663-678c-5250-bf71-b9be0ac00031",
+        "8e5535bb-8a6a-51b9-b304-a0831aeecb17",
+        "91610a9c-9c9f-5f3b-95ea-67c80a65196b",
+        "938aa8fc-8a45-5a7a-90a6-a8cbfaeb8019",
+        "95ff400a-a38c-5c7e-869f-7ee8711ed9df",
+        "98eaa22a-e3b0-5bdf-8740-9e110c73a308",
+        "9a739623-c293-5917-9f8c-e1b3f15e9027",
+        "9e72aae6-b328-5dc4-98fd-208cb5a911d3",
+        "9fc1487b-25f4-5931-99e9-fc548ef99c40",
+        "a595291c-37a8-5c67-af74-048dc3194153",
+        "a683bb71-4b7e-5489-be29-5b4ff50487c6",
+        "a97ac400-2055-5d89-a8aa-8684f345eb9b",
+        "af219ade-2519-51e9-8843-ae844190e7e5",
+        "af24c099-9cb1-5230-9ba2-32218d0acb02",
+        "af59892f-e7dd-5679-be1e-f48b665a83a0",
+        "b98a4ecf-dc8d-50a7-9b48-073968e6a49c",
+        "bb9161d3-5b5b-501b-8072-f1655c792570",
+        "bbc04570-5e0c-594b-a285-8b522cf0179d",
+        "c2d02cab-a32f-54fd-8f0a-4daf81d200d4",
+        "c5fe1103-5420-5085-a2a2-0357e6ff58c1",
+        "c6563b4e-ed82-5ec2-83f3-769935cf511b",
+        "c80506b5-fb7b-5d11-97ba-6541578292b0",
+        "cbf21c0b-0712-5a55-9982-3ab9963cfa09",
+        "cd1715bb-1f95-5cf9-867b-c6535cddb64c",
+        "d1eaa6ba-cbe5-5a6e-b8be-0b48a43fdb2c",
+        "d4cbd86d-3ac2-5024-b0ba-ca9eb8f0b229",
+        "d55f43ef-409c-5bae-abec-8bbf5c92f90d",
+        "d9443d7e-d854-55cd-8cf9-b47a3b6be8d5",
+        "d9516049-653c-5e9f-9f18-69e652ea02d3",
+        "e210673e-707f-5f77-9a5b-2384d9a1c07e",
+        "e270dbbc-ec73-5315-ad81-ad58ae897560",
+        "e32c2d98-3dae-525a-be31-376692f5fcd0",
+        "e5693019-3fc6-5cb3-9f13-7c16e68da19c",
+        "e5716d06-3daf-5324-97b1-ee2557324c06",
+        "e63f13b0-56ff-5b7e-a44f-4e9591b2f1e0",
+        "e85a9a56-5436-54c4-92de-575a348d0cd0",
+        "ef30012f-d22a-51e5-a24d-bb208f28c178",
+        "f04bc6ec-383c-597a-a360-f599c4269155",
+        "f2025a33-0c16-5f88-8acd-7c0b03645879",
+        "f2e31d3f-a431-525e-a6a4-aada5373b6dc"
+      ],
+      "warnings": []
+    },
+    {
+      "method": "machado_k_rounds_li",
+      "random_seed": null,
+      "feasible": true,
+      "assigned_count": 34,
+      "unassigned_count": 86,
+      "required_slots": 34,
+      "objective_score": 6.362954303273997,
+      "fairness_deviation": 0.20184445521602068,
+      "min_team_score": 0.6990977443609023,
+      "mean_team_score": 0.8016769271347503,
+      "max_team_score": 0.900942199576923,
+      "local_improvement": {
+        "enabled": true,
+        "initial_objective_score": 4.819414153427616,
+        "final_objective_score": 6.362954303273997,
+        "improvement_gain": 1.5435401498463817,
+        "accepted_swaps": 8,
+        "accepted_replacements": 27,
+        "evaluated_swaps": 18072,
+        "evaluated_replacements": 105264,
+        "iterations": 36,
+        "stop_reason": "no_improving_move_found",
+        "accepted_moves": [
+          {
+            "iteration": 1,
+            "move_type": "swap",
+            "gain": 0.2442761330104526,
+            "affected_projects": [
+              "E2",
+              "E8"
+            ],
+            "description": "Swapped candidate e85a9a56-5436-54c4-92de-575a348d0cd0 from E2 with candidate a97ac400-2055-5d89-a8aa-8684f345eb9b from E8."
+          },
+          {
+            "iteration": 2,
+            "move_type": "replacement",
+            "gain": 0.1670959116851547,
+            "affected_projects": [
+              "E4"
+            ],
+            "description": "Replaced candidate d1eaa6ba-cbe5-5a6e-b8be-0b48a43fdb2c with unassigned candidate 1d7fffe6-374b-525b-87e4-25797ad74d7a in project E4."
+          },
+          {
+            "iteration": 3,
+            "move_type": "swap",
+            "gain": 0.16622855317102836,
+            "affected_projects": [
+              "E5",
+              "E8"
+            ],
+            "description": "Swapped candidate 576771cd-94f6-5a12-81b8-798165216c0f from E5 with candidate 9a739623-c293-5917-9f8c-e1b3f15e9027 from E8."
+          },
+          {
+            "iteration": 4,
+            "move_type": "replacement",
+            "gain": 0.12338718982932839,
+            "affected_projects": [
+              "E3"
+            ],
+            "description": "Replaced candidate 3248ada6-8b83-5af9-b2d5-0505b26ad0db with unassigned candidate f2a6efc3-81a1-5280-8e48-c18e01a89d0d in project E3."
+          },
+          {
+            "iteration": 5,
+            "move_type": "replacement",
+            "gain": 0.11463876664532613,
+            "affected_projects": [
+              "E5"
+            ],
+            "description": "Replaced candidate 5bf53026-b5dc-5e6e-a2b7-90377fff9ecb with unassigned candidate ed474391-09ee-576d-ba22-1268be6c6dba in project E5."
+          },
+          {
+            "iteration": 6,
+            "move_type": "replacement",
+            "gain": 0.09622112944797578,
+            "affected_projects": [
+              "E3"
+            ],
+            "description": "Replaced candidate f2e31d3f-a431-525e-a6a4-aada5373b6dc with unassigned candidate 04db6a91-d47a-5fe5-bc25-f1d95aa3127d in project E3."
+          },
+          {
+            "iteration": 7,
+            "move_type": "replacement",
+            "gain": 0.08240842504128842,
+            "affected_projects": [
+              "E2"
+            ],
+            "description": "Replaced candidate a97ac400-2055-5d89-a8aa-8684f345eb9b with unassigned candidate 3248ada6-8b83-5af9-b2d5-0505b26ad0db in project E2."
+          },
+          {
+            "iteration": 8,
+            "move_type": "replacement",
+            "gain": 0.050748545691716274,
+            "affected_projects": [
+              "E1"
+            ],
+            "description": "Replaced candidate 5ad8402b-5445-56c3-ac3f-4e1aee3ce489 with unassigned candidate 470d74e5-9aa4-5f24-bb4a-c5f8d0bb0504 in project E1."
+          },
+          {
+            "iteration": 9,
+            "move_type": "swap",
+            "gain": 0.06117274283687024,
+            "affected_projects": [
+              "E1",
+              "E4"
+            ],
+            "description": "Swapped candidate 88895504-27c7-5af4-beb4-82e8c05d7fed from E1 with candidate 1b749e97-aa4d-55e4-9768-c6c269087c89 from E4."
+          },
+          {
+            "iteration": 10,
+            "move_type": "replacement",
+            "gain": 0.05109708349804443,
+            "affected_projects": [
+              "E6"
+            ],
+            "description": "Replaced candidate 582a8783-6b63-53cf-95f6-171c771535aa with unassigned candidate 7062abfe-f109-548a-a12e-438bf0a38d14 in project E6."
+          },
+          {
+            "iteration": 11,
+            "move_type": "replacement",
+            "gain": 0.04903947368421058,
+            "affected_projects": [
+              "E3"
+            ],
+            "description": "Replaced candidate e210673e-707f-5f77-9a5b-2384d9a1c07e with unassigned candidate 78942893-349a-5b1b-b3ae-b4c497386775 in project E3."
+          },
+          {
+            "iteration": 12,
+            "move_type": "replacement",
+            "gain": 0.037267645928833026,
+            "affected_projects": [
+              "E7"
+            ],
+            "description": "Replaced candidate 40919599-8a7b-5503-a38e-747f74a6ae49 with unassigned candidate 1a9277b6-a4aa-5876-8be1-b7bb2dfd7e31 in project E7."
+          },
+          {
+            "iteration": 13,
+            "move_type": "replacement",
+            "gain": 0.03978820670466021,
+            "affected_projects": [
+              "E6"
+            ],
+            "description": "Replaced candidate 95ff400a-a38c-5c7e-869f-7ee8711ed9df with unassigned candidate f2025a33-0c16-5f88-8acd-7c0b03645879 in project E6."
+          },
+          {
+            "iteration": 14,
+            "move_type": "replacement",
+            "gain": 0.036299042320974806,
+            "affected_projects": [
+              "E2"
+            ],
+            "description": "Replaced candidate 547077a3-3697-5235-89c5-9dd308cdbf7a with unassigned candidate 5345277a-3402-5fa3-8e76-08fb08f3cb68 in project E2."
+          },
+          {
+            "iteration": 15,
+            "move_type": "replacement",
+            "gain": 0.04607893721952294,
+            "affected_projects": [
+              "E2"
+            ],
+            "description": "Replaced candidate a94201bf-10f4-51ad-92b7-0b5749bc791a with unassigned candidate 742f7b8d-2497-50ef-835b-671f25ab9b4e in project E2."
+          },
+          {
+            "iteration": 16,
+            "move_type": "replacement",
+            "gain": 0.029703345876235687,
+            "affected_projects": [
+              "E3"
+            ],
+            "description": "Replaced candidate 60fea5ca-4979-5166-bb3c-63c387a0b378 with unassigned candidate f04bc6ec-383c-597a-a360-f599c4269155 in project E3."
+          },
+          {
+            "iteration": 17,
+            "move_type": "replacement",
+            "gain": 0.029000136960352307,
+            "affected_projects": [
+              "E5"
+            ],
+            "description": "Replaced candidate 81172377-a476-5c29-b962-9c7f6abe3601 with unassigned candidate e210673e-707f-5f77-9a5b-2384d9a1c07e in project E5."
+          },
+          {
+            "iteration": 18,
+            "move_type": "swap",
+            "gain": 0.021718309533257596,
+            "affected_projects": [
+              "E5",
+              "E7"
+            ],
+            "description": "Swapped candidate ed474391-09ee-576d-ba22-1268be6c6dba from E5 with candidate 304bf4fc-6c5c-5f2e-be8b-dcd0df64887a from E7."
+          },
+          {
+            "iteration": 19,
+            "move_type": "replacement",
+            "gain": 0.017309611098161426,
+            "affected_projects": [
+              "E6"
+            ],
+            "description": "Replaced candidate 09128e7c-f5c4-58e6-8275-e3b36d8b4bb4 with unassigned candidate 2fad21b4-cc7f-5c62-b31a-d6098630194c in project E6."
+          },
+          {
+            "iteration": 20,
+            "move_type": "replacement",
+            "gain": 0.015357957690758539,
+            "affected_projects": [
+              "E4"
+            ],
+            "description": "Replaced candidate 1d7fffe6-374b-525b-87e4-25797ad74d7a with unassigned candidate a94201bf-10f4-51ad-92b7-0b5749bc791a in project E4."
+          },
+          {
+            "iteration": 21,
+            "move_type": "replacement",
+            "gain": 0.005114904493096262,
+            "affected_projects": [
+              "E7"
+            ],
+            "description": "Replaced candidate 9f483db5-12d7-5464-be33-e31d9ea6c57d with unassigned candidate af24c099-9cb1-5230-9ba2-32218d0acb02 in project E7."
+          },
+          {
+            "iteration": 22,
+            "move_type": "swap",
+            "gain": 0.0037520661434538027,
+            "affected_projects": [
+              "E3",
+              "E5"
+            ],
+            "description": "Swapped candidate f04bc6ec-383c-597a-a360-f599c4269155 from E3 with candidate 9a739623-c293-5917-9f8c-e1b3f15e9027 from E5."
+          },
+          {
+            "iteration": 23,
+            "move_type": "swap",
+            "gain": 0.012430617656240095,
+            "affected_projects": [
+              "E3",
+              "E6"
+            ],
+            "description": "Swapped candidate 04db6a91-d47a-5fe5-bc25-f1d95aa3127d from E3 with candidate f2025a33-0c16-5f88-8acd-7c0b03645879 from E6."
+          },
+          {
+            "iteration": 24,
+            "move_type": "swap",
+            "gain": 0.01053877114187518,
+            "affected_projects": [
+              "E1",
+              "E3"
+            ],
+            "description": "Swapped candidate 1b749e97-aa4d-55e4-9768-c6c269087c89 from E1 with candidate f2a6efc3-81a1-5280-8e48-c18e01a89d0d from E3."
+          },
+          {
+            "iteration": 25,
+            "move_type": "replacement",
+            "gain": 0.008812104341017424,
+            "affected_projects": [
+              "E5"
+            ],
+            "description": "Replaced candidate e210673e-707f-5f77-9a5b-2384d9a1c07e with unassigned candidate 2f30dd9c-450a-587d-8a3c-55d6faa2083f in project E5."
+          },
+          {
+            "iteration": 26,
+            "move_type": "swap",
+            "gain": 0.007397866399529107,
+            "affected_projects": [
+              "E1",
+              "E5"
+            ],
+            "description": "Swapped candidate 470d74e5-9aa4-5f24-bb4a-c5f8d0bb0504 from E1 with candidate 304bf4fc-6c5c-5f2e-be8b-dcd0df64887a from E5."
+          },
+          {
+            "iteration": 27,
+            "move_type": "replacement",
+            "gain": 0.00305134703913712,
+            "affected_projects": [
+              "E6"
+            ],
+            "description": "Replaced candidate 7062abfe-f109-548a-a12e-438bf0a38d14 with unassigned candidate e5693019-3fc6-5cb3-9f13-7c16e68da19c in project E6."
+          },
+          {
+            "iteration": 28,
+            "move_type": "replacement",
+            "gain": 0.0037702493420308514,
+            "affected_projects": [
+              "E6"
+            ],
+            "description": "Replaced candidate 2fad21b4-cc7f-5c62-b31a-d6098630194c with unassigned candidate 3b536827-3d7a-5ff7-ae17-62b9dc97aca5 in project E6."
+          },
+          {
+            "iteration": 29,
+            "move_type": "replacement",
+            "gain": 0.0015947121956321197,
+            "affected_projects": [
+              "E5"
+            ],
+            "description": "Replaced candidate 1cc35c03-0c1d-50a6-80d3-6346fabb7677 with unassigned candidate 4b65017c-65d2-5afb-a709-95a3c95242d1 in project E5."
+          },
+          {
+            "iteration": 30,
+            "move_type": "replacement",
+            "gain": 0.0015754277524218097,
+            "affected_projects": [
+              "E3"
+            ],
+            "description": "Replaced candidate 06f30731-246e-5bd3-bb83-d0dfa1cb4f2b with unassigned candidate e210673e-707f-5f77-9a5b-2384d9a1c07e in project E3."
+          },
+          {
+            "iteration": 31,
+            "move_type": "replacement",
+            "gain": 0.0013410784919756225,
+            "affected_projects": [
+              "E7"
+            ],
+            "description": "Replaced candidate c49e88a9-37dc-517d-9741-68877ba2be53 with unassigned candidate 21a67b4c-4f65-52c0-8873-f4b07caab78d in project E7."
+          },
+          {
+            "iteration": 32,
+            "move_type": "replacement",
+            "gain": 0.0017741530024633079,
+            "affected_projects": [
+              "E7"
+            ],
+            "description": "Replaced candidate 0b7a4676-7dbc-583c-bb97-6ce044d83934 with unassigned candidate 3c5ff46a-2c49-58e6-96ba-2b49852eb3e9 in project E7."
+          },
+          {
+            "iteration": 33,
+            "move_type": "replacement",
+            "gain": 0.00221185728719675,
+            "affected_projects": [
+              "E7"
+            ],
+            "description": "Replaced candidate 21a67b4c-4f65-52c0-8873-f4b07caab78d with unassigned candidate 7062abfe-f109-548a-a12e-438bf0a38d14 in project E7."
+          },
+          {
+            "iteration": 34,
+            "move_type": "replacement",
+            "gain": 0.0009259259259257746,
+            "affected_projects": [
+              "E8"
+            ],
+            "description": "Replaced candidate 0127f285-94c0-5efb-b4df-95de456a5a2f with unassigned candidate a97ac400-2055-5d89-a8aa-8684f345eb9b in project E8."
+          },
+          {
+            "iteration": 35,
+            "move_type": "replacement",
+            "gain": 0.00041192076023399693,
+            "affected_projects": [
+              "E1"
+            ],
+            "description": "Replaced candidate f2a6efc3-81a1-5280-8e48-c18e01a89d0d with unassigned candidate d1eaa6ba-cbe5-5a6e-b8be-0b48a43fdb2c in project E1."
+          }
+        ]
+      },
+      "teams": [
+        {
+          "project_id": "E1",
+          "project_title": "AI Meeting Notes Assistant",
+          "member_ids": [
+            "f1f7e887-caa3-52a0-9e3b-49c690ea00a9",
+            "304bf4fc-6c5c-5f2e-be8b-dcd0df64887a",
+            "10319d23-5e5a-571e-84e1-158457d2f20e",
+            "d1eaa6ba-cbe5-5a6e-b8be-0b48a43fdb2c"
+          ],
+          "target_team_size": 4,
+          "team_score": 0.837182254925635,
+          "components": {
+            "required_skill_coverage": 1.0,
+            "preferred_skill_coverage": 0.5,
+            "role_balance": 1.0,
+            "experience_balance": 0.7642977396044841,
+            "average_individual_fit": 0.5039473684210526,
+            "redundancy_score": 0.9428571428571428
+          },
+          "covered_required_skills": [
+            "api",
+            "nlp",
+            "python",
+            "react"
+          ],
+          "missing_required_skills": [],
+          "covered_preferred_skills": [
+            "postgresql",
+            "ui/ux"
+          ],
+          "role_families": [
+            "backend",
+            "design ux",
+            "frontend",
+            "machine learning"
+          ]
+        },
+        {
+          "project_id": "E2",
+          "project_title": "Learning Progress Tracker",
+          "member_ids": [
+            "742f7b8d-2497-50ef-835b-671f25ab9b4e",
+            "3248ada6-8b83-5af9-b2d5-0505b26ad0db",
+            "5345277a-3402-5fa3-8e76-08fb08f3cb68",
+            "f3fadbf4-ee9c-52c7-99c2-0718b15c4308"
+          ],
+          "target_team_size": 4,
+          "team_score": 0.7960869519799773,
+          "components": {
+            "required_skill_coverage": 0.75,
+            "preferred_skill_coverage": 0.75,
+            "role_balance": 1.0,
+            "experience_balance": 0.863386697410375,
+            "average_individual_fit": 0.41578947368421054,
+            "redundancy_score": 1.0
+          },
+          "covered_required_skills": [
+            "react",
+            "sql",
+            "ui/ux"
+          ],
+          "missing_required_skills": [
+            "data visualization"
+          ],
+          "covered_preferred_skills": [
+            "postgresql",
+            "project management",
+            "typescript"
+          ],
+          "role_families": [
+            "data analytics",
+            "design ux",
+            "frontend",
+            "product project"
+          ]
+        },
+        {
+          "project_id": "E3",
+          "project_title": "Smart Scheduling Optimizer",
+          "member_ids": [
+            "e210673e-707f-5f77-9a5b-2384d9a1c07e",
+            "78942893-349a-5b1b-b3ae-b4c497386775",
+            "9a739623-c293-5917-9f8c-e1b3f15e9027",
+            "1b749e97-aa4d-55e4-9768-c6c269087c89",
+            "f2025a33-0c16-5f88-8acd-7c0b03645879"
+          ],
+          "target_team_size": 5,
+          "team_score": 0.8053813620589936,
+          "components": {
+            "required_skill_coverage": 0.75,
+            "preferred_skill_coverage": 0.75,
+            "role_balance": 1.0,
+            "experience_balance": 0.9333333333333333,
+            "average_individual_fit": 0.42105263157894735,
+            "redundancy_score": 0.965521978021978
+          },
+          "covered_required_skills": [
+            "api",
+            "python",
+            "sql"
+          ],
+          "missing_required_skills": [
+            "optimization"
+          ],
+          "covered_preferred_skills": [
+            "docker",
+            "pandas",
+            "react"
+          ],
+          "role_families": [
+            "backend",
+            "data analytics",
+            "frontend",
+            "machine learning",
+            "product project"
+          ]
+        },
+        {
+          "project_id": "E4",
+          "project_title": "Accessibility Remediation Portal",
+          "member_ids": [
+            "88895504-27c7-5af4-beb4-82e8c05d7fed",
+            "a94201bf-10f4-51ad-92b7-0b5749bc791a",
+            "ef30012f-d22a-51e5-a24d-bb208f28c178"
+          ],
+          "target_team_size": 3,
+          "team_score": 0.6990977443609023,
+          "components": {
+            "required_skill_coverage": 0.75,
+            "preferred_skill_coverage": 0.25,
+            "role_balance": 0.75,
+            "experience_balance": 1.0,
+            "average_individual_fit": 0.5385964912280702,
+            "redundancy_score": 0.9047619047619048
+          },
+          "covered_required_skills": [
+            "qa",
+            "react",
+            "ui/ux"
+          ],
+          "missing_required_skills": [
+            "accessibility"
+          ],
+          "covered_preferred_skills": [
+            "project management"
+          ],
+          "role_families": [
+            "frontend",
+            "product project",
+            "qa testing"
+          ]
+        },
+        {
+          "project_id": "E5",
+          "project_title": "Campus Energy Usage Visualizer",
+          "member_ids": [
+            "fb1e7ad9-bdcf-5aa6-a60a-ea92bd1ce4e4",
+            "f04bc6ec-383c-597a-a360-f599c4269155",
+            "4b65017c-65d2-5afb-a709-95a3c95242d1",
+            "2f30dd9c-450a-587d-8a3c-55d6faa2083f",
+            "470d74e5-9aa4-5f24-bb4a-c5f8d0bb0504"
+          ],
+          "target_team_size": 5,
+          "team_score": 0.8050257670185396,
+          "components": {
+            "required_skill_coverage": 0.75,
+            "preferred_skill_coverage": 0.75,
+            "role_balance": 1.0,
+            "experience_balance": 0.9591751709536137,
+            "average_individual_fit": 0.371578947368421,
+            "redundancy_score": 0.9798319327731092
+          },
+          "covered_required_skills": [
+            "python",
+            "react",
+            "sql"
+          ],
+          "missing_required_skills": [
+            "data visualization"
+          ],
+          "covered_preferred_skills": [
+            "pandas",
+            "postgresql",
+            "ui/ux"
+          ],
+          "role_families": [
+            "backend",
+            "data analytics",
+            "design ux",
+            "frontend",
+            "machine learning"
+          ]
+        },
+        {
+          "project_id": "E6",
+          "project_title": "Prototype Deployment Hub",
+          "member_ids": [
+            "394ab308-64a6-513b-8dc4-6cf6c8cb9182",
+            "3b536827-3d7a-5ff7-ae17-62b9dc97aca5",
+            "e5693019-3fc6-5cb3-9f13-7c16e68da19c",
+            "04db6a91-d47a-5fe5-bc25-f1d95aa3127d"
+          ],
+          "target_team_size": 4,
+          "team_score": 0.900942199576923,
           "components": {
             "required_skill_coverage": 1.0,
             "preferred_skill_coverage": 0.75,
             "role_balance": 1.0,
-            "experience_balance": 0.46047431667902694,
-            "average_individual_fit": 0.49736842105263157,
-            "redundancy_score": 0.9178499278499278
+            "experience_balance": 0.9309036502009291,
+            "average_individual_fit": 0.5210526315789474,
+            "redundancy_score": 0.9340277777777778
+          },
+          "covered_required_skills": [
+            "api",
+            "ci/cd",
+            "docker",
+            "linux"
+          ],
+          "missing_required_skills": [],
+          "covered_preferred_skills": [
+            "aws",
+            "kubernetes",
+            "python"
+          ],
+          "role_families": [
+            "backend",
+            "devops cloud",
+            "product project",
+            "qa testing"
+          ]
+        },
+        {
+          "project_id": "E7",
+          "project_title": "Peer Review Workflow Tool",
+          "member_ids": [
+            "6ed94aaf-d0f4-5c50-bf62-af3006ae903a",
+            "3c5ff46a-2c49-58e6-96ba-2b49852eb3e9",
+            "ed474391-09ee-576d-ba22-1268be6c6dba",
+            "1a9277b6-a4aa-5876-8be1-b7bb2dfd7e31",
+            "af24c099-9cb1-5230-9ba2-32218d0acb02",
+            "7062abfe-f109-548a-a12e-438bf0a38d14"
+          ],
+          "target_team_size": 6,
+          "team_score": 0.8668104146004201,
+          "components": {
+            "required_skill_coverage": 1.0,
+            "preferred_skill_coverage": 0.75,
+            "role_balance": 1.0,
+            "experience_balance": 0.7527153636838214,
+            "average_individual_fit": 0.4245614035087719,
+            "redundancy_score": 0.9789393939393939
           },
           "covered_required_skills": [
             "node.js",
@@ -1505,6 +2386,7 @@
             "backend",
             "design ux",
             "frontend",
+            "fullstack",
             "product project",
             "qa testing"
           ]
@@ -1513,45 +2395,52 @@
           "project_id": "E8",
           "project_title": "Lightweight Chatbot FAQ",
           "member_ids": [
-            "0127f285-94c0-5efb-b4df-95de456a5a2f",
             "a97ac400-2055-5d89-a8aa-8684f345eb9b",
-            "10319d23-5e5a-571e-84e1-158457d2f20e"
+            "e85a9a56-5436-54c4-92de-575a348d0cd0",
+            "576771cd-94f6-5a12-81b8-798165216c0f"
           ],
           "target_team_size": 3,
-          "team_score": 0.475665156101464,
+          "team_score": 0.7028887225566108,
           "components": {
-            "required_skill_coverage": 0.75,
-            "preferred_skill_coverage": 0.0,
-            "role_balance": 0.25,
-            "experience_balance": 0.4500280590771297,
-            "average_individual_fit": 0.5649122807017544,
-            "redundancy_score": 0.7833943833943834
+            "required_skill_coverage": 1.0,
+            "preferred_skill_coverage": 0.25,
+            "role_balance": 0.5,
+            "experience_balance": 0.7921301451792255,
+            "average_individual_fit": 0.4842105263157894,
+            "redundancy_score": 0.962962962962963
           },
           "covered_required_skills": [
             "api",
             "nlp",
-            "python"
-          ],
-          "missing_required_skills": [
+            "python",
             "ui/ux"
           ],
-          "covered_preferred_skills": [],
+          "missing_required_skills": [],
+          "covered_preferred_skills": [
+            "react"
+          ],
           "role_families": [
+            "design ux",
+            "fullstack",
             "machine learning"
           ]
         }
       ],
       "unassigned_candidate_ids": [
+        "0127f285-94c0-5efb-b4df-95de456a5a2f",
         "0383da23-a018-548d-91c1-ce542b45c0c7",
-        "04db6a91-d47a-5fe5-bc25-f1d95aa3127d",
+        "06f30731-246e-5bd3-bb83-d0dfa1cb4f2b",
+        "09128e7c-f5c4-58e6-8275-e3b36d8b4bb4",
         "0a04b276-79b4-5f07-b6d6-b530d1c535b8",
+        "0b7a4676-7dbc-583c-bb97-6ce044d83934",
         "0c062883-e286-5be8-a699-a01962178273",
         "0d138415-50d2-5450-bf3f-1f04d20799c4",
         "1226f57a-c089-5670-836c-668938704c00",
         "12bf9b94-a222-5be8-b87a-7eb53a08933f",
         "186b668c-af9c-5ee8-b954-d3f82aea363d",
-        "1a9277b6-a4aa-5876-8be1-b7bb2dfd7e31",
         "1a9487a6-3f91-59ce-8245-87e68890a3e8",
+        "1cc35c03-0c1d-50a6-80d3-6346fabb7677",
+        "1d7fffe6-374b-525b-87e4-25797ad74d7a",
         "1e2f3b47-7b28-5a0e-9526-b72436a78590",
         "1fa679fd-e557-577b-9c23-e71468cafba1",
         "21a67b4c-4f65-52c0-8873-f4b07caab78d",
@@ -1559,49 +2448,48 @@
         "235e034c-5a41-5067-b77f-c163ffa0429a",
         "2c744927-ce2b-5c42-9f5c-42abf4cab95b",
         "2cef3dac-5804-5003-a36c-e8ec64dacdb4",
-        "2f30dd9c-450a-587d-8a3c-55d6faa2083f",
         "2fad21b4-cc7f-5c62-b31a-d6098630194c",
         "3338fbd7-20d9-5d97-840f-936d909046e0",
         "35a5f606-4876-5e74-9f65-d4027b842bda",
         "3696071f-862d-564d-9f94-c418f1f57837",
         "381a8fb9-da9b-581b-95c5-197c1f8029b6",
         "3add7b7e-304c-5d82-9b17-a7715813d363",
-        "3b536827-3d7a-5ff7-ae17-62b9dc97aca5",
-        "3c5ff46a-2c49-58e6-96ba-2b49852eb3e9",
+        "40919599-8a7b-5503-a38e-747f74a6ae49",
         "41123501-22da-5cbb-a9eb-754ad0c1f5de",
         "42e8e874-e7d8-50d9-a5e0-3b6095e1f507",
         "44944dce-9bd9-5723-b45b-c8df733c5284",
-        "470d74e5-9aa4-5f24-bb4a-c5f8d0bb0504",
         "47412c50-3715-5c57-b348-3b04013a86af",
         "4abe22f0-a3ec-564b-93e2-a33813ebdd7a",
-        "4b65017c-65d2-5afb-a709-95a3c95242d1",
         "5342417e-c6e3-54d6-9129-16e6638210c7",
-        "5345277a-3402-5fa3-8e76-08fb08f3cb68",
+        "547077a3-3697-5235-89c5-9dd308cdbf7a",
         "54837e67-3760-5c0f-be88-38ec0bf6a3d2",
         "568fff9c-6847-51fa-b625-961c263e72ca",
+        "582a8783-6b63-53cf-95f6-171c771535aa",
         "583ee381-c494-5cb4-94d2-b9294b042123",
         "5960ea10-cdb8-5d1c-9d13-863b9aaa3ba3",
         "5aa1cede-5a4b-59d1-9212-fdf89b17bbff",
+        "5ad8402b-5445-56c3-ac3f-4e1aee3ce489",
+        "5bf53026-b5dc-5e6e-a2b7-90377fff9ecb",
         "5edd45c9-4da9-589f-970d-136abb414f11",
+        "60fea5ca-4979-5166-bb3c-63c387a0b378",
         "7061c1d5-0673-53e1-a32f-9acb5e23b41a",
-        "7062abfe-f109-548a-a12e-438bf0a38d14",
         "713ef046-b790-5987-bcab-fdf9bde97554",
-        "742f7b8d-2497-50ef-835b-671f25ab9b4e",
         "760399be-0a50-5af2-999a-c74e10e6e7a4",
         "779a1d4d-9243-5cbf-8ceb-dd14e24b2028",
-        "78942893-349a-5b1b-b3ae-b4c497386775",
+        "81172377-a476-5c29-b962-9c7f6abe3601",
         "83589d53-69b6-533a-b537-4d8fd40d660d",
         "8a676663-678c-5250-bf71-b9be0ac00031",
         "8e5535bb-8a6a-51b9-b304-a0831aeecb17",
         "91610a9c-9c9f-5f3b-95ea-67c80a65196b",
         "938aa8fc-8a45-5a7a-90a6-a8cbfaeb8019",
+        "95ff400a-a38c-5c7e-869f-7ee8711ed9df",
         "98eaa22a-e3b0-5bdf-8740-9e110c73a308",
         "9e72aae6-b328-5dc4-98fd-208cb5a911d3",
+        "9f483db5-12d7-5464-be33-e31d9ea6c57d",
         "9fc1487b-25f4-5931-99e9-fc548ef99c40",
         "a595291c-37a8-5c67-af74-048dc3194153",
         "a683bb71-4b7e-5489-be29-5b4ff50487c6",
         "af219ade-2519-51e9-8843-ae844190e7e5",
-        "af24c099-9cb1-5230-9ba2-32218d0acb02",
         "af59892f-e7dd-5679-be1e-f48b665a83a0",
         "b98a4ecf-dc8d-50a7-9b48-073968e6a49c",
         "bb9161d3-5b5b-501b-8072-f1655c792570",
@@ -1621,13 +2509,10 @@
         "d9516049-653c-5e9f-9f18-69e652ea02d3",
         "e270dbbc-ec73-5315-ad81-ad58ae897560",
         "e32c2d98-3dae-525a-be31-376692f5fcd0",
-        "e5693019-3fc6-5cb3-9f13-7c16e68da19c",
         "e5716d06-3daf-5324-97b1-ee2557324c06",
         "e63f13b0-56ff-5b7e-a44f-4e9591b2f1e0",
-        "ed474391-09ee-576d-ba22-1268be6c6dba",
-        "f04bc6ec-383c-597a-a360-f599c4269155",
-        "f2025a33-0c16-5f88-8acd-7c0b03645879",
-        "f2a6efc3-81a1-5280-8e48-c18e01a89d0d"
+        "f2a6efc3-81a1-5280-8e48-c18e01a89d0d",
+        "f2e31d3f-a431-525e-a6a4-aada5373b6dc"
       ],
       "warnings": []
     }

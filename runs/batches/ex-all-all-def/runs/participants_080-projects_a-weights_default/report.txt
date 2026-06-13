@@ -54,7 +54,7 @@ Project score summaries:
 
 Round-based allocation
 ----------------------------------------
-Method:              round_based_marginal_contribution_with_local_improvement
+Method:              thesis
 Feasible allocation: yes
 Assigned candidates: 16 / 16
 Unassigned pool:     64
@@ -115,28 +115,29 @@ Teams:
 
 Baseline comparison
 ----------------------------------------
-Main method:              round_based_marginal_contribution_with_local_improvement
-Best objective score:     round_based_marginal_contribution_with_local_improvement
-Best minimum team score:  round_based_marginal_contribution_with_local_improvement
-Best fairness deviation:  round_based_marginal_contribution_with_local_improvement
+Main method:              thesis
+Best objective score:     thesis
+Best minimum team score:  thesis
+Best fairness deviation:  thesis
 
 Method summaries:
-  method | feasible | objective | mean team | min team | max team | fairness dev. | assigned
-  round_based_marginal_contribution_with_local_improvement | yes | 3.395 | 0.856 | 0.799 | 0.913 | 0.114 | 16/16
-  baseline_random_constrained | yes | 1.574 | 0.405 | 0.331 | 0.509 | 0.178 | 16/16
-  baseline_greedy_fit | yes | 2.672 | 0.678 | 0.586 | 0.751 | 0.166 | 16/16
-  baseline_machado_k_rounds | yes | 2.510 | 0.638 | 0.586 | 0.748 | 0.163 | 16/16
-  baseline_balanced_greedy | yes | 2.510 | 0.638 | 0.586 | 0.748 | 0.163 | 16/16
+  method | feasible runs | objective | mean team | min team | max team | fairness dev. | assigned
+  thesis | 1/1 | 3.395 | 0.856 | 0.799 | 0.913 | 0.114 | 16/16
+  random | 30/30 | 1.570 ± 0.228 | 0.409 ± 0.056 | 0.281 ± 0.076 | 0.545 ± 0.074 | 0.264 ± 0.090 | 16/16
+  greedy_fit | 1/1 | 2.672 | 0.678 | 0.586 | 0.751 | 0.166 | 16/16
+  machado_k_rounds | 1/1 | 2.510 | 0.638 | 0.586 | 0.748 | 0.163 | 16/16
+  thesis_no_li | 1/1 | 3.252 | 0.823 | 0.748 | 0.913 | 0.165 | 16/16
+  machado_k_rounds_li | 1/1 | 3.379 | 0.853 | 0.784 | 0.913 | 0.129 | 16/16
 
 Timing
 ----------------------------------------
   - resolve_input_paths: 0.0000s
-  - load_inputs: 0.0006s
-  - normalize_inputs: 0.0061s
+  - load_inputs: 0.0018s
+  - normalize_inputs: 0.0064s
   - validate_inputs: 0.0001s
-  - score_candidate_project_pairs: 0.0018s
-  - allocate_and_improve: 1.2938s
-  - compare_baselines: 0.0028s
-  - total_runtime_seconds: 1.3052s
+  - score_candidate_project_pairs: 0.0022s
+  - allocate_and_improve: 1.2990s
+  - compare_baselines: 3.6787s
+  - total_runtime_seconds: 4.9881s
 
 Status: input loading, validation, scoring, allocation, local improvement, and baseline comparison completed successfully.
