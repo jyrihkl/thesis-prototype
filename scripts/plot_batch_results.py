@@ -6,24 +6,29 @@ creates simple PNG plots that can be used when comparing prototype runs.
 
 Expected input files:
 
-    batch_runs.csv
-    batch_methods.csv
+- batch_runs.csv
+- batch_methods.csv
 
 Example:
 
     python scripts/plot_batch_results.py \
-      --batch-dir runs/batches/batch-abc
+        --batch-dir runs/batches/batch-abc
 
 Optional explicit output directory:
 
     python scripts/plot_batch_results.py \
-      --batch-dir runs/batches/batch-abc \
-      --output-dir runs/batches/batch-abc/plots
+        --batch-dir runs/batches/batch-abc \
+        --output-dir runs/batches/batch-abc/plots
+
+For the repeated random baseline, method-comparison plots use the aggregated
+mean as the bar height and the pooled within-configuration standard deviation
+as the error bar. Deterministic methods are shown without error bars.
 """
 
 from __future__ import annotations
 
 import argparse
+import math
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -31,16 +36,19 @@ import pandas as pd
 
 
 METHOD_DISPLAY_NAMES = {
-    "round_based_marginal_contribution_with_local_improvement": "thesis",
+    # Current method identifiers.
     "thesis": "thesis",
     "thesis_no_li": "thesis_no_li",
-    "baseline_machado_k_rounds": "machado_k_rounds",
     "machado_k_rounds": "machado_k_rounds",
     "machado_k_rounds_li": "machado_k_rounds_li",
-    "baseline_random_constrained": "random",
     "random": "random",
-    "baseline_greedy_fit": "greedy_fit",
     "greedy_fit": "greedy_fit",
+    # Legacy identifiers retained so older batch outputs remain plottable.
+    "round_based_marginal_contribution_with_local_improvement": "thesis",
+    "baseline_machado_k_rounds": "machado_k_rounds",
+    "baseline_random_constrained": "random",
+    "baseline_greedy_fit": "greedy_fit",
+    "baseline_balanced_greedy": "balanced_greedy",
 }
 
 DISPLAY_METHOD_ORDER = [
@@ -94,7 +102,6 @@ def read_batch_outputs(batch_dir: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
 
     if not runs_path.exists():
         raise FileNotFoundError(f"Missing batch runs file: {runs_path}")
-
     if not methods_path.exists():
         raise FileNotFoundError(f"Missing batch methods file: {methods_path}")
 
@@ -103,7 +110,6 @@ def read_batch_outputs(batch_dir: Path) -> tuple[pd.DataFrame, pd.DataFrame]:
 
     if runs.empty:
         raise ValueError(f"No rows found in {runs_path}")
-
     if methods.empty:
         raise ValueError(f"No rows found in {methods_path}")
 
@@ -117,12 +123,92 @@ def numeric_column(df: pd.DataFrame, column: str) -> pd.Series:
 
 
 def ordered_methods(df: pd.DataFrame) -> list[str]:
-    """Return known display method labels first, followed by any additional labels."""
+    """Return known display method labels first, followed by additional labels."""
 
     method_column = "method_label" if "method_label" in df.columns else "method"
-    existing = [method for method in DISPLAY_METHOD_ORDER if method in set(df[method_column])]
-    additional = sorted(set(df[method_column]) - set(existing))
+    present = set(df[method_column].dropna().astype(str))
+    existing = [method for method in DISPLAY_METHOD_ORDER if method in present]
+    additional = sorted(present - set(existing))
     return existing + additional
+
+
+def _pooled_random_standard_deviation(
+    group: pd.DataFrame,
+    *,
+    metric: str,
+) -> float:
+    """Pool within-run random-seed standard deviations for one plot group.
+
+    Each random row in ``batch_methods.csv`` summarizes repeated seeded runs for
+    one participant/project/weight configuration. Pooling by degrees of freedom
+    preserves the within-configuration seed spread without adding differences
+    between configurations to the error bar.
+    """
+
+    std_column = f"{metric}_std"
+    if std_column not in group.columns:
+        return 0.0
+
+    std_values = numeric_column(group, std_column)
+
+    if "feasible_count" in group.columns:
+        counts = numeric_column(group, "feasible_count")
+    elif "sample_count" in group.columns:
+        counts = numeric_column(group, "sample_count")
+    else:
+        counts = pd.Series(1.0, index=group.index)
+
+    numerator = 0.0
+    denominator = 0.0
+
+    for index in group.index:
+        standard_deviation = std_values.loc[index]
+        sample_count = counts.loc[index]
+
+        if pd.isna(standard_deviation) or pd.isna(sample_count):
+            continue
+
+        degrees_of_freedom = max(float(sample_count) - 1.0, 0.0)
+        if degrees_of_freedom <= 0.0:
+            continue
+
+        numerator += degrees_of_freedom * float(standard_deviation) ** 2
+        denominator += degrees_of_freedom
+
+    if denominator <= 0.0:
+        available = std_values.dropna()
+        return float(available.iloc[0]) if not available.empty else 0.0
+
+    return math.sqrt(numerator / denominator)
+
+
+def aggregate_method_metric(
+    methods: pd.DataFrame,
+    *,
+    metric: str,
+    extra_group_columns: tuple[str, ...] = (),
+) -> pd.DataFrame:
+    """Aggregate one method metric and retain random-baseline seed spread."""
+
+    df = methods.copy()
+    df[metric] = numeric_column(df, metric)
+    df = df.dropna(subset=[metric, "method_label"])
+
+    group_columns = [*extra_group_columns, "method_label"]
+    rows: list[dict[str, object]] = []
+
+    for group_key, group in df.groupby(group_columns, dropna=False, sort=False):
+        key_values = group_key if isinstance(group_key, tuple) else (group_key,)
+        row = dict(zip(group_columns, key_values, strict=True))
+        row[metric] = float(group[metric].mean())
+        row[f"{metric}_error"] = (
+            _pooled_random_standard_deviation(group, metric=metric)
+            if row["method_label"] == "random"
+            else 0.0
+        )
+        rows.append(row)
+
+    return pd.DataFrame(rows)
 
 
 def save_current_plot(path: Path, dpi: int) -> None:
@@ -134,79 +220,105 @@ def save_current_plot(path: Path, dpi: int) -> None:
     plt.close()
 
 
-def plot_objective_by_method(methods: pd.DataFrame, output_dir: Path, dpi: int) -> None:
+def _plot_metric_by_method(
+    methods: pd.DataFrame,
+    *,
+    metric: str,
+    title: str,
+    ylabel: str,
+    filename: str,
+    output_dir: Path,
+    dpi: int,
+) -> None:
+    """Plot an aggregated metric by method with random-baseline error bars."""
+
+    grouped = aggregate_method_metric(methods, metric=metric)
+    if grouped.empty:
+        return
+
+    order = ordered_methods(grouped)
+    grouped["method_label"] = pd.Categorical(
+        grouped["method_label"],
+        categories=order,
+        ordered=True,
+    )
+    grouped = grouped.sort_values("method_label")
+    # Don't draw error bars for methods other than random, even if they have a std column.
+    grouped.loc[grouped["method_label"] != "random", f"{metric}_error"] = None
+
+    plt.figure(figsize=(10, 5))
+    plt.bar(
+        grouped["method_label"].astype(str),
+        grouped[metric],
+        yerr=grouped[f"{metric}_error"],
+        capsize=4,
+    )
+    plt.title(title)
+    plt.xlabel("Method")
+    plt.ylabel(ylabel)
+    plt.xticks(rotation=30, ha="right")
+    save_current_plot(output_dir / filename, dpi)
+
+
+def plot_objective_by_method(
+    methods: pd.DataFrame,
+    output_dir: Path,
+    dpi: int,
+) -> None:
     """Plot mean objective score by method."""
 
-    df = methods.copy()
-    df["objective_score"] = numeric_column(df, "objective_score")
-    grouped = (
-        df.groupby("method_label", as_index=False)["objective_score"]
-        .mean()
-        .dropna()
+    _plot_metric_by_method(
+        methods,
+        metric="objective_score",
+        title="Mean objective score by method",
+        ylabel="Mean objective score",
+        filename="objective_by_method.png",
+        output_dir=output_dir,
+        dpi=dpi,
     )
 
-    order = ordered_methods(df)
-    grouped["method_label"] = pd.Categorical(grouped["method_label"], categories=order, ordered=True)
-    grouped = grouped.sort_values("method_label")
 
-    plt.figure(figsize=(10, 5))
-    plt.bar(grouped["method_label"].astype(str), grouped["objective_score"])
-    plt.title("Mean objective score by method")
-    plt.xlabel("Method")
-    plt.ylabel("Mean objective score")
-    plt.xticks(rotation=30, ha="right")
-    save_current_plot(output_dir / "objective_by_method.png", dpi)
-
-
-def plot_fairness_by_method(methods: pd.DataFrame, output_dir: Path, dpi: int) -> None:
+def plot_fairness_by_method(
+    methods: pd.DataFrame,
+    output_dir: Path,
+    dpi: int,
+) -> None:
     """Plot mean fairness deviation by method."""
 
-    df = methods.copy()
-    df["fairness_deviation"] = numeric_column(df, "fairness_deviation")
-    grouped = (
-        df.groupby("method_label", as_index=False)["fairness_deviation"]
-        .mean()
-        .dropna()
+    _plot_metric_by_method(
+        methods,
+        metric="fairness_deviation",
+        title="Mean fairness deviation by method",
+        ylabel="Mean fairness deviation",
+        filename="fairness_by_method.png",
+        output_dir=output_dir,
+        dpi=dpi,
     )
 
-    order = ordered_methods(df)
-    grouped["method_label"] = pd.Categorical(grouped["method_label"], categories=order, ordered=True)
-    grouped = grouped.sort_values("method_label")
 
-    plt.figure(figsize=(10, 5))
-    plt.bar(grouped["method_label"].astype(str), grouped["fairness_deviation"])
-    plt.title("Mean fairness deviation by method")
-    plt.xlabel("Method")
-    plt.ylabel("Mean fairness deviation")
-    plt.xticks(rotation=30, ha="right")
-    save_current_plot(output_dir / "fairness_by_method.png", dpi)
-
-
-def plot_min_team_score_by_method(methods: pd.DataFrame, output_dir: Path, dpi: int) -> None:
+def plot_min_team_score_by_method(
+    methods: pd.DataFrame,
+    output_dir: Path,
+    dpi: int,
+) -> None:
     """Plot mean minimum team score by method."""
 
-    df = methods.copy()
-    df["min_team_score"] = numeric_column(df, "min_team_score")
-    grouped = (
-        df.groupby("method_label", as_index=False)["min_team_score"]
-        .mean()
-        .dropna()
+    _plot_metric_by_method(
+        methods,
+        metric="min_team_score",
+        title="Mean minimum team score by method",
+        ylabel="Mean minimum team score",
+        filename="min_team_score_by_method.png",
+        output_dir=output_dir,
+        dpi=dpi,
     )
 
-    order = ordered_methods(df)
-    grouped["method_label"] = pd.Categorical(grouped["method_label"], categories=order, ordered=True)
-    grouped = grouped.sort_values("method_label")
 
-    plt.figure(figsize=(10, 5))
-    plt.bar(grouped["method_label"].astype(str), grouped["min_team_score"])
-    plt.title("Mean minimum team score by method")
-    plt.xlabel("Method")
-    plt.ylabel("Mean minimum team score")
-    plt.xticks(rotation=30, ha="right")
-    save_current_plot(output_dir / "min_team_score_by_method.png", dpi)
-
-
-def plot_runtime_by_project_set(runs: pd.DataFrame, output_dir: Path, dpi: int) -> None:
+def plot_runtime_by_project_set(
+    runs: pd.DataFrame,
+    output_dir: Path,
+    dpi: int,
+) -> None:
     """Plot mean total runtime by project set."""
 
     if "total_runtime_seconds" not in runs.columns:
@@ -225,14 +337,21 @@ def plot_runtime_by_project_set(runs: pd.DataFrame, output_dir: Path, dpi: int) 
         return
 
     plt.figure(figsize=(8, 5))
-    plt.bar([str.upper(s) for s in grouped["project_set"].astype(str)], grouped["total_runtime_seconds"])
+    plt.bar(
+        [str.upper(value) for value in grouped["project_set"].astype(str)],
+        grouped["total_runtime_seconds"],
+    )
     plt.title("Mean runtime by project set")
     plt.xlabel("Project set")
     plt.ylabel("Mean runtime, seconds")
     save_current_plot(output_dir / "runtime_by_project_set.png", dpi)
 
 
-def plot_runtime_by_participant_count(runs: pd.DataFrame, output_dir: Path, dpi: int) -> None:
+def plot_runtime_by_participant_count(
+    runs: pd.DataFrame,
+    output_dir: Path,
+    dpi: int,
+) -> None:
     """Plot mean total runtime by participant count."""
 
     if "total_runtime_seconds" not in runs.columns:
@@ -252,14 +371,22 @@ def plot_runtime_by_participant_count(runs: pd.DataFrame, output_dir: Path, dpi:
         return
 
     plt.figure(figsize=(8, 5))
-    plt.plot(grouped["participant_count"], grouped["total_runtime_seconds"], marker="o")
+    plt.plot(
+        grouped["participant_count"],
+        grouped["total_runtime_seconds"],
+        marker="o",
+    )
     plt.title("Mean runtime by participant count")
     plt.xlabel("Participant count")
     plt.ylabel("Mean runtime, seconds")
     save_current_plot(output_dir / "runtime_by_participant_count.png", dpi)
 
 
-def plot_local_improvement_gain(runs: pd.DataFrame, output_dir: Path, dpi: int) -> None:
+def plot_local_improvement_gain(
+    runs: pd.DataFrame,
+    output_dir: Path,
+    dpi: int,
+) -> None:
     """Plot mean local-improvement gain by project set."""
 
     if "local_improvement_gain" not in runs.columns:
@@ -278,14 +405,21 @@ def plot_local_improvement_gain(runs: pd.DataFrame, output_dir: Path, dpi: int) 
         return
 
     plt.figure(figsize=(8, 5))
-    plt.bar([str.upper(s) for s in grouped["project_set"].astype(str)], grouped["local_improvement_gain"])
+    plt.bar(
+        [str.upper(value) for value in grouped["project_set"].astype(str)],
+        grouped["local_improvement_gain"],
+    )
     plt.title("Mean local-improvement gain by project set")
     plt.xlabel("Project set")
     plt.ylabel("Mean objective gain")
     save_current_plot(output_dir / "local_improvement_gain_by_project_set.png", dpi)
 
 
-def plot_objective_by_weight_profile(runs: pd.DataFrame, output_dir: Path, dpi: int) -> None:
+def plot_objective_by_weight_profile(
+    runs: pd.DataFrame,
+    output_dir: Path,
+    dpi: int,
+) -> None:
     """Plot mean main-method objective score by weight profile."""
 
     if "main_objective_score" not in runs.columns:
@@ -304,7 +438,10 @@ def plot_objective_by_weight_profile(runs: pd.DataFrame, output_dir: Path, dpi: 
         return
 
     plt.figure(figsize=(9, 5))
-    plt.bar(grouped["weight_profile"].astype(str), grouped["main_objective_score"])
+    plt.bar(
+        grouped["weight_profile"].astype(str),
+        grouped["main_objective_score"],
+    )
     plt.title("Mean main-method objective score by weight profile")
     plt.xlabel("Weight profile")
     plt.ylabel("Mean objective score")
@@ -312,53 +449,71 @@ def plot_objective_by_weight_profile(runs: pd.DataFrame, output_dir: Path, dpi: 
     save_current_plot(output_dir / "objective_by_weight_profile.png", dpi)
 
 
-def plot_method_scores_by_project_set(methods: pd.DataFrame, output_dir: Path, dpi: int) -> None:
+def plot_method_scores_by_project_set(
+    methods: pd.DataFrame,
+    output_dir: Path,
+    dpi: int,
+) -> None:
     """Plot mean objective score by project set and method.
 
-    This plot is useful when the same participant set is run across all project
-    sets. It uses a simple grouped bar layout without external plotting
-    libraries.
+    The random baseline is drawn with pooled within-configuration standard
+    deviation error bars. Deterministic methods are drawn without uncertainty.
     """
 
-    df = methods.copy()
-    df["objective_score"] = numeric_column(df, "objective_score")
-
-    grouped = (
-        df.groupby(["project_set", "method_label"], as_index=False)["objective_score"]
-        .mean()
-        .dropna()
+    metric = "objective_score"
+    grouped = aggregate_method_metric(
+        methods,
+        metric=metric,
+        extra_group_columns=("project_set",),
     )
 
     if grouped.empty:
         return
 
-    project_sets = sorted(grouped["project_set"].unique())
+    project_sets = sorted(grouped["project_set"].astype(str).unique())
     methods_order = ordered_methods(grouped)
-
     x_positions = list(range(len(project_sets)))
     bar_width = 0.8 / max(1, len(methods_order))
 
     plt.figure(figsize=(11, 5))
 
     for method_index, method in enumerate(methods_order):
-        values = []
+        values: list[float] = []
+        errors: list[float] = []
+
         for project_set in project_sets:
             match = grouped[
-                (grouped["project_set"] == project_set)
+                (grouped["project_set"].astype(str) == project_set)
                 & (grouped["method_label"] == method)
             ]
-            values.append(float(match["objective_score"].iloc[0]) if not match.empty else 0.0)
+
+            if match.empty:
+                values.append(0.0)
+                errors.append(0.0)
+            else:
+                values.append(float(match[metric].iloc[0]))
+                errors.append(float(match[f"{metric}_error"].iloc[0]))
 
         offsets = [
-            x + method_index * bar_width - (bar_width * (len(methods_order) - 1) / 2)
-            for x in x_positions
+            position
+            + method_index * bar_width
+            - (bar_width * (len(methods_order) - 1) / 2)
+            for position in x_positions
         ]
-        plt.bar(offsets, values, width=bar_width, label=method)
+
+        plt.bar(
+            offsets,
+            values,
+            width=bar_width,
+            label=method,
+            yerr=errors,
+            capsize=3 if method == "random" else 0,
+        )
 
     plt.title("Mean objective score by project set and method")
     plt.xlabel("Project set")
     plt.ylabel("Mean objective score")
-    plt.xticks(x_positions, [str.upper(s) for s in project_sets])
+    plt.xticks(x_positions, [value.upper() for value in project_sets])
     plt.legend(fontsize="small")
     save_current_plot(output_dir / "objective_by_project_set_and_method.png", dpi)
 
@@ -370,12 +525,18 @@ def write_plot_index(output_dir: Path, created_files: list[Path]) -> None:
         "Batch result plots",
         "=" * 40,
         "",
+        "Random-baseline error bars show pooled within-configuration",
+        "standard deviation across seeded random allocations.",
+        "",
     ]
 
     for path in created_files:
         lines.append(f"- {path.name}")
 
-    (output_dir / "plot_index.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (output_dir / "plot_index.txt").write_text(
+        "\n".join(lines) + "\n",
+        encoding="utf-8",
+    )
 
 
 def main() -> int:
@@ -400,7 +561,6 @@ def main() -> int:
 
     after = set(output_dir.glob("*.png"))
     created = sorted(after - before)
-
     if not created:
         created = sorted(after)
 
@@ -408,7 +568,7 @@ def main() -> int:
 
     print(f"Wrote plots to: {output_dir}")
     for path in created:
-        print(f"  - {path.name}")
+        print(f" - {path.name}")
 
     return 0
 
