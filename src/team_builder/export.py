@@ -71,6 +71,7 @@ def allocation_to_export(report: AllocationReport | None) -> dict[str, Any]:
 
     return {
         "method": report.method,
+        "random_seed": report.random_seed,
         "feasible": report.feasible,
         "assigned_count": report.assigned_count,
         "unassigned_count": report.unassigned_count,
@@ -113,6 +114,10 @@ def baseline_comparison_to_export(report: BaselineComparisonReport | None) -> di
         "best_by_min_team_score": report.best_by_min_team_score,
         "best_by_fairness": report.best_by_fairness,
         "method_summaries": report.method_summaries,
+        "random_seeds": [
+            run.seed for run in report.random_run_summaries
+        ],
+        "random_run_summaries": report.random_run_summaries,
         "baseline_reports": [
             allocation_to_export(baseline)
             for baseline in report.baseline_reports

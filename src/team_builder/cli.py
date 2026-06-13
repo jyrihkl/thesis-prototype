@@ -86,6 +86,20 @@ def parse_args() -> argparse.Namespace:
         help="Maximum number of accepted local-improvement iterations.",
     )
 
+    parser.add_argument(
+        "--random-baseline-runs",
+        type=int,
+        default=30,
+        help="Number of seeded random-baseline allocations to aggregate.",
+    )
+
+    parser.add_argument(
+        "--random-baseline-seed-start",
+        type=int,
+        default=42,
+        help="First seed used for repeated random-baseline allocations.",
+    )
+
     return parser.parse_args()
 
 
@@ -99,6 +113,8 @@ def main() -> int:
         project_set=args.project_set,
         enable_local_improvement=not args.no_local_improvement,
         max_local_improvement_iterations=args.max_local_improvement_iterations,
+        random_baseline_runs=args.random_baseline_runs,
+        random_baseline_seed_start=args.random_baseline_seed_start,
         save_run=not args.no_save_run,
         output_dir=args.output_dir,
         run_id=args.run_id,

@@ -18,7 +18,7 @@ fairness objective used by the main allocation method.
 from __future__ import annotations
 
 import random
-from statistics import mean
+from statistics import mean, stdev
 
 from team_builder.allocation import (
     construct_round_based_allocation,
@@ -31,6 +31,7 @@ from team_builder.models import (
     BaselineMethodSummary,
     CandidateProjectScore,
     ProjectTeamSummary,
+    RandomBaselineRunSummary,
 )
 from team_builder.schemas import Candidate, Project
 
@@ -56,6 +57,7 @@ def _evaluate_teams(
     fairness_penalty: float,
     warnings: list[str] | None = None,
     local_improvement=None,
+    random_seed: int | None = None,
 ) -> AllocationReport:
     """Create an AllocationReport for a baseline allocation."""
 
@@ -114,6 +116,7 @@ def _evaluate_teams(
         unassigned_candidate_ids=tuple(sorted(unassigned_ids)),
         warnings=tuple(warnings),
         local_improvement=local_improvement,
+        random_seed=random_seed,
     )
 
 
@@ -193,7 +196,7 @@ def random_constrained_assignment(
 
         for project_id in shuffled_slots:
             project = projects_by_id[project_id]
-            feasible_ids = [
+            feasible_ids = sorted(
                 candidate_id
                 for candidate_id in unassigned_ids
                 if _candidate_feasible_for_project(
@@ -201,7 +204,7 @@ def random_constrained_assignment(
                     project=project,
                     score_lookup=score_lookup,
                 )
-            ]
+            )
 
             if not feasible_ids:
                 warnings.append(
@@ -222,6 +225,7 @@ def random_constrained_assignment(
             score_lookup=score_lookup,
             fairness_penalty=fairness_penalty,
             warnings=warnings,
+            random_seed=random_seed,
         )
 
         if report.feasible:
@@ -242,6 +246,7 @@ def random_constrained_assignment(
         score_lookup=score_lookup,
         fairness_penalty=fairness_penalty,
         warnings=["Random constrained assignment could not create any allocation."],
+        random_seed=random_seed,
     )
 
 
@@ -424,6 +429,118 @@ def machado_k_rounds_with_local_improvement_assignment(
 
     return improved_report
 
+def _distribution_statistics(
+    values: list[float],
+) -> tuple[float | None, float | None, float | None, float | None]:
+    """Return mean, sample standard deviation, minimum, and maximum."""
+
+    if not values:
+        return None, None, None, None
+
+    return (
+        mean(values),
+        stdev(values) if len(values) > 1 else 0.0,
+        min(values),
+        max(values),
+    )
+
+
+def _optional_metric_values(
+    reports: list[AllocationReport],
+    attribute: str,
+) -> list[float]:
+    """Collect non-null numeric values for one allocation-report metric."""
+
+    values: list[float] = []
+    for report in reports:
+        value = getattr(report, attribute)
+        if value is not None:
+            values.append(float(value))
+    return values
+
+
+def _summarize_random_run(report: AllocationReport) -> RandomBaselineRunSummary:
+    """Convert one seeded random allocation into a compact run summary."""
+
+    if report.random_seed is None:
+        raise ValueError("Random allocation report is missing its seed.")
+
+    return RandomBaselineRunSummary(
+        seed=report.random_seed,
+        feasible=report.feasible,
+        objective_score=report.objective_score,
+        mean_team_score=report.mean_team_score,
+        min_team_score=report.min_team_score,
+        max_team_score=report.max_team_score,
+        fairness_deviation=report.fairness_deviation,
+        assigned_count=report.assigned_count,
+        required_slots=report.required_slots,
+        warnings=report.warnings,
+    )
+
+
+def _aggregate_random_reports(
+    reports: list[AllocationReport],
+) -> BaselineMethodSummary:
+    """Aggregate repeated random-baseline runs into one comparison row.
+
+    Metrics are aggregated over feasible seeded runs. The summary is marked
+    feasible only when every requested seed produced a feasible allocation, so
+    failures remain visible rather than disappearing into the mean.
+    """
+
+    if not reports:
+        raise ValueError("At least one random-baseline report is required.")
+
+    feasible_reports = [report for report in reports if report.feasible]
+    metric_reports = feasible_reports or reports
+
+    objective = _distribution_statistics(
+        [float(report.objective_score) for report in metric_reports]
+    )
+    mean_team = _distribution_statistics(
+        _optional_metric_values(metric_reports, "mean_team_score")
+    )
+    min_team = _distribution_statistics(
+        _optional_metric_values(metric_reports, "min_team_score")
+    )
+    max_team = _distribution_statistics(
+        _optional_metric_values(metric_reports, "max_team_score")
+    )
+    fairness = _distribution_statistics(
+        [float(report.fairness_deviation) for report in metric_reports]
+    )
+
+    return BaselineMethodSummary(
+        method="random",
+        feasible=len(feasible_reports) == len(reports),
+        objective_score=objective[0] or 0.0,
+        mean_team_score=mean_team[0],
+        min_team_score=min_team[0],
+        max_team_score=max_team[0],
+        fairness_deviation=fairness[0] or 0.0,
+        assigned_count=round(mean(report.assigned_count for report in metric_reports)),
+        required_slots=reports[0].required_slots,
+        sample_count=len(reports),
+        feasible_count=len(feasible_reports),
+        objective_score_std=objective[1],
+        objective_score_min=objective[2],
+        objective_score_max=objective[3],
+        mean_team_score_std=mean_team[1],
+        mean_team_score_min=mean_team[2],
+        mean_team_score_max=mean_team[3],
+        min_team_score_std=min_team[1],
+        min_team_score_min=min_team[2],
+        min_team_score_max=min_team[3],
+        max_team_score_std=max_team[1],
+        max_team_score_min=max_team[2],
+        max_team_score_max=max_team[3],
+        fairness_deviation_std=fairness[1],
+        fairness_deviation_min=fairness[2],
+        fairness_deviation_max=fairness[3],
+    )
+
+
 def _summarize_method(report: AllocationReport) -> BaselineMethodSummary:
     """Convert an allocation report into a compact method-comparison summary."""
 
@@ -437,6 +554,8 @@ def _summarize_method(report: AllocationReport) -> BaselineMethodSummary:
         fairness_deviation=report.fairness_deviation,
         assigned_count=report.assigned_count,
         required_slots=report.required_slots,
+        sample_count=1,
+        feasible_count=1 if report.feasible else 0,
     )
 
 
@@ -447,20 +566,28 @@ def run_baseline_comparisons(
     projects: list[Project],
     scores: list[CandidateProjectScore],
     fairness_penalty: float = 0.25,
-    random_seed: int = 42,
+    random_baseline_runs: int = 30,
+    random_baseline_seed_start: int = 42,
     max_local_improvement_iterations: int = 100,
     min_local_improvement_gain: float = 1e-9,
 ) -> BaselineComparisonReport:
     """Run comparator methods and summarize them against the main method."""
 
-    baseline_reports = [
+    if random_baseline_runs < 1:
+        raise ValueError("random_baseline_runs must be at least 1.")
+
+    random_reports = [
         random_constrained_assignment(
             candidates=candidates,
             projects=projects,
             scores=scores,
             fairness_penalty=fairness_penalty,
-            random_seed=random_seed,
-        ),
+            random_seed=random_baseline_seed_start + offset,
+        )
+        for offset in range(random_baseline_runs)
+    ]
+
+    deterministic_reports = [
         greedy_fit_assignment(
             candidates=candidates,
             projects=projects,
@@ -489,9 +616,14 @@ def run_baseline_comparisons(
         ),
     ]
 
+    random_run_summaries = [
+        _summarize_random_run(report) for report in random_reports
+    ]
+    baseline_reports = deterministic_reports
     method_summaries = [
         _summarize_method(main_allocation),
-        *[_summarize_method(report) for report in baseline_reports],
+        _aggregate_random_reports(random_reports),
+        *[_summarize_method(report) for report in deterministic_reports],
     ]
 
     feasible_summaries = [
@@ -524,6 +656,7 @@ def run_baseline_comparisons(
         main_method=main_allocation.method,
         method_summaries=method_summaries,
         baseline_reports=baseline_reports,
+        random_run_summaries=random_run_summaries,
         best_by_objective=best_by_objective,
         best_by_min_team_score=best_by_min_team_score,
         best_by_fairness=best_by_fairness,

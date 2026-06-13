@@ -44,6 +44,8 @@ class BatchEvaluationConfig:
     fairness_penalty: float = 0.25
     enable_local_improvement: bool = True
     max_local_improvement_iterations: int = 100
+    random_baseline_runs: int = 30
+    random_baseline_seed_start: int = 42
 
 
 @dataclass(frozen=True)
@@ -226,6 +228,23 @@ def _method_rows(
                 "fairness_deviation": summary.fairness_deviation,
                 "assigned_count": summary.assigned_count,
                 "required_slots": summary.required_slots,
+                "sample_count": summary.sample_count,
+                "feasible_count": summary.feasible_count,
+                "objective_score_std": summary.objective_score_std,
+                "objective_score_min": summary.objective_score_min,
+                "objective_score_max": summary.objective_score_max,
+                "mean_team_score_std": summary.mean_team_score_std,
+                "mean_team_score_min": summary.mean_team_score_min,
+                "mean_team_score_max": summary.mean_team_score_max,
+                "min_team_score_std": summary.min_team_score_std,
+                "min_team_score_min": summary.min_team_score_min,
+                "min_team_score_max": summary.min_team_score_max,
+                "max_team_score_std": summary.max_team_score_std,
+                "max_team_score_min": summary.max_team_score_min,
+                "max_team_score_max": summary.max_team_score_max,
+                "fairness_deviation_std": summary.fairness_deviation_std,
+                "fairness_deviation_min": summary.fairness_deviation_min,
+                "fairness_deviation_max": summary.fairness_deviation_max,
                 "participant_count": result.participant_count,
                 "project_count": result.project_count,
                 "total_runtime_seconds": _timing_value(result, "total_runtime_seconds"),
@@ -255,6 +274,11 @@ def _format_batch_report(
         f"Participant sets:   {', '.join(config.participant_sets)}",
         f"Project sets:       {', '.join(config.project_sets)}",
         f"Weight profiles:    {', '.join(config.weight_profiles)}",
+        (
+            "Random baseline:   "
+            f"{config.random_baseline_runs} seeds from "
+            f"{config.random_baseline_seed_start}"
+        ),
         f"Runs:               {len(main_rows)}",
         f"Feasible main runs: {feasible_main_runs} / {len(main_rows)}",
         "",
@@ -337,6 +361,10 @@ def run_batch_evaluation(config: BatchEvaluationConfig) -> BatchEvaluationResult
                         enable_local_improvement=config.enable_local_improvement,
                         max_local_improvement_iterations=(
                             config.max_local_improvement_iterations
+                        ),
+                        random_baseline_runs=config.random_baseline_runs,
+                        random_baseline_seed_start=(
+                            config.random_baseline_seed_start
                         ),
                         save_run=config.save_individual_runs,
                         output_dir=individual_runs_dir,
@@ -426,6 +454,23 @@ def run_batch_evaluation(config: BatchEvaluationConfig) -> BatchEvaluationResult
             "fairness_deviation",
             "assigned_count",
             "required_slots",
+            "sample_count",
+            "feasible_count",
+            "objective_score_std",
+            "objective_score_min",
+            "objective_score_max",
+            "mean_team_score_std",
+            "mean_team_score_min",
+            "mean_team_score_max",
+            "min_team_score_std",
+            "min_team_score_min",
+            "min_team_score_max",
+            "max_team_score_std",
+            "max_team_score_min",
+            "max_team_score_max",
+            "fairness_deviation_std",
+            "fairness_deviation_min",
+            "fairness_deviation_max",
             "participant_count",
             "project_count",
             "total_runtime_seconds",
@@ -449,6 +494,8 @@ def run_batch_evaluation(config: BatchEvaluationConfig) -> BatchEvaluationResult
             "max_local_improvement_iterations": (
                 config.max_local_improvement_iterations
             ),
+            "random_baseline_runs": config.random_baseline_runs,
+            "random_baseline_seed_start": config.random_baseline_seed_start,
             "batch_runs_csv": batch_runs_csv,
             "batch_methods_csv": batch_methods_csv,
             "main_rows": main_rows,

@@ -26,6 +26,9 @@ class PipelineConfig:
     max_local_improvement_iterations: int = 100
     min_local_improvement_gain: float = 1e-9
 
+    random_baseline_runs: int = 30
+    random_baseline_seed_start: int = 42
+
     save_run: bool = True
     output_dir: Path = Path("runs")
     run_id: str | None = None
@@ -216,6 +219,7 @@ class AllocationReport:
     unassigned_candidate_ids: tuple[str, ...] = field(default_factory=tuple)
     warnings: tuple[str, ...] = field(default_factory=tuple)
     local_improvement: LocalImprovementReport | None = None
+    random_seed: int | None = None
 
 
 @dataclass(frozen=True)
@@ -231,6 +235,39 @@ class BaselineMethodSummary:
     fairness_deviation: float
     assigned_count: int
     required_slots: int
+    sample_count: int = 1
+    feasible_count: int = 1
+    objective_score_std: float | None = None
+    objective_score_min: float | None = None
+    objective_score_max: float | None = None
+    mean_team_score_std: float | None = None
+    mean_team_score_min: float | None = None
+    mean_team_score_max: float | None = None
+    min_team_score_std: float | None = None
+    min_team_score_min: float | None = None
+    min_team_score_max: float | None = None
+    max_team_score_std: float | None = None
+    max_team_score_min: float | None = None
+    max_team_score_max: float | None = None
+    fairness_deviation_std: float | None = None
+    fairness_deviation_min: float | None = None
+    fairness_deviation_max: float | None = None
+
+
+@dataclass(frozen=True)
+class RandomBaselineRunSummary:
+    """Compact metrics for one seeded random-baseline allocation."""
+
+    seed: int
+    feasible: bool
+    objective_score: float
+    mean_team_score: float | None
+    min_team_score: float | None
+    max_team_score: float | None
+    fairness_deviation: float
+    assigned_count: int
+    required_slots: int
+    warnings: tuple[str, ...] = field(default_factory=tuple)
 
 
 @dataclass(frozen=True)
@@ -240,6 +277,7 @@ class BaselineComparisonReport:
     main_method: str
     method_summaries: list[BaselineMethodSummary] = field(default_factory=list)
     baseline_reports: list[AllocationReport] = field(default_factory=list)
+    random_run_summaries: list[RandomBaselineRunSummary] = field(default_factory=list)
     best_by_objective: str | None = None
     best_by_min_team_score: str | None = None
     best_by_fairness: str | None = None

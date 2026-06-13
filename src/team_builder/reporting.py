@@ -40,6 +40,16 @@ def _format_float(value: float | None) -> str:
     return f"{value:.3f}"
 
 
+def _format_mean_std(value: float | None, std: float | None) -> str:
+    """Format a point estimate and optional standard deviation."""
+
+    if value is None:
+        return "n/a"
+    if std is None:
+        return _format_float(value)
+    return f"{value:.3f} ± {std:.3f}"
+
+
 def _format_component_dict(components: dict[str, float | None]) -> str:
     """Format transparent score components on one line."""
 
@@ -272,7 +282,7 @@ def format_baseline_comparison_report(report: BaselineComparisonReport | None) -
         "",
         "Method summaries:",
         (
-            "  method | feasible | objective | mean team | min team | "
+            "  method | feasible runs | objective | mean team | min team | "
             "max team | fairness dev. | assigned"
         ),
     ]
@@ -281,12 +291,12 @@ def format_baseline_comparison_report(report: BaselineComparisonReport | None) -
         lines.append(
             "  "
             f"{summary.method} | "
-            f"{'yes' if summary.feasible else 'no'} | "
-            f"{_format_float(summary.objective_score)} | "
-            f"{_format_float(summary.mean_team_score)} | "
-            f"{_format_float(summary.min_team_score)} | "
-            f"{_format_float(summary.max_team_score)} | "
-            f"{_format_float(summary.fairness_deviation)} | "
+            f"{summary.feasible_count}/{summary.sample_count} | "
+            f"{_format_mean_std(summary.objective_score, summary.objective_score_std)} | "
+            f"{_format_mean_std(summary.mean_team_score, summary.mean_team_score_std)} | "
+            f"{_format_mean_std(summary.min_team_score, summary.min_team_score_std)} | "
+            f"{_format_mean_std(summary.max_team_score, summary.max_team_score_std)} | "
+            f"{_format_mean_std(summary.fairness_deviation, summary.fairness_deviation_std)} | "
             f"{summary.assigned_count}/{summary.required_slots}"
         )
 
@@ -301,6 +311,16 @@ def format_baseline_comparison_report(report: BaselineComparisonReport | None) -
         for method, warnings in baseline_warnings:
             lines.append(f"  - {method}:")
             for warning in warnings:
+                lines.append(f"      - {warning}")
+
+    random_warnings = [
+        run for run in report.random_run_summaries if run.warnings
+    ]
+    if random_warnings:
+        lines.extend(["", "Random baseline warnings:"])
+        for run in random_warnings:
+            lines.append(f"  - seed {run.seed}:")
+            for warning in run.warnings:
                 lines.append(f"      - {warning}")
 
     return "\n".join(lines)
