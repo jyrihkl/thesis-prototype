@@ -31,19 +31,25 @@ import pandas as pd
 
 
 METHOD_DISPLAY_NAMES = {
-    "round_based_marginal_contribution_with_local_improvement": "thesis_algorithm",
+    "round_based_marginal_contribution_with_local_improvement": "thesis",
+    "thesis": "thesis",
+    "thesis_no_li": "thesis_no_li",
     "baseline_machado_k_rounds": "machado_k_rounds",
+    "machado_k_rounds": "machado_k_rounds",
+    "machado_k_rounds_li": "machado_k_rounds_li",
     "baseline_random_constrained": "random",
+    "random": "random",
     "baseline_greedy_fit": "greedy_fit",
-    "baseline_balanced_greedy": "balanced_greedy",
+    "greedy_fit": "greedy_fit",
 }
 
 DISPLAY_METHOD_ORDER = [
-    "thesis_algorithm",
+    "thesis",
+    "thesis_no_li",
     "machado_k_rounds",
+    "machado_k_rounds_li",
     "random",
     "greedy_fit",
-    "balanced_greedy",
 ]
 
 

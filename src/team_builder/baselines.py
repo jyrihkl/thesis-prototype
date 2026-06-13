@@ -8,9 +8,10 @@ baselines:
 1. random_constrained
 2. greedy_fit
 3. machado_k_rounds
-4. balanced_greedy
+4. thesis_no_li
+5. machado_k_rounds_li
 
-All baselines are evaluated with the same team-quality and allocation-level
+All comparators are evaluated with the same team-quality and allocation-level
 fairness objective used by the main allocation method.
 """
 
@@ -19,7 +20,11 @@ from __future__ import annotations
 import random
 from statistics import mean
 
-from team_builder.allocation import evaluate_project_team
+from team_builder.allocation import (
+    construct_round_based_allocation,
+    evaluate_project_team,
+    improve_allocation_teams,
+)
 from team_builder.models import (
     AllocationReport,
     BaselineComparisonReport,
@@ -50,6 +55,7 @@ def _evaluate_teams(
     score_lookup: dict[tuple[str, str], CandidateProjectScore],
     fairness_penalty: float,
     warnings: list[str] | None = None,
+    local_improvement=None,
 ) -> AllocationReport:
     """Create an AllocationReport for a baseline allocation."""
 
@@ -107,7 +113,7 @@ def _evaluate_teams(
         assignments=[],
         unassigned_candidate_ids=tuple(sorted(unassigned_ids)),
         warnings=tuple(warnings),
-        local_improvement=None,
+        local_improvement=local_improvement,
     )
 
 
@@ -209,7 +215,7 @@ def random_constrained_assignment(
             unassigned_ids.remove(selected_id)
 
         report = _evaluate_teams(
-            method="baseline_random_constrained",
+            method="random",
             projects=projects,
             teams=teams,
             unassigned_ids=unassigned_ids,
@@ -229,7 +235,7 @@ def random_constrained_assignment(
         return best_report
 
     return _evaluate_teams(
-        method="baseline_random_constrained",
+        method="random",
         projects=projects,
         teams={project.id: [] for project in projects},
         unassigned_ids=set(candidates_by_id),
@@ -276,7 +282,7 @@ def greedy_fit_assignment(
             unassigned_ids.remove(selected_id)
 
     return _evaluate_teams(
-        method="baseline_greedy_fit",
+        method="greedy_fit",
         projects=projects,
         teams=teams,
         unassigned_ids=unassigned_ids,
@@ -304,7 +310,7 @@ def machado_k_rounds_assignment(
 
     if not projects:
         return _evaluate_teams(
-            method="baseline_machado_k_rounds",
+            method="machado_k_rounds",
             projects=projects,
             teams=teams,
             unassigned_ids=unassigned_ids,
@@ -337,7 +343,7 @@ def machado_k_rounds_assignment(
             unassigned_ids.remove(selected_id)
 
     return _evaluate_teams(
-        method="baseline_machado_k_rounds",
+        method="machado_k_rounds",
         projects=projects,
         teams=teams,
         unassigned_ids=unassigned_ids,
@@ -347,74 +353,76 @@ def machado_k_rounds_assignment(
     )
 
 
-def balanced_greedy_assignment(
+def thesis_without_local_improvement_assignment(
     *,
     candidates: list[Candidate],
     projects: list[Project],
     scores: list[CandidateProjectScore],
     fairness_penalty: float = 0.25,
 ) -> AllocationReport:
-    """Assign candidates greedily in rotated rounds across projects.
+    """Run the thesis construction heuristic without local improvement."""
 
-    This baseline is stronger than pure greedy fit because it distributes picks
-    across projects and rotates project order each round. Tests whether
-    marginal contribution adds value beyond simple round-based balancing.
-    """
+    return construct_round_based_allocation(
+        candidates=candidates,
+        projects=projects,
+        scores=scores,
+        fairness_penalty=fairness_penalty,
+        enable_local_improvement=False,
+    )
+
+
+def machado_k_rounds_with_local_improvement_assignment(
+    *,
+    candidates: list[Candidate],
+    projects: list[Project],
+    scores: list[CandidateProjectScore],
+    fairness_penalty: float = 0.25,
+    max_local_improvement_iterations: int = 100,
+    min_local_improvement_gain: float = 1e-9,
+) -> AllocationReport:
+    """Run Machado-inspired K-rounds and then apply local improvement."""
+
+    initial_report = machado_k_rounds_assignment(
+        candidates=candidates,
+        projects=projects,
+        scores=scores,
+        fairness_penalty=fairness_penalty,
+    )
 
     candidates_by_id = {candidate.id: candidate for candidate in candidates}
+    teams = {
+        summary.project_id: [
+            candidates_by_id[candidate_id]
+            for candidate_id in summary.member_ids
+        ]
+        for summary in initial_report.project_summaries
+    }
+    unassigned_ids = set(initial_report.unassigned_candidate_ids)
     score_lookup = _score_lookup(scores)
 
-    teams: dict[str, list[Candidate]] = {project.id: [] for project in projects}
-    unassigned_ids = set(candidates_by_id)
-    warnings: list[str] = []
+    teams, unassigned_ids, local_improvement_report = improve_allocation_teams(
+        candidates=candidates,
+        projects=projects,
+        teams=teams,
+        unassigned_ids=unassigned_ids,
+        scores=scores,
+        fairness_penalty=fairness_penalty,
+        max_iterations=max_local_improvement_iterations,
+        min_gain=min_local_improvement_gain,
+    )
 
-    if not projects:
-        return _evaluate_teams(
-            method="baseline_balanced_greedy",
-            projects=projects,
-            teams=teams,
-            unassigned_ids=unassigned_ids,
-            score_lookup=score_lookup,
-            fairness_penalty=fairness_penalty,
-            warnings=["No projects available for balanced greedy assignment."],
-        )
-
-    max_rounds = max(project.target_team_size for project in projects)
-
-    for round_index in range(max_rounds):
-        rotation = round_index % len(projects)
-        ordered_projects = projects[rotation:] + projects[:rotation]
-
-        for project in ordered_projects:
-            if len(teams[project.id]) >= project.target_team_size:
-                continue
-
-            selected_id = _best_direct_fit_candidate_id(
-                project=project,
-                unassigned_ids=unassigned_ids,
-                score_lookup=score_lookup,
-            )
-
-            if selected_id is None:
-                warnings.append(
-                    f"No feasible balanced-greedy candidate found for project "
-                    f"{project.id} in round {round_index + 1}."
-                )
-                continue
-
-            teams[project.id].append(candidates_by_id[selected_id])
-            unassigned_ids.remove(selected_id)
-
-    return _evaluate_teams(
-        method="baseline_balanced_greedy",
+    improved_report = _evaluate_teams(
+        method="machado_k_rounds_li",
         projects=projects,
         teams=teams,
         unassigned_ids=unassigned_ids,
         score_lookup=score_lookup,
         fairness_penalty=fairness_penalty,
-        warnings=warnings,
+        warnings=list(initial_report.warnings),
+        local_improvement=local_improvement_report,
     )
 
+    return improved_report
 
 def _summarize_method(report: AllocationReport) -> BaselineMethodSummary:
     """Convert an allocation report into a compact method-comparison summary."""
@@ -440,6 +448,8 @@ def run_baseline_comparisons(
     scores: list[CandidateProjectScore],
     fairness_penalty: float = 0.25,
     random_seed: int = 42,
+    max_local_improvement_iterations: int = 100,
+    min_local_improvement_gain: float = 1e-9,
 ) -> BaselineComparisonReport:
     """Run comparator methods and summarize them against the main method."""
 
@@ -463,11 +473,19 @@ def run_baseline_comparisons(
             scores=scores,
             fairness_penalty=fairness_penalty,
         ),
-        balanced_greedy_assignment(
+        thesis_without_local_improvement_assignment(
             candidates=candidates,
             projects=projects,
             scores=scores,
             fairness_penalty=fairness_penalty,
+        ),
+        machado_k_rounds_with_local_improvement_assignment(
+            candidates=candidates,
+            projects=projects,
+            scores=scores,
+            fairness_penalty=fairness_penalty,
+            max_local_improvement_iterations=max_local_improvement_iterations,
+            min_local_improvement_gain=min_local_improvement_gain,
         ),
     ]
 

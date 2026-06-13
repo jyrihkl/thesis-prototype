@@ -80,6 +80,8 @@ def run_pipeline(config: PipelineConfig) -> PipelineRunResult:
             projects=projects,
             scores=candidate_project_scores,
             fairness_penalty=config.fairness_penalty,
+            max_local_improvement_iterations=config.max_local_improvement_iterations,
+            min_local_improvement_gain=config.min_local_improvement_gain,
         )
 
     timing_report = TimingReport(

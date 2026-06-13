@@ -798,6 +798,51 @@ def _local_improvement(
     return current_teams, current_unassigned, report
 
 
+def improve_allocation_teams(
+    candidates: list[Candidate],
+    projects: list[Project],
+    teams: dict[str, list[Candidate]],
+    unassigned_ids: set[str],
+    scores: list[CandidateProjectScore],
+    fairness_penalty: float = 0.25,
+    max_iterations: int = 100,
+    min_gain: float = 1e-9,
+) -> tuple[dict[str, list[Candidate]], set[str], LocalImprovementReport]:
+    """Apply the standard local-improvement step to an existing allocation."""
+
+    score_lookup = _candidate_score_lookup(scores)
+
+    if not projects:
+        return (
+            _copy_teams(teams),
+            set(unassigned_ids),
+            LocalImprovementReport(
+                enabled=False,
+                initial_objective_score=0.0,
+                final_objective_score=0.0,
+                improvement_gain=0.0,
+                accepted_swaps=0,
+                accepted_replacements=0,
+                evaluated_swaps=0,
+                evaluated_replacements=0,
+                iterations=0,
+                stop_reason="no_projects",
+                accepted_moves=(),
+            ),
+        )
+
+    return _local_improvement(
+        candidates=candidates,
+        projects=projects,
+        teams=teams,
+        unassigned_ids=unassigned_ids,
+        score_lookup=score_lookup,
+        fairness_penalty=fairness_penalty,
+        max_iterations=max_iterations,
+        min_gain=min_gain,
+    )
+
+
 def construct_round_based_allocation(
     candidates: list[Candidate],
     projects: list[Project],
@@ -882,8 +927,10 @@ def construct_round_based_allocation(
             "Incomplete project team(s): " + ", ".join(incomplete_projects)
         )
 
+    method_name = "thesis" if enable_local_improvement else "thesis_no_li"
+
     return AllocationReport(
-        method="round_based_marginal_contribution_with_local_improvement",
+        method=method_name,
         feasible=not incomplete_projects,
         assigned_count=sum(len(team) for team in teams.values()),
         unassigned_count=len(unassigned_ids),
